@@ -1,24 +1,17 @@
 import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Icon } from 'react-native-elements'
 
-// Logged In
 import AuthenticationNavigator from './AuthenticationNavigator';
 import HomeNavigator from './HomeNavigator';
 import FriendsNavigator from './FriendsNavigator';
 import OrdersNavigator from './OrdersNavigator';
 import ProfileNavigator from './ProfileNavigator';
 
-// Not Logged In
-import Login from '../Screens/Authentication/Login';
-import Register from '../Screens/Authentication/Register';
-
 import { useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '../Redux/userSlice';
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 
 const Main = () => {
 
