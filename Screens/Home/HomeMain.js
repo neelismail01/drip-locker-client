@@ -1,11 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { useSelector } from 'react-redux';
+import { selectUserInfo } from '../../Redux/userSlice';
 
 const HomeMain = () => {
+    const userInfo = useSelector(selectUserInfo);
+
     return (
         <View style={styles.container}>
-            <Text>Home Screen</Text>
+            <Text>{userInfo.id}</Text>
+            <Text>{userInfo.name}</Text>
+            <Text>{userInfo.email}</Text>
+            <Text>{userInfo.phone}</Text>
         </View>
     )
 }

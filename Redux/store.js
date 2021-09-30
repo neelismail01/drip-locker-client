@@ -2,12 +2,10 @@ import { createStore, combineReducers } from 'redux';
 
 import { cartItemsReducer } from './cartSlice';
 import { userReducer } from './userSlice';
-import { orderDetailsReducer } from './orderDetailsSlice';
 
 const reducers = combineReducers({
     cartItems: cartItemsReducer,
-    userDetails: userReducer,
-    orderDetails: orderDetailsReducer,
+    userInfo: userReducer,
 })
 
 const store = createStore(reducers);

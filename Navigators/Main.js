@@ -23,7 +23,7 @@ const Main = () => {
                 initialRouteName="Home"
                 screenOptions={{
                     keyboardHidesTabBar: true,
-                    activeTintColor: "blue"
+                    activeTintColor: "#005591"
                 }}
             >
                 <Tab.Screen
