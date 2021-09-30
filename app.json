@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "drip-frontend",
+    "slug": "drip-frontend",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "drip-frontend"
+}
