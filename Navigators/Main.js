@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon } from 'react-native-elements'
 
 import AuthenticationNavigator from './AuthenticationNavigator';
-import HomeNavigator from './HomeNavigator';
+import ShopNavigator from './ShopNavigator';
 import FriendsNavigator from './FriendsNavigator';
 import OrdersNavigator from './OrdersNavigator';
 import ProfileNavigator from './ProfileNavigator';
@@ -20,18 +20,18 @@ const Main = () => {
     if (isLoggedIn) {
         return (
             <Tab.Navigator
-                initialRouteName="Home"
+                initialRouteName="Shop"
                 screenOptions={{
                     keyboardHidesTabBar: true,
                     activeTintColor: "#005591"
                 }}
             >
                 <Tab.Screen
-                    name="Home"
-                    component={HomeNavigator}
+                    name="Shop"
+                    component={ShopNavigator}
                     options={{
                         tabBarIcon: ({ color }) => (
-                          <Icon name="home" type="font-awesome-5" color={color} size={24} />
+                          <Icon name="shopping-bag" type="font-awesome-5" color={color} size={24} />
                         )
                     }}
                 />

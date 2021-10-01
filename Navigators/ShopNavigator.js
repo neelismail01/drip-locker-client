@@ -1,16 +1,16 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import HomeMain from '../Screens/Home/HomeMain'
+import ShopMain from '../Screens/Shop/ShopMain'
 
 const Stack = createNativeStackNavigator();
 
-const HomeNavigator = () => {
+const ShopNavigator = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="Home Main"
-                component={HomeMain}
+                name="Shop Main"
+                component={ShopMain}
                 options={{
                     headerShown: false,
                 }}
@@ -19,4 +19,4 @@ const HomeNavigator = () => {
     )
 }
 
-export default HomeNavigator;
+export default ShopNavigator;

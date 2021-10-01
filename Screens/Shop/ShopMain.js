@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { selectUserInfo } from '../../Redux/userSlice';
 
-const HomeMain = () => {
+const ShopMain = () => {
     const userInfo = useSelector(selectUserInfo);
 
     return (
@@ -26,4 +26,4 @@ const styles = StyleSheet.create({
     },
   });
 
-  export default HomeMain;
+  export default ShopMain;
