@@ -19,14 +19,19 @@ const AuthenticationMain = () => {
         try {
             const response = await axios.post(`${BASE_URL}users/login`, { email, password })
             dispatch(setUserInfo(response.data.userInfo));
-
         } catch (err) {
             console.log('An error occurred while logging in. Please try again.');
         }
     }
 
-    const handleRegister = async () => {
-
+    const handleRegister = async (userData) => {
+        try {
+            const response = await axios.post(`${BASE_URL}users/register`, userData)
+            dispatch(setUserInfo(response.data.userInfo));
+        } catch (err) {
+            console.log(err);
+            console.log('An error occurred while creating your account. Please try again.');
+        }
     }
 
     const switchPage = () => {
