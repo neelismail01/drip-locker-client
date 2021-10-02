@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
-const RegisterFormPart1 = ({ handleSubmitUserInfo, switchPage }) => {
+const GetUserInfo = ({ handleSubmitUserInfo, switchPage }) => {
     const [nameFocus, setNameFocus] = useState(false);
     const [emailFocus, setEmailFocus] = useState(false);
     const [passwordFocus, setPasswordFocus] = useState(false);
@@ -149,4 +149,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default RegisterFormPart1;
+export default GetUserInfo;

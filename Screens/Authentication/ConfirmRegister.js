@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-const RegisterFormPart3 = ({ handleConfirmRegister }) => {
+const ConfirmRegister = ({ handleConfirmRegister }) => {
 
     return (
         <View style={styles.confirmContainer}>
@@ -46,4 +46,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default RegisterFormPart3;
+export default ConfirmRegister;
