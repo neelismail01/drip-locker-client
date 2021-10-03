@@ -53,7 +53,10 @@ export const registerReducer = (state = initialState, action) => {
         case SET_ADDRESS:
             return {
                 ...state,
-                address: action.payload
+                addressPlaceId: action.payload.addressPlaceId,
+                addressPrimaryText: action.payload.addressPrimaryText,
+                addressSecondaryText: action.payload.addressSecondaryText,
+                fullAddress: action.payload.fullAddress
             }
         case SET_PASSWORD:
             return {

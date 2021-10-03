@@ -17,7 +17,7 @@ const RegisterForm = ({ navigation }) => {
     const [registrationStep, setRegistrationStep] = useState(1);
 
     const dispatch = useDispatch();
-    const registerData = useSelector(selectRegisterInfo)
+    const registerData = useSelector(selectRegisterInfo);
 
     const handleSetName = (data) => {
         dispatch(setName(data))
@@ -44,6 +44,7 @@ const RegisterForm = ({ navigation }) => {
             dispatch(setUserInfo(response.data.userInfo));
             dispatch(clearRegister())
         } catch (err) {
+            console.log(err);
             console.log('An error occurred while creating your account. Please try again.');
         }
     }
