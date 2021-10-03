@@ -5,9 +5,14 @@ import { GOOGLE_PLACES_API_KEY } from "@env";
 
 import SearchAddressPrediction from './SearchAddressPrediction';
 
-const SearchAddress = ({ handleSubmitAddress }) => {
+import { useDispatch } from 'react-redux';
+import { setAddress } from '../../../Redux/registerSlice';
+
+const SearchAddress = ({ navigation }) => {
     const [dest, setDest] = useState('');
     const [predictions, setPredictions] = useState([]);
+
+    const dispatch = useDispatch();
 
     const handleSelectAddress = (prediction) => {
         const userAddress = {
@@ -16,8 +21,8 @@ const SearchAddress = ({ handleSubmitAddress }) => {
             addressSecondaryText: prediction.structured_formatting.secondary_text,
             addressPlaceId: prediction.place_id
         }
-
-        handleSubmitAddress(userAddress)
+        dispatch(setAddress(userAddress));
+        navigation.navigate('Register Form');
     }
 
     const handleChangeText = async (destination) => {
@@ -65,7 +70,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white"
     },
     textInput: {
-        marginVertical: 10,
+        marginVertical: 20,
         height: 45,
         backgroundColor: "white",
         borderRadius: 7.5,
@@ -80,7 +85,9 @@ const styles = StyleSheet.create({
         shadowRadius: 7
     },
     predictionsContainer: {
-        width: "100%"
+        width: "100%",
+        paddingHorizontal: 40,
+
     }
 })
 

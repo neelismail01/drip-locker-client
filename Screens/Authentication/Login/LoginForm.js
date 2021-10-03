@@ -1,42 +1,37 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
-const GetUserInfo = ({ handleSubmitUserInfo, switchPage }) => {
-    const [nameFocus, setNameFocus] = useState(false);
+import { useDispatch } from 'react-redux';
+import { setUserInfo } from '../../../Redux/userSlice';
+
+const LoginForm = ({ navigation }) => {
     const [emailFocus, setEmailFocus] = useState(false);
     const [passwordFocus, setPasswordFocus] = useState(false);
-    const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
 
-    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
 
-    const handleNextButtonPress = () => {
-        setNameFocus(false)
+    const dispatch = useDispatch();
+
+    const handleLoginButtonPress = () => {
         setEmailFocus(false);
         setPasswordFocus(false);
-        setConfirmPasswordFocus(false)
-        if (password === confirmPassword) {
-            handleSubmitUserInfo(name, email, password)
+        handleLogin(email, password)
+    }
+
+    const handleLogin = async (email, password) => {
+        try {
+            const response = await axios.post(`${BASE_URL}users/login`, { email, password })
+            dispatch(setUserInfo(response.data.userInfo));
+        } catch (err) {
+            console.log('An error occurred while logging in. Please try again.');
         }
     }
 
     return (
         <View style={styles.formContainer}>
-            <Text style={styles.registerHeader}>Create An Account</Text>
-            <View style={styles.registerForm}>
-                <TextInput
-                    style={[styles.textInput, nameFocus && styles.focusInputStyle]}
-                    name="name"
-                    value={name}
-                    onChangeText={text => setName(text)}
-                    placeholder="Name"
-                    onFocus={() => setNameFocus(true)}
-                    onBlur={() => setNameFocus(false)}
-                    blurOnSubmit={false}
-                    autoCapitalize='none'
-                />
+            <Text style={styles.loginHeader}>Welcome Back</Text>
+            <View style={styles.loginForm}>
                 <TextInput
                     style={[styles.textInput, emailFocus && styles.focusInputStyle]}
                     name="email"
@@ -60,32 +55,14 @@ const GetUserInfo = ({ handleSubmitUserInfo, switchPage }) => {
                     autoCapitalize='none'
                     secureTextEntry={true}
                 />
-                <TextInput
-                    style={[styles.textInput, confirmPasswordFocus && styles.focusInputStyle]}
-                    name="confirm password"
-                    value={confirmPassword}
-                    onChangeText={text => setConfirmPassword(text)}
-                    placeholder="Confirm Password"
-                    onFocus={() => setConfirmPasswordFocus(true)}
-                    onBlur={() => setConfirmPasswordFocus(false)}
-                    blurOnSubmit={false}
-                    autoCapitalize="none"
-                    secureTextEntry={true}
-                />
                 <TouchableOpacity
                     style={styles.buttonContainer}
-                    onPress={handleNextButtonPress}
-                    disabled={name === "" || email === "" || password === "" || confirmPassword === ""}
+                    onPress={handleLoginButtonPress}
+                    disabled={email === "" || password === ""}
                 >
-                    <Text style={styles.buttonText}>Next</Text>
+                    <Text style={styles.buttonText}>Sign In</Text>
                 </TouchableOpacity>
             </View>
-            <Text
-                style={styles.switchToRegister}
-                onPress={() => switchPage()}
-            >
-                Already have an account? Log in
-            </Text>
         </View>
     )
 }
@@ -93,18 +70,20 @@ const GetUserInfo = ({ handleSubmitUserInfo, switchPage }) => {
 const styles = StyleSheet.create({
     formContainer: {
         width: "100%",
-        height: "60%",
+        height: "100%",
+        justifyContent: "center",
         alignItems: "center",
-        justifyContent: "space-evenly",
         backgroundColor: "white",
+        padding: 40
     },
-    registerHeader: {
-        fontSize: 32,
+    loginHeader: {
+        fontSize: 36,
         color: "#005591",
-        fontWeight: "bold"
+        fontWeight: "bold",
     },
-    registerForm: {
-        width: "80%"
+    loginForm: {
+        width: "100%",
+        marginVertical: 30,
     },
     textInput: {
         marginVertical: 10,
@@ -142,11 +121,8 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 16,
         fontWeight: "bold",
-        color: "white",
-    },
-    switchToRegister: {
-        fontSize: 15
+        color: "white"
     }
 })
 
-export default GetUserInfo;
+export default LoginForm;

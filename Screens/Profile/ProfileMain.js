@@ -18,8 +18,15 @@ const ProfileMain = (props) => {
 
     return (
         <SafeAreaView style={styles.profileContainer}>
-            <View style={styles.nameContainer}>
-                <Text style={styles.name}>{name.substr(0, name.indexOf(" "))}</Text>
+            <View style={styles.headerContainer}>
+                <Text style={styles.header}>My Profile</Text>
+                    <View style={styles.initialsCircle}>
+                    <Text style={styles.initialsText}>
+                        {name.split(" ").map(name => {
+                            return name[0]
+                        })}
+                    </Text>
+                </View>
             </View>
             <View style={styles.categoryContainer}>
                 <TouchableOpacity
@@ -69,13 +76,26 @@ const styles = StyleSheet.create({
         height: "100%",
         width: "100%"
     },
-    nameContainer: {
+    headerContainer: {
         flexDirection: "row",
+        alignItems: "center",
         justifyContent: "space-between",
         margin: 20
     },
-    name: {
-        fontSize: 40,
+    initialsCircle: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#005591"
+    },
+    initialsText: {
+        color: "white",
+        fontSize: 22
+    },
+    header: {
+        fontSize: 32,
         fontWeight: "bold"
     },
     categoryContainer: {
