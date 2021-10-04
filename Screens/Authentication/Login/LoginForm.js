@@ -1,29 +1,25 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import axios from 'axios';
+
+import { BASE_URL } from "@env";
 
 import { useDispatch } from 'react-redux';
 import { setUserInfo } from '../../../Redux/userSlice';
 
-const LoginForm = ({ navigation }) => {
-    const [emailFocus, setEmailFocus] = useState(false);
-    const [passwordFocus, setPasswordFocus] = useState(false);
+const LoginForm = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const dispatch = useDispatch();
 
-    const handleLoginButtonPress = () => {
-        setEmailFocus(false);
-        setPasswordFocus(false);
-        handleLogin(email, password)
-    }
-
-    const handleLogin = async (email, password) => {
+    const handleLogin = async () => {
         try {
             const response = await axios.post(`${BASE_URL}users/login`, { email, password })
             dispatch(setUserInfo(response.data.userInfo));
         } catch (err) {
+            console.log(err);
             console.log('An error occurred while logging in. Please try again.');
         }
     }
@@ -33,31 +29,25 @@ const LoginForm = ({ navigation }) => {
             <Text style={styles.loginHeader}>Welcome Back</Text>
             <View style={styles.loginForm}>
                 <TextInput
-                    style={[styles.textInput, emailFocus && styles.focusInputStyle]}
+                    style={styles.textInput}
                     name="email"
                     value={email}
                     onChangeText={text => setEmail(text)}
                     placeholder="Email"
-                    onFocus={() => setEmailFocus(true)}
-                    onBlur={() => setEmailFocus(false)}
-                    blurOnSubmit={false}
                     autoCapitalize='none'
                 />
                 <TextInput
-                    style={[styles.textInput, passwordFocus && styles.focusInputStyle]}
+                    style={styles.textInput}
                     name="password"
                     value={password}
                     onChangeText={text => setPassword(text)}
                     placeholder="Password"
-                    onFocus={() => setPasswordFocus(true)}
-                    onBlur={() => setPasswordFocus(false)}
-                    blurOnSubmit={false}
                     autoCapitalize='none'
                     secureTextEntry={true}
                 />
                 <TouchableOpacity
                     style={styles.buttonContainer}
-                    onPress={handleLoginButtonPress}
+                    onPress={handleLogin}
                     disabled={email === "" || password === ""}
                 >
                     <Text style={styles.buttonText}>Sign In</Text>
@@ -90,15 +80,11 @@ const styles = StyleSheet.create({
         height: 45,
         backgroundColor: "white",
         borderRadius: 7.5,
-        borderColor: "white",
-        borderWidth: 2,
+        borderColor: "grey",
+        borderWidth: 1,
         width: "100%",
         paddingHorizontal: 20,
-        fontSize: 14,
-        shadowColor: '#171717',
-        shadowOffset: { width: -2, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 7
+        fontSize: 14
     },
     focusInputStyle: {
         borderColor: "#005591",
