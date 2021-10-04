@@ -4,7 +4,6 @@ export const UPDATE_ITEM_QUANTITY = "UPDATE_ITEM_QUANTITY";
 export const CLEAR_CART = "CLEAR_CART";
 
 export const SET_USER_INFO = "SET_USER_INFO";
-export const SET_USER_ADDRESSES = "SET_USER_ADDRESSES";
 export const CLEAR_USER = "CLEAR_USER";
 
 export const SET_NAME = "SET_NAME";

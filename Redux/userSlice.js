@@ -1,16 +1,9 @@
-import { SET_USER_INFO, SET_USER_ADDRESSES, CLEAR_USER } from './constants';
+import { SET_USER_INFO, CLEAR_USER } from './constants';
 
 // ACTIONS
 export const setUserInfo = (payload) => {
     return {
         type: SET_USER_INFO,
-        payload
-    }
-}
-
-export const setUserAddresses = (payload) => {
-    return {
-        type: SET_USER_ADDRESSES,
         payload
     }
 }
@@ -32,11 +25,6 @@ export const userReducer = (state = initialState, action) => {
                 id: action.payload.id,
                 email: action.payload.email,
                 name: action.payload.name,
-                addresses: action.payload.address
-            }
-        case SET_USER_ADDRESSES:
-            return {
-                ...state,
                 addresses: action.payload.address
             }
         case CLEAR_USER:

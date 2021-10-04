@@ -20,7 +20,7 @@ const ProfileMain = (props) => {
         <SafeAreaView style={styles.profileContainer}>
             <View style={styles.headerContainer}>
                 <Text style={styles.header}>My Profile</Text>
-                    <View style={styles.initialsCircle}>
+                <View style={styles.initialsCircle}>
                     <Text style={styles.initialsText}>
                         {name.split(" ").map(name => {
                             return name[0]

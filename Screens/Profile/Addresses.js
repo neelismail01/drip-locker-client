@@ -45,7 +45,7 @@ const Addresses = ({ navigation }) => {
             <View style={styles.addAddressButtonContainer}>
                 <TouchableOpacity
                     style={styles.addAddressButton}
-                    onPress={() => navigation.navigate('Search Address')}
+                    onPress={() => navigation.navigate('Search Address', { id })}
                 >
                     <Text style={styles.addAddressButtonText}>Add Address</Text>
                 </TouchableOpacity>
