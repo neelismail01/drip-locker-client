@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
-
 const GetName = ({ handleSetName }) => {
     const [name, setName] = useState('');
 
@@ -18,6 +17,7 @@ const GetName = ({ handleSetName }) => {
             <TouchableOpacity
                 onPress={() => handleSetName(name)}
                 style={styles.button}
+                disabled={name === ""}
             >
                 <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>

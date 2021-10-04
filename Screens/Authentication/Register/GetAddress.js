@@ -1,11 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-const GetAddress = ({ navigation, handleSetAddress }) => {
+const GetAddress = ({ navigation }) => {
 
     const goToSearchAddress = () => {
-        handleSetAddress();
-        navigation.navigate('Search Address')
+        navigation.navigate('Search Address');
     }
 
     return (

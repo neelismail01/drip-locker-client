@@ -7,35 +7,27 @@ import GetAddress from './GetAddress';
 import GetPassword from './GetPassword';
 import ConfirmRegistration from './ConfirmRegistration';
 
-import { BASE_URL } from "@env"
+import { BASE_URL } from "@env";
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setName, setEmail, setPassword, selectRegisterInfo, clearRegister } from '../../../Redux/registerSlice';
 import { setUserInfo } from '../../../Redux/userSlice';
 
 const RegisterForm = ({ navigation }) => {
-    const [registrationStep, setRegistrationStep] = useState(1);
 
     const dispatch = useDispatch();
     const registerData = useSelector(selectRegisterInfo);
 
     const handleSetName = (data) => {
         dispatch(setName(data))
-        setRegistrationStep(2);
     }
 
     const handleSetEmail = (data) => {
         dispatch(setEmail(data))
-        setRegistrationStep(3);
-    }
-
-    const handleSetAddress = () => {
-        setRegistrationStep(4)
     }
 
     const handleSetPassword = (data) => {
         dispatch(setPassword(data))
-        setRegistrationStep(5);
     }
 
     const handleRegister = async () => {
@@ -49,36 +41,35 @@ const RegisterForm = ({ navigation }) => {
         }
     }
 
-    if (registrationStep === 1) {
+    if (registerData.password !== undefined) {
         return (
-            <GetName
-                handleSetName={handleSetName}
-            />
+            <ConfirmRegistration
+                handleRegister={handleRegister}
+            /> 
         )
-    } else if (registrationStep === 2) {
+    } else if (registerData.fullAddress !== undefined) {
+        return (
+            <GetPassword
+                handleSetPassword={handleSetPassword}
+            />
+        ) 
+    } else if (registerData.email !== undefined) {
+        return (
+            <GetAddress
+                navigation={navigation}
+            />          
+        )
+    } else if (registerData.name !== undefined) {
         return (
             <GetEmail
                 handleSetEmail={handleSetEmail}
             /> 
         )
-    } else if (registrationStep === 3) {
-        return (
-            <GetAddress
-                navigation={navigation}
-                handleSetAddress={handleSetAddress}
-            />          
-        )
-    } else if (registrationStep === 4) {
-        return (
-            <GetPassword
-                handleSetPassword={handleSetPassword}
-            />
-        )
     } else {
         return (
-            <ConfirmRegistration
-                handleRegister={handleRegister}
-            /> 
+            <GetName
+                handleSetName={handleSetName}
+            />
         )
     }
 }

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
-
 const GetEmail = ({ handleSetEmail }) => {
     const [email, setEmail] = useState('');
 
@@ -19,6 +18,7 @@ const GetEmail = ({ handleSetEmail }) => {
             <TouchableOpacity
                 onPress={() => handleSetEmail(email)}
                 style={styles.button}
+                disabled={email === ""}
             >
                 <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>

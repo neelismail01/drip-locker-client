@@ -36,6 +36,7 @@ const GetPassword = ({ handleSetPassword }) => {
             <TouchableOpacity
                 onPress={handleCheckPassword}
                 style={styles.button}
+                disabled={password === "" || confirmPassword === ""}
             >
                 <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>
