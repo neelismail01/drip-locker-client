@@ -10,11 +10,9 @@ import { selectUserId } from '../../Redux/userSlice';
 import OrderCard from './OrderCard';
 
 
-const OrdersMain = (props) => {
+const OrdersMain = ({ navigation }) => {
     const [pendingOrders, setPendingOrders] = useState([]);
     const [completedOrders, setCompletedOrders] = useState([]);
-    const [ordersCount, setOrdersCount] = useState(0);
-    const [loading, setLoading] = useState(true);
 
     const userId = useSelector(selectUserId);
 
@@ -26,8 +24,6 @@ const OrdersMain = (props) => {
             .then((res) => {
                 setPendingOrders(res.data.filter(order => order.status === "Pending"));
                 setCompletedOrders(res.data.filter(order => order.status === "Completed"));
-                setOrdersCount(pendingOrders.length + completedOrders.length);
-                setLoading(false);
             })
             .catch((error) => {
                 console.log(error);
@@ -54,9 +50,8 @@ const OrdersMain = (props) => {
                                 return (
                                     <OrderCard
                                         key={order.id}
-                                        navigation={props.navigation}
+                                        navigation={navigation}
                                         order={order}
-                                        ordersCount={ordersCount}
                                     />
                                 )
                             })
@@ -72,9 +67,8 @@ const OrdersMain = (props) => {
                                 return (
                                     <OrderCard
                                         key={order.id}
-                                        navigation={props.navigation}
+                                        navigation={navigation}
                                         order={order}
-                                        ordersCount={ordersCount}
                                     />
                                 )
                             })

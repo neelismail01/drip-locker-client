@@ -3,7 +3,7 @@ import { StyleSheet, View, Dimensions, Image, Text, TouchableOpacity } from 'rea
 
 var { width } = Dimensions.get("window");
 
-const OrderCard = ({ order, ordersCount }) => {
+const OrderCard = ({ navigation, order }) => {
 
     const monthNames = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.", "Jul.", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
     const date = order.dateOrdered.toString().substring(0, order.dateOrdered.toString().indexOf('T'));
@@ -16,7 +16,7 @@ const OrderCard = ({ order, ordersCount }) => {
     return (
         <TouchableOpacity
             style={styles.orderContainer}
-            onPress={() => props.navigation.navigate('Receipt', { order, ordersCount })}
+            onPress={() => navigation.navigate('Receipt', { order })}
         >
             <Image
                 style={styles.coverImage}
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
         height: width * 0.25,
         width: "30%",
         resizeMode: "contain",
+        borderRadius: 5
     },
     header: {
         fontSize: 14,
