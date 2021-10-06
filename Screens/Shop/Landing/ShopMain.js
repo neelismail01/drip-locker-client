@@ -1,13 +1,11 @@
 import React, { useState, useCallback } from "react";
-import { View, StyleSheet, ActivityIndicator, ScrollView, SafeAreaView, Dimensions } from "react-native";
+import { View, StyleSheet, Text, ScrollView, SafeAreaView } from "react-native";
 import { useFocusEffect } from '@react-navigation/native'
 import axios from 'axios';
 import { BASE_URL } from "@env";
 
 import Header from './Header';
 import BrandCard from "./BrandCard";
-
-const { width } = Dimensions.get("window")
 
 const ShopMain = ({ navigation }) => {
   const [businesses, setBusinesses] = useState([]);
@@ -45,45 +43,115 @@ const ShopMain = ({ navigation }) => {
   )
 
   return (
-    <>
-        {
-            loading === false ? (
-                <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-                    <ScrollView
-                        contentContainerStyle={{paddingHorizontal: 20}}
-                    >
-                        <Header />
-                        <View style={styles.listContainer}>
-                        {
-                            businesses.map(business => {
-                                return (
-                                    <BrandCard
-                                        key={business.id}
-                                        business={business}
-                                        navigation={navigation}
-                                    />
-                                )
-                            })
-                        }
-                        </View>
-                    </ScrollView>
-                </SafeAreaView>
-            ) : (
-                <View style={[styles.center, { backgroundColor: "#f2f2f2" }]}>
-                    <ActivityIndicator size="large" color="green" />
-                </View>
-            )
-        }
-    </>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+        <ScrollView
+            contentContainerStyle={{paddingHorizontal: 20}}
+        >
+            <Header />
+            <View style={styles.rowContainer}>
+              <View style={styles.rowHeaderContainer}>
+                <Text style={styles.rowHeader}>Top Rated</Text>
+                <Text
+                  style={styles.rowShowAllButton}
+                >
+                  Show All
+                </Text>
+              </View>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                style={styles.rowScroll}
+              >
+                {
+                    businesses.map(business => {
+                        return (
+                            <BrandCard
+                                key={business.id}
+                                business={business}
+                                navigation={navigation}
+                            />
+                        )
+                    })
+                }
+              </ScrollView>
+            </View>
+            <View style={styles.rowContainer}>
+              <View style={styles.rowHeaderContainer}>
+                <Text style={styles.rowHeader}>Men's Clothing</Text>
+                <Text
+                  style={styles.rowShowAllButton}
+                >
+                  Show All
+                </Text>
+              </View>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                style={styles.rowScroll}
+              >
+                {
+                    businesses.map(business => {
+                        return (
+                            <BrandCard
+                                key={business.id}
+                                business={business}
+                                navigation={navigation}
+                            />
+                        )
+                    })
+                }
+              </ScrollView>
+            </View>
+            <View style={styles.rowContainer}>
+              <View style={styles.rowHeaderContainer}>
+                <Text style={styles.rowHeader}>Home Accessories</Text>
+                <Text
+                  style={styles.rowShowAllButton}
+                >
+                  Show All
+                </Text>
+              </View>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                style={styles.rowScroll}
+              >
+                {
+                    businesses.map(business => {
+                        return (
+                            <BrandCard
+                                key={business.id}
+                                business={business}
+                                navigation={navigation}
+                            />
+                        )
+                    })
+                }
+              </ScrollView>
+            </View>
+        </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  listContainer: {
-    flex: 1,
-    alignItems: "center",
-    elevation: 8,
-    paddingVertical: 15,
+  rowContainer: {
+    marginVertical: 15
+  },
+  rowHeaderContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  rowHeader: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  rowShowAllButton: {
+    fontSize: 14,
+  },
+  rowScroll: {
+    paddingVertical: 10
   }
 });
 

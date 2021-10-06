@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
         backgroundColor: "black",
         borderRadius: 15,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        marginBottom: 10
     },
     dripText: {
         color: "white",
