@@ -5,7 +5,7 @@ const BrandCard = ({ business, navigation }) => {
     const { coverImage, name, rating } = business;
  
     return (
-        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Business Page', business)}>
+        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Brand Main', business)}>
             <Image
                 style={styles.image}
                 source={{ uri: coverImage !== '' ? coverImage :"https://www.cnu.org/sites/default/files/storefront-proportions.jpg"}}
