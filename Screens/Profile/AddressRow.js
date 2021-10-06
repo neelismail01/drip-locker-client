@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
     preferredText: {
-        color: "#005591",
+        color: "black",
         marginTop: 10,
         fontSize: 12
     },
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         height: 25,
         borderRadius: 12.5,
         borderWidth: 1,
-        borderColor: "#005591",
+        borderColor: "black",
         justifyContent: "center",
         alignItems: "center"
     },
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         width: 16,
         height: 16,
         borderRadius: 8,
-        backgroundColor: "#005591"
+        backgroundColor: "black"
     }
 })
 

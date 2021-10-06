@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     },
     businessNameText: {
         fontWeight: "bold",
-        color: "#005591",
+        color: "black",
         fontSize: 30
     },
     subTextContainer: {

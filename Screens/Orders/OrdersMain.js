@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, SafeAreaView } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -18,8 +18,6 @@ const OrdersMain = ({ navigation }) => {
 
     useFocusEffect(
         useCallback(() => {
-
-            //User Orders
             axios.get(`${BASE_URL}orders/${userId}`)
             .then((res) => {
                 setPendingOrders(res.data.filter(order => order.status === "Pending"));
@@ -34,60 +32,56 @@ const OrdersMain = ({ navigation }) => {
                 setPendingOrders([]);
                 setCompletedOrders([]);
             };
-
         }, [])
     )
 
     return (
-        <View style={styles.container}>
-            <ScrollView>
-                {
-                    pendingOrders.length > 0 &&
-                    <View style={styles.sectionContainer}>
-                        <Text style={styles.header}>Current Orders</Text>
-                        {
-                            pendingOrders.map(order => {
-                                return (
-                                    <OrderCard
-                                        key={order.id}
-                                        navigation={navigation}
-                                        order={order}
-                                    />
-                                )
-                            })
-                        }
-                    </View>
-                }
-                {
-                    completedOrders.length > 0 &&
-                    <View>
-                        <Text style={[styles.header, { marginTop: 30 }]}>Completed Orders</Text>
-                        {
-                            completedOrders.map(order => {
-                                return (
-                                    <OrderCard
-                                        key={order.id}
-                                        navigation={navigation}
-                                        order={order}
-                                    />
-                                )
-                            })
-                        }
-                    </View>
-                }
-            </ScrollView>
-        </View>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+            <View style={styles.orderContainer}>
+                <ScrollView>
+                    {
+                        pendingOrders.length > 0 &&
+                        <View>
+                            <Text style={styles.header}>Current Orders</Text>
+                            {
+                                pendingOrders.map(order => {
+                                    return (
+                                        <OrderCard
+                                            key={order.id}
+                                            navigation={navigation}
+                                            order={order}
+                                        />
+                                    )
+                                })
+                            }
+                        </View>
+                    }
+                    {
+                        completedOrders.length > 0 &&
+                        <View>
+                            <Text style={[styles.header, { marginTop: 30 }]}>Completed Orders</Text>
+                            {
+                                completedOrders.map(order => {
+                                    return (
+                                        <OrderCard
+                                            key={order.id}
+                                            navigation={navigation}
+                                            order={order}
+                                        />
+                                    )
+                                })
+                            }
+                        </View>
+                    }
+                </ScrollView>
+            </View>
+        </SafeAreaView>
     )
 };
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: "white",
-        width: "100%",
-        height: "100%",
+    orderContainer: {
         padding: 20
-    },
-    sectionContainer: {
     },
     headerContainer: {
         justifyContent: 'center',

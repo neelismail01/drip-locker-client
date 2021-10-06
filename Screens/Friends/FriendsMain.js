@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, SafeAreaView } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -33,7 +33,7 @@ const OrdersMain = () => {
     )
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
             <ScrollView>
                 {
                     friendOrders.length > 0 &&
@@ -51,16 +51,11 @@ const OrdersMain = () => {
                     </View>
                 }
             </ScrollView>
-        </View>
+        </SafeAreaView>
     )
 };
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: "white",
-        width: "100%",
-        height: "100%",
-    },
     headerContainer: {
         justifyContent: 'center',
         alignItems: 'center',

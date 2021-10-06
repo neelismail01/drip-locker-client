@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
 import axios from 'axios';
 
 import AddressRow from './AddressRow';
@@ -28,37 +28,36 @@ const Addresses = ({ navigation }) => {
     }
 
     return (
-        <View style={styles.addressesContainer}>
-            <Text style={styles.header}>Addresses</Text>
-            {
-                addresses.map(address => {
-                    console.log()
-                    return (
-                        <AddressRow
-                            key={address.addressPlaceId}
-                            address={address}
-                            handleChangePreferredAddress={handleChangePreferredAddress}
-                        />
-                    )
-                })
-            }
-            <View style={styles.addAddressButtonContainer}>
-                <TouchableOpacity
-                    style={styles.addAddressButton}
-                    onPress={() => navigation.navigate('Search Address', { id })}
-                >
-                    <Text style={styles.addAddressButtonText}>Add Address</Text>
-                </TouchableOpacity>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+            <View style={styles.addressesContainer}>
+                <Text style={styles.header}>Addresses</Text>
+                {
+                    addresses.map(address => {
+                        console.log()
+                        return (
+                            <AddressRow
+                                key={address.addressPlaceId}
+                                address={address}
+                                handleChangePreferredAddress={handleChangePreferredAddress}
+                            />
+                        )
+                    })
+                }
+                <View style={styles.addAddressButtonContainer}>
+                    <TouchableOpacity
+                        style={styles.addAddressButton}
+                        onPress={() => navigation.navigate('Search Address', { id })}
+                    >
+                        <Text style={styles.addAddressButtonText}>Add Address</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     addressesContainer: {
-        height: "100%",
-        width: "100%",
-        backgroundColor: "white",
         padding: 40
     },
     header: {
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
         width: "100%",
         alignItems: "center",
         borderRadius: 7.5,
-        backgroundColor: "#005591",
+        backgroundColor: "black",
         shadowColor: '#171717',
         shadowOffset: { width: -2, height: 8 },
         shadowOpacity: 0.2,

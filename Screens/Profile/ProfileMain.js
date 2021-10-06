@@ -17,54 +17,56 @@ const ProfileMain = (props) => {
     }
 
     return (
-        <SafeAreaView style={styles.profileContainer}>
-            <View style={styles.headerContainer}>
-                <Text style={styles.header}>My Profile</Text>
-                <View style={styles.initialsCircle}>
-                    <Text style={styles.initialsText}>
-                        {name.split(" ").map(name => {
-                            return name[0]
-                        })}
-                    </Text>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+            <View style={styles.profileContainer}>
+                <View style={styles.headerContainer}>
+                    <Text style={styles.header}>My Profile</Text>
+                    <View style={styles.initialsCircle}>
+                        <Text style={styles.initialsText}>
+                            {name.split(" ").map(name => {
+                                return name[0]
+                            })}
+                        </Text>
+                    </View>
                 </View>
-            </View>
-            <View style={styles.categoryContainer}>
-                <TouchableOpacity
-                    style={styles.category}
-                    onPress={() => props.navigation.navigate('Personal Information')}
-                >
-                    <View style={styles.iconCategoryContainer}>
-                        <View style={styles.iconContainer}>
-                            <Icon name="user" type="font-awesome-5" color="black" size={22} />
+                <View style={styles.categoryContainer}>
+                    <TouchableOpacity
+                        style={styles.category}
+                        onPress={() => props.navigation.navigate('Personal Information')}
+                    >
+                        <View style={styles.iconCategoryContainer}>
+                            <View style={styles.iconContainer}>
+                                <Icon name="user" type="font-awesome-5" color="black" size={22} />
+                            </View>
+                            <Text style={styles.categoryText}>Personal Information</Text>
                         </View>
-                        <Text style={styles.categoryText}>Personal Information</Text>
-                    </View>
-                    <Icon name="angle-right" type="font-awesome-5" color="black" size={22} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.category}
-                    onPress={() => props.navigation.navigate('Addresses')}
-                >
-                    <View style={styles.iconCategoryContainer}>
-                        <View style={styles.iconContainer}>
-                            <Icon name="home" type="font-awesome-5" color="black" size={22} />
+                        <Icon name="angle-right" type="font-awesome-5" color="black" size={22} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.category}
+                        onPress={() => props.navigation.navigate('Addresses')}
+                    >
+                        <View style={styles.iconCategoryContainer}>
+                            <View style={styles.iconContainer}>
+                                <Icon name="home" type="font-awesome-5" color="black" size={22} />
+                            </View>
+                            <Text style={styles.categoryText}>Addresses</Text>
                         </View>
-                        <Text style={styles.categoryText}>Addresses</Text>
-                    </View>
-                    <Icon name="angle-right" type="font-awesome-5" color="black" size={22} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.category}
-                    onPress={handleLogoutUser}
-                >
-                    <View style={styles.iconCategoryContainer}>
-                        <View style={styles.iconContainer}>
-                            <Icon name="sign-out-alt" type="font-awesome-5" color="black" size={22} />
+                        <Icon name="angle-right" type="font-awesome-5" color="black" size={22} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.category}
+                        onPress={handleLogoutUser}
+                    >
+                        <View style={styles.iconCategoryContainer}>
+                            <View style={styles.iconContainer}>
+                                <Icon name="sign-out-alt" type="font-awesome-5" color="black" size={22} />
+                            </View>
+                            <Text style={styles.categoryText}>Log Out</Text>
                         </View>
-                        <Text style={styles.categoryText}>Log Out</Text>
-                    </View>
-                    <Icon name="angle-right" type="font-awesome-5" color="black" size={22} />
-                </TouchableOpacity>
+                        <Icon name="angle-right" type="font-awesome-5" color="black" size={22} />
+                    </TouchableOpacity>
+                </View>
             </View>
         </SafeAreaView>
     )
@@ -72,15 +74,13 @@ const ProfileMain = (props) => {
 
 const styles = StyleSheet.create({
     profileContainer: {
-        backgroundColor: "white",
-        height: "100%",
-        width: "100%"
+        padding: 20
+
     },
     headerContainer: {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        margin: 20
     },
     initialsCircle: {
         width: 50,
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#005591"
+        backgroundColor: "black"
     },
     initialsText: {
         color: "white",
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     categoryContainer: {
         flexDirection: "column",
         justifyContent: "center",
-        margin: 20
+        marginVertical: 20
     },
     category: {
         flexDirection: "row",

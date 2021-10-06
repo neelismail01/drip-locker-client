@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 28,
         fontWeight: "bold",
-        color: "#005591",
+        color: "black",
     },
     textInput: {
         marginVertical: 30,
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         height: 45,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#005591",
+        backgroundColor: "black",
         borderRadius: 7.5,
         shadowColor: '#171717',
         shadowOffset: { width: -2, height: 8 },

@@ -23,7 +23,7 @@ const Main = () => {
                 initialRouteName="Shop"
                 screenOptions={{
                     keyboardHidesTabBar: true,
-                    activeTintColor: "#005591"
+                    activeTintColor: "black"
                 }}
             >
                 <Tab.Screen
@@ -32,7 +32,8 @@ const Main = () => {
                     options={{
                         tabBarIcon: ({ color }) => (
                           <Icon name="shopping-bag" type="font-awesome-5" color={color} size={24} />
-                        )
+                        ),
+                        headerShown: false
                     }}
                 />
                 <Tab.Screen
@@ -41,7 +42,8 @@ const Main = () => {
                     options={{
                         tabBarIcon: ({ color }) => (
                           <Icon name="users" type="font-awesome-5" color={color} size={24} />
-                        )
+                        ),
+                        headerShown: false
                     }}
                 />
                 <Tab.Screen
@@ -50,7 +52,8 @@ const Main = () => {
                     options={{
                         tabBarIcon: ({ color }) => (
                           <Icon name="receipt" type="font-awesome-5" color={color} size={24} />
-                        )
+                        ),
+                        headerShown: false
                     }}
                 />
                 <Tab.Screen
@@ -59,7 +62,8 @@ const Main = () => {
                     options={{
                         tabBarIcon: ({ color }) => (
                           <Icon name="user-circle" type="font-awesome-5" color={color} size={24} />
-                        )
+                        ),
+                        headerShown: false
                     }}
                 />
             </Tab.Navigator>

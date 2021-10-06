@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         padding: 40
     },
     header: {
-        color: "#005591",
+        color: "black",
         fontWeight: "bold",
         fontSize: 32
     },
@@ -46,16 +46,16 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 7.5,
         marginVertical: 5,
+    },
+    registerButton: {
+        backgroundColor: "black",
         shadowColor: '#171717',
         shadowOffset: { width: -2, height: 8 },
         shadowOpacity: 0.2,
         shadowRadius: 7
     },
-    registerButton: {
-        backgroundColor: "#005591",
-    },
     loginButton: {
-        borderColor: "#005591",
+        borderColor: "black",
         borderWidth: 1
     },
     buttonText: {
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         color: "white",
     },
     loginText: {
-        color: "#005591",
+        color: "black",
     }
 })
 

@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     },
     loginHeader: {
         fontSize: 36,
-        color: "#005591",
+        color: "black",
         fontWeight: "bold",
     },
     loginForm: {
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
         fontSize: 14
     },
     focusInputStyle: {
-        borderColor: "#005591",
+        borderColor: "black",
         backgroundColor: "white",
         borderWidth: 2
     },
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 7.5,
         marginTop: 30,
-        backgroundColor: "#005591",
+        backgroundColor: "black",
         shadowColor: '#171717',
         shadowOffset: { width: -2, height: 8 },
         shadowOpacity: 0.2,

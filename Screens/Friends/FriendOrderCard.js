@@ -25,7 +25,7 @@ const FriendOrderCard = (props) => {
       <View style={[{flexDirection: "row", marginBottom: 10}, styles.viewMenuContainer]}>
           <Text style={{ color: "black"}}>Order From</Text>
           <TouchableOpacity>
-            <Text style={{ color: "#005591", marginLeft: 4, fontWeight: "bold"}}>{order.user.name}</Text>
+            <Text style={{ color: "black", marginLeft: 4, fontWeight: "bold"}}>{order.user.name}</Text>
           </TouchableOpacity>
       </View>
       <Image
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   showItems: {
-    backgroundColor: "#005591",
+    backgroundColor: "black",
     paddingVertical: 10,
     borderRadius: 5,
     alignItems: "center",

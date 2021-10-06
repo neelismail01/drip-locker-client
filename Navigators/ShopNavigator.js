@@ -1,7 +1,7 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import ShopMain from '../Screens/Shop/ShopMain'
+import ShopMain from '../Screens/Shop/Landing/ShopMain';
 
 const Stack = createNativeStackNavigator();
 
