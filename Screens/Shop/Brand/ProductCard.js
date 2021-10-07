@@ -3,30 +3,32 @@ import { StyleSheet, View, Image, Text, TouchableOpacity, Dimensions } from 'rea
 
 const { width } = Dimensions.get('window');
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, goToProductPage }) => {
 
     const { name, image, price, countInStock } = product;
 
     return (
-            <TouchableOpacity style={styles.productContainer}>
-                <View style={styles.imageContainer}>
-                    <Image
-                        style={styles.image}
-                        resizeMode="contain"
-                        source={{
-                            uri: image ? image : null
-                        }}
-                    />
-                </View>
-                <View style={{ marginVertical: 10 }}>
-                    <Text style={styles.title}>{name}</Text>
-                    <Text style={styles.subText}>${price}</Text>
-                </View>
-                {
-                    countInStock === 0 &&
-                    <Text style={styles.outOfStock}>Out Of Stock</Text>
-                }
-            </TouchableOpacity>
+        <TouchableOpacity
+            style={styles.productContainer}
+            onPress={() => goToProductPage(product)}
+        >
+            <View style={styles.imageContainer}>
+                <Image
+                    style={styles.image}
+                    source={{
+                        uri: image ? image : null
+                    }}
+                />
+            </View>
+            <View style={{ marginVertical: 10 }}>
+                <Text style={styles.title}>{name.length > 20 ? `${name.substr(0, 20)}...` : name}</Text>
+                <Text style={styles.subText}>${price}</Text>
+            </View>
+            {
+                countInStock === 0 &&
+                <Text style={styles.outOfStock}>Out Of Stock</Text>
+            }
+        </TouchableOpacity>
     )
 }
 
@@ -38,24 +40,22 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         borderWidth: 0.25,
+        borderColor: "grey",
         borderRadius: 5,
-        width: "100%",
-        height: 125,
         justifyContent: "center",
         alignItems: "center"
     },
     image: {
-        resizeMode: "contain",
         width: "100%",
-        height: 120,
+        height: 150,
         borderRadius: 5,
     },
     title: {
-        fontSize: 14
+        fontSize: 12
     },
     subText: {
         color: "grey",
-        fontSize: 14,
+        fontSize: 12,
         marginTop: 5
     },
     outOfStock: {

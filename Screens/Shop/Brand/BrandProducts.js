@@ -4,13 +4,13 @@ import { View, StyleSheet, Text } from 'react-native';
 import ProductCard from './ProductCard';
 
 
-const BrandProducts = ({ categories, products }) => {
+const BrandProducts = ({ categories, products, goToProductPage }) => {
     return (
         <View style={styles.productCategoryContainer}>
             {
                 categories.map(category => {
                     return (
-                        <View>
+                        <View key={category._id}>
                             <Text style={styles.categoryHeaderText}>{category.name}</Text>
                             <View style={styles.productsContainer}>
                                 {
@@ -18,7 +18,10 @@ const BrandProducts = ({ categories, products }) => {
                                         return (
                                             <View key={product.id}>
                                                 {
-                                                    <ProductCard product={product} />
+                                                    <ProductCard
+                                                        product={product}
+                                                        goToProductPage={goToProductPage}
+                                                    />
                                                 }
                                             </View>
                                         );

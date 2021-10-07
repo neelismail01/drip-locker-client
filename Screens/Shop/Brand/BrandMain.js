@@ -18,9 +18,13 @@ const BrandMain = ({ navigation, route }) => {
     const [filteredCategories, setFilteredCategories] = useState([]);
     const [loading, setLoading] = useState(true)
 
-    const { coverImage, name, fullAddress, rating, categories, id } = route.params;
+    const { name, fullAddress, rating, categories, id } = route.params;
     const businessDetails = { name, fullAddress, rating };
     const cart = useSelector(selectCartItems);
+
+    const goToProductPage = (product) => {
+        navigation.navigate('Product Main', { product })
+    }
 
     useFocusEffect(
         useCallback(() => {
@@ -59,9 +63,9 @@ const BrandMain = ({ navigation, route }) => {
                             <BrandCategories categories={filteredCategories} />
                         </View>
                         <BrandProducts
-                            navigation={navigation}
-                            categories={filteredCategories}
                             products={products}
+                            categories={filteredCategories}
+                            goToProductPage={goToProductPage}
                         />
                     </ScrollView>
                     {
