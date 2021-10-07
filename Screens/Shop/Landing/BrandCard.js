@@ -20,8 +20,8 @@ const BrandCard = ({ business, navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        width: 275,
-        height: 175,
+        width: 200,
+        height: 200,
         marginRight: 15,
         elevation: 8,
         shadowColor: '#a6a6a6',
