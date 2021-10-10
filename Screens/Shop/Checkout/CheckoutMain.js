@@ -8,7 +8,7 @@ import CartItem from './CartItem';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUserInfo } from '../../../Redux/userSlice';
-import { selectCartItems, selectCartValue, selectCartSize, updateItemQuantity, clearCart } from '../../../Redux/cartSlice';
+import { selectCartItems, selectCartValue, selectCartSize, updateItemQuantity, clearCart, removeFromCart } from '../../../Redux/cartSlice';
 
 const CheckoutMain = ({ navigation }) => {
 
