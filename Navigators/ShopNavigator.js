@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ShopMain from '../Screens/Shop/Landing/ShopMain';
 import BrandMain from '../Screens/Shop/Brand/BrandMain';
 import ProductMain from '../Screens/Shop/Product/ProductMain';
+import CartMain from '../Screens/Shop/Cart/CartMain';
+import CheckoutMain from '../Screens/Shop/Checkout/CheckoutMain';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +23,20 @@ const ShopNavigator = () => {
                 <Stack.Screen
                     name="Brand Main"
                     component={BrandMain}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="Cart Main"
+                    component={CartMain}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="Checkout Main"
+                    component={CheckoutMain}
                     options={{
                         headerShown: false,
                     }}
