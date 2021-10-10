@@ -57,6 +57,6 @@ export const cartItemsReducer = (state = initialState, action) => {
 // SELECTOR
 export const selectCartItems = (state) => state.cartItems;
 export const selectCartValue = (state) => state.cartItems.map(item => item.product.price * item.quantity)
-                                                         .reduce((total, next) => total + next);
+                                                         .reduce((total, next) => total + next, 0);
 export const selectCartSize = (state) => state.cartItems.map(item => item.quantity)
-                                                        .reduce((total, next) => total + next);
+                                                        .reduce((total, next) => total + next, 0);
