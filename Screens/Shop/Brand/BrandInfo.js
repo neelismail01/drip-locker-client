@@ -3,7 +3,7 @@ import { View, StyleSheet, Text } from 'react-native';
 
 const BrandInfo = ({ businessDetails }) => {
 
-    const { name, fullAddress, rating } = businessDetails
+    const { name, rating } = businessDetails
 
     return (
         <View style={styles.profileTextContainer}>
@@ -12,9 +12,6 @@ const BrandInfo = ({ businessDetails }) => {
                 <View style={styles.ratingContainer}>
                     <Text style={styles.ratingText}>{rating}</Text>
                 </View>
-            </View>
-            <View style={{ flexDirection: "row", marginBottom: 6 }}>
-                <Text style={styles.businessDetails}>{fullAddress}</Text>
             </View>
         </View>
     )
@@ -32,7 +29,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        marginBottom: 10
     },
     businessName: {
         fontSize: 28,
@@ -50,10 +46,6 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 12,
         color: "black"
-    },
-    businessDetails: {
-        fontSize: 14,
-        color: "grey"
     }
 })
 

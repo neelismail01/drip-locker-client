@@ -11,6 +11,8 @@ import BrandInfo from './BrandInfo';
 import BrandCategories from './BrandCategories';
 import BrandProducts from './BrandProducts'
 
+import ViewCartButton from '../Cart/ViewCartButton';
+
 const { width, height } = Dimensions.get('window')
 
 const BrandMain = ({ navigation, route }) => {
@@ -18,9 +20,10 @@ const BrandMain = ({ navigation, route }) => {
     const [filteredCategories, setFilteredCategories] = useState([]);
     const [loading, setLoading] = useState(true)
 
-    const { name, fullAddress, rating, categories, id } = route.params;
-    const businessDetails = { name, fullAddress, rating };
+    const { name, rating, categories, id } = route.params;
+    const businessDetails = { name, rating };
     const cart = useSelector(selectCartItems);
+    console.log(cart)
 
     const goToProductPage = (product) => {
         navigation.navigate('Product Main', { product })

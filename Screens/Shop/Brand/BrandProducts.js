@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
     productsContainer: {
         flexWrap: 'wrap',
         flexDirection: "row",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        width: "100%"
     }
 })
 
