@@ -46,7 +46,7 @@ export const cartItemsReducer = (state = initialState, action) => {
                 return cartItem
             })
         case REMOVE_FROM_CART:
-            return state.filter(cartItem => cartItem.id !== action.payload)
+            return state.filter(cartItem => cartItem !== action.payload)
         case CLEAR_CART:
             return state = []
     }
@@ -56,10 +56,7 @@ export const cartItemsReducer = (state = initialState, action) => {
 
 // SELECTOR
 export const selectCartItems = (state) => state.cartItems;
-export const selectCartBusiness = (state) => state.cartItems[0].business.name;
-export const selectCartBusinessAddress = (state) => state.cartItems[0].business.address;
-export const selectCartBusinessCoverImage = (state) => state.cartItems[0].business.coverImage;
-export const selectCartValue = (state) => state.cartItems.map(item => item.price * item.quantity)
+export const selectCartValue = (state) => state.cartItems.map(item => item.product.price * item.quantity)
                                                          .reduce((total, next) => total + next);
 export const selectCartSize = (state) => state.cartItems.map(item => item.quantity)
                                                         .reduce((total, next) => total + next);
