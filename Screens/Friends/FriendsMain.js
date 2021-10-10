@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { View, StyleSheet, ScrollView, SafeAreaView } from "react-native";
+import { View, StyleSheet, ScrollView, SafeAreaView, Text } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -19,6 +19,7 @@ const OrdersMain = () => {
             axios.get(`${BASE_URL}orders/friendOrders/${userId}`)
             .then((res) => {
                 setFriendOrders(res.data);
+                console.log(res.data[0]);
             })
             .catch((error) => {
                 console.log(error);
@@ -34,7 +35,9 @@ const OrdersMain = () => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-            <ScrollView>
+            <ScrollView
+            >
+                <Text style={styles.header}>Friend Orders</Text>
                 {
                     friendOrders.length > 0 &&
                     <View style={styles.sectionContainer}>
@@ -56,17 +59,11 @@ const OrdersMain = () => {
 };
 
 const styles = StyleSheet.create({
-    headerContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: "white",
-        paddingVertical: 10,
-        marginTop: 15
-    },
     header: {
-        fontSize: 18,
+        fontSize: 28,
         fontWeight: "bold",
-        marginVertical: 10
+        marginLeft: 20,
+        marginTop: 20
     }
 });
 

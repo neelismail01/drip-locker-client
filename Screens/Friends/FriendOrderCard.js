@@ -1,14 +1,22 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Dimensions, Image, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity, ScrollView, Dimensions } from "react-native";
+import { Icon } from 'react-native-elements';
 
-var { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get('window')
 
-const FriendOrderCard = (props) => {
-  const { order } = props;
-  const [showItems, setShowItems] = useState(false);
+const FriendOrderCard = ({ order }) => {
+  const [imageActive, setImageActive] = useState(0);
+  
+  const onchange = (nativeEvent) => {
+    if (nativeEvent) {
+      const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);
+      if (slide !== imageActive) {
+        setImageActive(slide);
+      }
+    }
+  }
 
   const monthNames = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.", "Jul.", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
-
   const date = order.dateOrdered.toString().substring(0, order.dateOrdered.toString().indexOf("T"));
   let dateParts = date.split("-");
   dateParts = dateParts.map((datePart) => {
@@ -16,109 +24,170 @@ const FriendOrderCard = (props) => {
   });
   const formattedDate = `${monthNames[dateParts[1]]} ${dateParts[2]}, ${dateParts[0]}`;
 
-  const handleShowItems = () => {
-    setShowItems(!showItems);
-  };
-
   return (
-    <View style={styles.productContainer}>
-      <View style={[{flexDirection: "row", marginBottom: 10}, styles.viewMenuContainer]}>
-          <Text style={{ color: "black"}}>Order From</Text>
-          <TouchableOpacity>
-            <Text style={{ color: "black", marginLeft: 4, fontWeight: "bold"}}>{order.user.name}</Text>
-          </TouchableOpacity>
+    <View style={styles.friendOrdersContainer}>
+      <View style={styles.orderNameContainer}>
+        <View style={styles.initialsCircle}>
+            <Text style={styles.initialsText}>
+              {order.user.name.split(" ").map(name => {
+                  return name[0]
+              })}
+            </Text>
+        </View>
+        <View>
+          <Text style={styles.orderName}>{order.user.name}</Text>
+          <Text style={styles.orderDate}>{formattedDate}</Text>
+        </View>
       </View>
-      <Image
-          style={styles.coverImage}
-          source={{ uri: order.business.coverImage }}
-      />
-      <View style={{flexDirection: "row", marginTop: 10, justifyContent: "space-between" }}>
-        <Text style={styles.header}>{order.business.name}</Text>
-        <Text style={styles.subText}>{formattedDate} • {order.totalQuantity} {order.totalQuantity === 1 ? 'Item' : 'Items'}</Text>
-      </View>
-      <TouchableOpacity style={styles.showItems} onPress={handleShowItems}>
-          <Text style={{ fontSize: 12, fontWeight: "bold", color: "white" }}>{showItems ? "Hide Items" : "Show Items"}</Text>
+      <TouchableOpacity style={styles.storeNameContainer}>
+        <View style={styles.storeIconAndNameContainer}>
+          <Icon name="store-alt" type="font-awesome-5" color="white" size={12} />
+          <Text style={styles.storeName}>{order.business.name}</Text>
+        </View>
+        <Icon name="angle-right" type="font-awesome-5" color="white" size={14} />
       </TouchableOpacity>
-      {
-        showItems &&
-          order.orderItems.map((item) => {
+      <ScrollView
+        style={styles.orderImagesCarousel}
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        snapToInterval={width}
+        decelerationRate={"fast"}
+        onScroll={({ nativeEvent }) => onchange(nativeEvent)}
+        scrollEventThrottle={200}
+        scrollEnabled={order.orderItems.length > 1}
+      >
+        {
+          order.orderItems.map(item => {
             return (
-              <View key={item._id} style={styles.itemContainer}>
-                  <View style={styles.quantityContainer}>
-                      <View style={styles.quantity}>
-                          <Text style={styles.quantityText}>{item.quantity}</Text>
-                      </View>
-                  </View>
-                  <View style={styles.itemNameContainer}>
-                      <Text style={styles.cartItemText}>{item.product.name}</Text>
-                  </View>
+              <View key={item._id}>
+                <Image
+                  style={styles.productImage}
+                  source={{ uri: item.product.image }}
+                  resizeMode="contain"
+                />
+                <View style={styles.productNameContainer}>
+                  <Icon name="tag" type="font-awesome-5" color="black" size={12} />
+                  <Text style={styles.productName}>
+                    {item.product.name.length > 20 ? `${item.product.name.substr(0, 20)}...` : item.product.name}
+                  </Text>
+                </View>
               </View>
-            );
-        })
-      }
+            )
+          })
+        }
+      </ScrollView>
+      <View style={styles.dotWrapper}>
+        {
+          order.orderItems.length > 1 &&
+          order.orderItems.map((item, index) => {
+            return (
+              <Text
+                key={item._id}
+                style={imageActive === index ? styles.dotActive : styles.dotInactive}
+              >
+                •
+              </Text>
+            )
+          })
+        }
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  productContainer: {
+  friendOrdersContainer: {
     width: "100%",
     backgroundColor: "white",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginVertical: 20
+    marginVertical: 30
   },
-  coverImage: {
-    height: 175,
-    width: "100%",
+  orderNameContainer: {
+    width: width,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  initialsCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "black",
+    marginRight: 10
+  },
+  initialsText: {
+    color: "white",
+    fontSize: 14
+  },
+  orderName: {
+    fontSize: 14,
+    fontWeight: "bold"
+  },
+  orderDate: {
+    fontSize: 12,
+    color: "grey"
+  },
+  storeNameContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginHorizontal: 20,
+    marginTop: 20,
+    backgroundColor: "black",
+    borderRadius: 5,
+    paddingVertical: 7.5,
+    paddingHorizontal: 15
+  },
+  storeIconAndNameContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  storeName: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 12,
+    marginLeft: 10
+  },
+  orderImagesCarousel: {
+    width: width,
+    marginVertical: 10
+  },
+  productImage: {
+    height: height * 0.33,
+    width: width,
     borderRadius: 5
   },
-  header: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  subText: {
-    marginRight: 10,
-    marginVertical: 2.5,
-    color: "grey",
-    fontSize: 14,
-  },
-  showItems: {
-    backgroundColor: "black",
-    paddingVertical: 10,
-    borderRadius: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    marginTop: 15,
-  },
-  itemContainer: {
+  productNameContainer: {
     flexDirection: "row",
-  },
-  quantityContainer: {
-    paddingVertical: 10,
-  },
-  quantity: {
-    backgroundColor: "#E8E8E8",
-    height: 26,
-    width: 26,
-    borderRadius: 5,
+    marginHorizontal: 20,
+    marginTop: 10,
     alignItems: "center",
-    justifyContent: "center",
-    padding: 5,
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 15,
+    paddingVertical: 7.5,
+    paddingHorizontal: 15,
+    width: 200,
   },
-  quantityText: {
-    fontSize: 14,
+  productName: {
+    marginLeft: 10,
+    fontSize: 12
+  },
+  dotWrapper: {
+    flexDirection: "row",
+    alignSelf: "center"
+  },
+  dotActive: {
+    marginHorizontal: 2,
     color: "black",
-    fontWeight: "bold",
+    fontSize: 32
   },
-  itemNameContainer: {
-    justifyContent: "center",
-    paddingVertical: 10,
-  },
-  cartItemText: {
-    fontSize: 14,
-    marginLeft: 12.5,
+  dotInactive: {
+    marginHorizontal: 2,
+    color: "grey",
+    fontSize: 32
   }
 });
 
