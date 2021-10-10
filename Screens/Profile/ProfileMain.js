@@ -2,7 +2,6 @@ import React from "react";
 import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Icon } from 'react-native-elements';
 
-
 import { useSelector, useDispatch } from "react-redux";
 import { selectUserInfo, clearUser } from "../../Redux/userSlice";
 import { clearCart } from "../../Redux/cartSlice";
@@ -75,7 +74,6 @@ const ProfileMain = (props) => {
 const styles = StyleSheet.create({
     profileContainer: {
         padding: 20
-
     },
     headerContainer: {
         flexDirection: "row",
