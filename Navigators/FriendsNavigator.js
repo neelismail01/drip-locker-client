@@ -1,7 +1,7 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import FriendsMain from '../Screens/Friends/FriendsMain'
+import FriendsMain from '../Screens/Friends/Feed/FriendsMain'
 
 const Stack = createNativeStackNavigator();
 

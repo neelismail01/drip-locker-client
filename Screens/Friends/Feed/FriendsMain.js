@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import { BASE_URL } from "@env";
 import { useSelector } from 'react-redux';
-import { selectUserId } from '../../Redux/userSlice';
+import { selectUserId } from '../../../Redux/userSlice';
 
 import FriendOrderCard from './FriendOrderCard';
 
