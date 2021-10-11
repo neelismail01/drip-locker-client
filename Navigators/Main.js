@@ -5,7 +5,6 @@ import { Icon } from 'react-native-elements'
 import AuthenticationNavigator from './AuthenticationNavigator';
 import ShopNavigator from './ShopNavigator';
 import FriendsNavigator from './FriendsNavigator';
-import OrdersNavigator from './OrdersNavigator';
 import ProfileNavigator from './ProfileNavigator';
 
 import { useSelector } from 'react-redux';
@@ -42,16 +41,6 @@ const Main = () => {
                     options={{
                         tabBarIcon: ({ color }) => (
                           <Icon name="users" type="font-awesome-5" color={color} size={24} />
-                        ),
-                        headerShown: false
-                    }}
-                />
-                <Tab.Screen
-                    name="Orders"
-                    component={OrdersNavigator}
-                    options={{
-                        tabBarIcon: ({ color }) => (
-                          <Icon name="receipt" type="font-awesome-5" color={color} size={24} />
                         ),
                         headerShown: false
                     }}
