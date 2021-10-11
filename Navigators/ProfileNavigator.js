@@ -1,10 +1,11 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import ProfileMain from '../Screens/Profile/ProfileMain';
-import PersonalInformation from '../Screens/Profile/PersonalInformation';
-import Addresses from '../Screens/Profile/Addresses';
-import SearchAddress from '../Screens/Profile/SearchAddress';
+import ProfileMain from '../Screens/Profile/Landing/ProfileMain';
+import SettingsMain from '../Screens/Profile/Settings/SettingsMain';
+import PersonalInformation from '../Screens/Profile/EditPersonalInformation/PersonalInformation';
+import Addresses from '../Screens/Profile/EditAddress/Addresses';
+import SearchAddress from '../Screens/Profile/EditAddress/SearchAddress';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +16,13 @@ const ProfileNavigator = () => {
                 <Stack.Screen
                     name="Profile Main"
                     component={ProfileMain}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="Settings Main"
+                    component={SettingsMain}
                     options={{
                         headerShown: false,
                     }}
