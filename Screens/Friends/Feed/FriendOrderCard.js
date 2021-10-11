@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements';
 
 const { width, height } = Dimensions.get('window')
 
-const FriendOrderCard = ({ order }) => {
+const FriendOrderCard = ({ order, handleGoToFriendProfile }) => {
   const [imageActive, setImageActive] = useState(0);
   
   const onchange = (nativeEvent) => {
@@ -26,7 +26,10 @@ const FriendOrderCard = ({ order }) => {
 
   return (
     <View style={styles.friendOrdersContainer}>
-      <View style={styles.orderNameContainer}>
+      <TouchableOpacity
+        style={styles.orderNameContainer}
+        onPress={() => handleGoToFriendProfile(order.user.id, order.user.name)}
+      >
         <View style={styles.initialsCircle}>
             <Text style={styles.initialsText}>
               {order.user.name.split(" ").map(name => {
@@ -38,7 +41,7 @@ const FriendOrderCard = ({ order }) => {
           <Text style={styles.orderName}>{order.user.name}</Text>
           <Text style={styles.orderDate}>{formattedDate}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.storeNameContainer}>
         <View style={styles.storeIconAndNameContainer}>
           <Icon name="store-alt" type="font-awesome-5" color="white" size={12} />
@@ -60,11 +63,10 @@ const FriendOrderCard = ({ order }) => {
         {
           order.orderItems.map(item => {
             return (
-              <View key={item._id}>
+              <TouchableOpacity key={item._id}>
                 <Image
                   style={styles.productImage}
                   source={{ uri: item.product.image }}
-                  resizeMode="contain"
                 />
                 <View style={styles.productNameContainer}>
                   <Icon name="tag" type="font-awesome-5" color="black" size={12} />
@@ -72,7 +74,7 @@ const FriendOrderCard = ({ order }) => {
                     {item.product.name.length > 20 ? `${item.product.name.substr(0, 20)}...` : item.product.name}
                   </Text>
                 </View>
-              </View>
+              </TouchableOpacity>
             )
           })
         }
@@ -155,9 +157,8 @@ const styles = StyleSheet.create({
     marginVertical: 10
   },
   productImage: {
-    height: height * 0.33,
-    width: width,
-    borderRadius: 5
+    aspectRatio: 1,
+    width: width
   },
   productNameContainer: {
     flexDirection: "row",

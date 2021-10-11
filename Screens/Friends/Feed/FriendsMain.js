@@ -9,17 +9,20 @@ import { selectUserId } from '../../../Redux/userSlice';
 
 import FriendOrderCard from './FriendOrderCard';
 
-const OrdersMain = () => {
+const OrdersMain = ({ navigation }) => {
     const [friendOrders, setFriendOrders] = useState([]);
 
     const userId = useSelector(selectUserId);
+
+    const handleGoToFriendProfile = (friendUserId, friendName) => {
+        navigation.navigate('Friend Profile Main', { friendUserId, friendName })
+    }
 
     useFocusEffect(
         useCallback(() => {
             axios.get(`${BASE_URL}orders/friendOrders/${userId}`)
             .then((res) => {
                 setFriendOrders(res.data);
-                console.log(res.data[0]);
             })
             .catch((error) => {
                 console.log(error);
@@ -47,6 +50,7 @@ const OrdersMain = () => {
                                     <FriendOrderCard
                                         key={order._id}
                                         order={order}
+                                        handleGoToFriendProfile={handleGoToFriendProfile}
                                     />
                                 )
                             })
@@ -60,10 +64,9 @@ const OrdersMain = () => {
 
 const styles = StyleSheet.create({
     header: {
-        fontSize: 28,
+        fontSize: 24,
         fontWeight: "bold",
         marginLeft: 20,
-        marginTop: 20
     }
 });
 
