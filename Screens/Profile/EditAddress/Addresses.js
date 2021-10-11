@@ -6,7 +6,7 @@ import AddressRow from './AddressRow';
 import { BASE_URL } from "@env"
 
 import { useSelector, useDispatch } from 'react-redux';
-import { selectUserAddresses, selectUserId, setUserInfo } from '../../Redux/userSlice';
+import { selectUserAddresses, selectUserId, setUserInfo } from '../../../Redux/userSlice';
 
 const Addresses = ({ navigation }) => {
     const addresses = useSelector(selectUserAddresses);

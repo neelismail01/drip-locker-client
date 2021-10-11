@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, SafeAreaView } fro
 import axios from 'axios';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { selectUserInfo, setUserInfo } from '../../Redux/userSlice';
+import { selectUserInfo, setUserInfo } from '../../../Redux/userSlice';
 
 import { BASE_URL } from "@env"
 

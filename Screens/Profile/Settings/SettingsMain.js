@@ -3,8 +3,8 @@ import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-na
 import { Icon } from 'react-native-elements';
 
 import { useSelector, useDispatch } from "react-redux";
-import { selectUserInfo, clearUser } from "../../Redux/userSlice";
-import { clearCart } from "../../Redux/cartSlice";
+import { selectUserInfo, clearUser } from "../../../Redux/userSlice";
+import { clearCart } from "../../../Redux/cartSlice";
 
 const ProfileMain = (props) => {
     const { name } = useSelector(selectUserInfo);
@@ -19,7 +19,7 @@ const ProfileMain = (props) => {
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
             <View style={styles.profileContainer}>
                 <View style={styles.headerContainer}>
-                    <Text style={styles.header}>My Profile</Text>
+                    <Text style={styles.header}>Settings</Text>
                     <View style={styles.initialsCircle}>
                         <Text style={styles.initialsText}>
                             {name.split(" ").map(name => {
@@ -81,16 +81,16 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
     },
     initialsCircle: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
+        width: 70,
+        height: 70,
+        borderRadius: 35,
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "black"
     },
     initialsText: {
         color: "white",
-        fontSize: 22
+        fontSize: 24
     },
     header: {
         fontSize: 32,

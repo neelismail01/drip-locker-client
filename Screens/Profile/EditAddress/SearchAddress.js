@@ -6,7 +6,7 @@ import { GOOGLE_PLACES_API_KEY, BASE_URL } from "@env";
 import SearchAddressPrediction from './SearchAddressPrediction';
 
 import { useDispatch } from 'react-redux';
-import { setUserInfo } from '../../Redux/userSlice';
+import { setUserInfo } from '../../../Redux/userSlice';
 
 const SearchAddress = ({ navigation, route }) => {
     const [dest, setDest] = useState('');
