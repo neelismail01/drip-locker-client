@@ -23,7 +23,6 @@ const BrandMain = ({ navigation, route }) => {
     const { name, rating, categories, id } = route.params;
     const businessDetails = { name, rating };
     const cart = useSelector(selectCartItems);
-    console.log(cart)
 
     const goToProductPage = (product) => {
         navigation.navigate('Product Main', { product })
