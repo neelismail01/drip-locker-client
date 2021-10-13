@@ -8,9 +8,13 @@ import { BASE_URL } from "@env";
 import ProfileHeader from './ProfileHeader';
 import OrdersGrid from './OrdersGrid';
 
-const ProfileMain = ({ route }) => {
+const ProfileMain = ({ navigation, route }) => {
     const [friendOrders, setFriendOrders] = useState([]);
     const { friendUserId, friendName } = route.params;
+
+    const handleGoToFriendOrdersFeed = (order) => {
+        navigation.navigate('Friend Orders Feed Main', { friendOrders, order })
+    }
 
     useFocusEffect(
         useCallback(() => {
@@ -42,6 +46,7 @@ const ProfileMain = ({ route }) => {
                 />
                 <OrdersGrid
                     orders={friendOrders}
+                    handleGoToFriendOrdersFeed={handleGoToFriendOrdersFeed}
                 />
             </ScrollView>
         </SafeAreaView>
