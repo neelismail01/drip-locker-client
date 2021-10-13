@@ -19,6 +19,10 @@ const ProfileMain = ({ navigation }) => {
         navigation.navigate('Settings Main')
     }
 
+    const handleGoToOrdersFeed = (order) => {
+        navigation.navigate('Orders Feed Main', { orders, order })
+    }
+
     useFocusEffect(
         useCallback(() => {
 
@@ -26,7 +30,6 @@ const ProfileMain = ({ navigation }) => {
             axios.get(`${BASE_URL}orders/${userInfo.id}`)
             .then((res) => {
                 setOrders(res.data);
-                console.log(res.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -50,6 +53,7 @@ const ProfileMain = ({ navigation }) => {
                 />
                 <OrdersGrid
                     orders={orders}
+                    handleGoToOrdersFeed={handleGoToOrdersFeed}
                 />
             </ScrollView>
         </SafeAreaView>

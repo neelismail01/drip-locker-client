@@ -4,7 +4,7 @@ import { BlurView } from 'expo-blur';
 
 const { width } = Dimensions.get('window');
 
-const OrdersGrid = ({ orders }) => {
+const OrdersGrid = ({ orders, handleGoToOrdersFeed }) => {
 
     return (
         <View style={styles.ordersContainer}>
@@ -14,6 +14,7 @@ const OrdersGrid = ({ orders }) => {
                         <TouchableOpacity
                             style={styles.orderCard}
                             key={order.id}
+                            onPress={() => handleGoToOrdersFeed(order)}
                         >
                             <Image
                                 source={{ uri: order.business.coverImage }}
