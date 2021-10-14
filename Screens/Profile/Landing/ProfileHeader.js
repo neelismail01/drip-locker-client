@@ -1,24 +1,28 @@
 import React from "react";
-import { View, StyleSheet, Text, Dimensions } from "react-native";
+import { View, StyleSheet, Text, Dimensions, TouchableOpacity } from "react-native";
 import { Icon } from 'react-native-elements';
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 const { width } = Dimensions.get('window')
 
 const ProfileHeader = ({ numberOfOrders, userName, handleGoToSettings }) => {
 
     return (
-        <View style={styles.headerContainer}>
-            <View style={styles.iconsContainer}>
-                <TouchableOpacity style={styles.icon}>
-                    <Icon name="cloud-upload-alt" type="font-awesome-5" color="black" size={20} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.icon}
-                    onPress={() => handleGoToSettings()}
-                >
-                    <Icon name="cog" type="font-awesome-5" color="black" size={20} />
-                </TouchableOpacity>
+        <View>
+            <View style={styles.headerContainer}>
+                <Text style={styles.header}>Profile</Text>
+                <View style={styles.iconContainer}>
+                    <TouchableOpacity
+                        style={styles.icon}
+                    >
+                        <Icon name="cloud-upload-alt" type="font-awesome-5" color="black" size={20} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={handleGoToSettings}
+                        style={styles.icon}
+                    >
+                        <Icon name="cog" type="font-awesome-5" color="black" size={20} />
+                    </TouchableOpacity>
+                </View>
             </View>
             <View style={styles.topRowContainer}>
                 <View style={styles.initialsCircle}>
@@ -46,10 +50,17 @@ const ProfileHeader = ({ numberOfOrders, userName, handleGoToSettings }) => {
 
 const styles = StyleSheet.create({
     headerContainer: {
-        paddingHorizontal: 20,
-        width: width
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginHorizontal: 20,
+        marginBottom: 20
     },
-    iconsContainer: {
+    header: {
+        fontSize: 24,
+        fontWeight: "bold",
+    },
+    iconContainer: {
         justifyContent: "flex-end",
         flexDirection: "row"
     },
