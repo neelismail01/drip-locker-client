@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from "react";
-import { View, StyleSheet, ScrollView, SafeAreaView, Text } from "react-native";
+import { View, StyleSheet, ScrollView, SafeAreaView, Text, TouchableOpacity } from "react-native";
+import { Icon } from 'react-native-elements';
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -9,13 +10,17 @@ import { selectUserId } from '../../../Redux/userSlice';
 
 import FriendOrderCard from './FriendOrderCard';
 
-const OrdersMain = ({ navigation }) => {
+const FriendSearchMain = ({ navigation }) => {
     const [friendOrders, setFriendOrders] = useState([]);
 
     const userId = useSelector(selectUserId);
 
     const handleGoToFriendProfile = (friendUserId, friendName) => {
         navigation.navigate('Friend Profile Main', { friendUserId, friendName })
+    }
+
+    const handleGoToFriendSearch = () => {
+        navigation.navigate('Add Friend Main')
     }
 
     useFocusEffect(
@@ -32,15 +37,29 @@ const OrdersMain = ({ navigation }) => {
             return () => {
                 setFriendOrders([]);
             };
-
         }, [])
     )
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-            <ScrollView
-            >
-                <Text style={styles.header}>Friend Orders</Text>
+            <ScrollView>
+                <View style={styles.headerContainer}>
+                    <Text style={styles.header}>Friends</Text>
+                    <View style={styles.iconContainer}>
+                        <TouchableOpacity
+                            onPress={handleGoToFriendSearch}
+                            style={styles.icon}
+                        >
+                            <Icon name="user-plus" type="font-awesome-5" color="black" size={20} />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={handleGoToFriendSearch}
+                            style={styles.icon}
+                        >
+                            <Icon name="search" type="font-awesome-5" color="black" size={20} />
+                        </TouchableOpacity>
+                    </View>
+                </View>
                 {
                     friendOrders.length > 0 &&
                     <View style={styles.sectionContainer}>
@@ -63,11 +82,24 @@ const OrdersMain = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+    headerContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginHorizontal: 20,
+        marginBottom: 20
+    },
     header: {
         fontSize: 24,
         fontWeight: "bold",
-        marginLeft: 20,
+    },
+    iconContainer: {
+        justifyContent: "flex-end",
+        flexDirection: "row"
+    },
+    icon: {
+        marginLeft: 20
     }
 });
 
-export default OrdersMain;
+export default FriendSearchMain;

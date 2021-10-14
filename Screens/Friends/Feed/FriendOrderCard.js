@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   friendOrdersContainer: {
     width: "100%",
     backgroundColor: "white",
-    marginVertical: 30
+    marginBottom: 50
   },
   orderNameContainer: {
     width: width,
