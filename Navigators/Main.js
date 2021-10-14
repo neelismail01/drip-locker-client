@@ -22,7 +22,8 @@ const Main = () => {
                 initialRouteName="Shop"
                 screenOptions={{
                     keyboardHidesTabBar: true,
-                    activeTintColor: "black"
+                    tabBarActiveTintColor: "black",
+                    tabBarShowLabel: false
                 }}
             >
                 <Tab.Screen
