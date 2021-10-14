@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { View, StyleSheet, Text, ScrollView, SafeAreaView } from "react-native";
+import { View, StyleSheet, Dimensions, ScrollView, SafeAreaView } from "react-native";
 import { useFocusEffect } from '@react-navigation/native'
 import axios from 'axios';
 import { BASE_URL } from "@env";
@@ -9,7 +9,6 @@ import BrandCard from "./BrandCard";
 
 const ShopMain = ({ navigation }) => {
   const [businesses, setBusinesses] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useFocusEffect(
@@ -25,19 +24,8 @@ const ShopMain = ({ navigation }) => {
             console.log(error)
         })
 
-      // Categories
-      axios.get(`${BASE_URL}categories`)
-        .then((res) => {
-          setCategories(res.data)
-        })
-        .catch((error) => {
-          console.log('Api call error - categories')
-          console.log(error);
-        })
-
       return () => {
         setBusinesses([]);
-        setCategories([]);
       };
     }, [])
   )
@@ -48,20 +36,7 @@ const ShopMain = ({ navigation }) => {
             contentContainerStyle={{paddingHorizontal: 20}}
         >
             <Header />
-            <View style={styles.rowContainer}>
-              <View style={styles.rowHeaderContainer}>
-                <Text style={styles.rowHeader}>Top Rated</Text>
-                <Text
-                  style={styles.rowShowAllButton}
-                >
-                  Show All
-                </Text>
-              </View>
-              <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-                style={styles.rowScroll}
-              >
+              <View style={styles.gridOfBusinesses}>
                 {
                     businesses.map(business => {
                         return (
@@ -73,85 +48,17 @@ const ShopMain = ({ navigation }) => {
                         )
                     })
                 }
-              </ScrollView>
-            </View>
-            <View style={styles.rowContainer}>
-              <View style={styles.rowHeaderContainer}>
-                <Text style={styles.rowHeader}>Men's Clothing</Text>
-                <Text
-                  style={styles.rowShowAllButton}
-                >
-                  Show All
-                </Text>
               </View>
-              <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-                style={styles.rowScroll}
-              >
-                {
-                    businesses.map(business => {
-                        return (
-                            <BrandCard
-                                key={business.id}
-                                business={business}
-                                navigation={navigation}
-                            />
-                        )
-                    })
-                }
-              </ScrollView>
-            </View>
-            <View style={styles.rowContainer}>
-              <View style={styles.rowHeaderContainer}>
-                <Text style={styles.rowHeader}>Home Accessories</Text>
-                <Text
-                  style={styles.rowShowAllButton}
-                >
-                  Show All
-                </Text>
-              </View>
-              <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-                style={styles.rowScroll}
-              >
-                {
-                    businesses.map(business => {
-                        return (
-                            <BrandCard
-                                key={business.id}
-                                business={business}
-                                navigation={navigation}
-                            />
-                        )
-                    })
-                }
-              </ScrollView>
-            </View>
         </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  rowContainer: {
-    marginVertical: 15
-  },
-  rowHeaderContainer: {
+  gridOfBusinesses: {
+    flexWrap: "wrap",
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-  rowHeader: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  rowShowAllButton: {
-    fontSize: 14,
-  },
-  rowScroll: {
-    paddingVertical: 10
+    justifyContent: "space-between"
   }
 });
 

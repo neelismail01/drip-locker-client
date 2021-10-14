@@ -1,8 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, Text, TouchableOpacity, Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window');
 
 const BrandCard = ({ business, navigation }) => {
-    const { coverImage, name, rating } = business;
+    const { coverImage, name } = business;
  
     return (
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Brand Main', business)}>
@@ -12,7 +14,6 @@ const BrandCard = ({ business, navigation }) => {
             />
             <View style={styles.brandNameContainer}>
                 <Text style={styles.brandName}>{name}</Text>
-                <Text style={styles.brandName}>{rating}</Text>
             </View>
         </TouchableOpacity>
     )
@@ -20,9 +21,9 @@ const BrandCard = ({ business, navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        width: 200,
-        height: 200,
-        marginRight: 15,
+        width: "45%",
+        marginVertical: 10,
+        height: 0.5 * width,
         elevation: 8,
         shadowColor: '#a6a6a6',
         shadowOffset: { width: 0, height: 2 },
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
         bottom: 5,
         backgroundColor: "white",
         borderRadius: 5,
-        padding: 10,
+        padding: 5
     },
     brandName: {
         fontWeight: "bold",
