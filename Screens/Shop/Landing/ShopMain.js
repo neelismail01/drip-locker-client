@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { View, StyleSheet, Dimensions, ScrollView, SafeAreaView } from "react-native";
+import { View, StyleSheet, ScrollView, SafeAreaView } from "react-native";
 import { useFocusEffect } from '@react-navigation/native'
 import axios from 'axios';
 import { BASE_URL } from "@env";
@@ -9,7 +9,6 @@ import BrandCard from "./BrandCard";
 
 const ShopMain = ({ navigation }) => {
   const [businesses, setBusinesses] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
@@ -18,7 +17,6 @@ const ShopMain = ({ navigation }) => {
       axios.get(`${BASE_URL}businesses`)
         .then(async (res) => {
             setBusinesses(res.data);
-            setLoading(false);
         })
         .catch((error) => {
             console.log(error)
@@ -32,23 +30,23 @@ const ShopMain = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+        <Header />
         <ScrollView
             contentContainerStyle={{paddingHorizontal: 20}}
         >
-            <Header />
-              <View style={styles.gridOfBusinesses}>
-                {
-                    businesses.map(business => {
-                        return (
-                            <BrandCard
-                                key={business.id}
-                                business={business}
-                                navigation={navigation}
-                            />
-                        )
-                    })
-                }
-              </View>
+            <View style={styles.gridOfBusinesses}>
+              {
+                  businesses.map(business => {
+                      return (
+                          <BrandCard
+                              key={business.id}
+                              business={business}
+                              navigation={navigation}
+                          />
+                      )
+                  })
+              }
+            </View>
         </ScrollView>
     </SafeAreaView>
   );
