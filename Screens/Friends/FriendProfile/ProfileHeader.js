@@ -1,12 +1,19 @@
 import React from "react";
-import { View, StyleSheet, Text, Dimensions } from "react-native";
-
-const { width } = Dimensions.get('window')
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Icon } from 'react-native-elements';
 
 const ProfileHeader = ({ numberOfOrders, friendName }) => {
 
     return (
-        <View style={styles.headerContainer}>
+        <View>
+            <View style={styles.headerContainer}>
+                <Text style={styles.header}>Profile</Text>
+                <TouchableOpacity
+                    style={styles.icon}
+                >
+                    <Icon name="search" type="font-awesome-5" color="black" size={20} />
+                </TouchableOpacity>
+            </View>
             <View style={styles.topRowContainer}>
                 <View style={styles.initialsCircle}>
                     <Text style={styles.initialsText}>
@@ -33,8 +40,18 @@ const ProfileHeader = ({ numberOfOrders, friendName }) => {
 
 const styles = StyleSheet.create({
     headerContainer: {
-        paddingHorizontal: 20,
-        width: width
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginHorizontal: 20,
+        marginBottom: 20
+    },
+    header: {
+        fontSize: 24,
+        fontWeight: "bold",
+    },
+    icon: {
+        marginLeft: 20
     },
     topRowContainer: {
         alignItems: "center",
