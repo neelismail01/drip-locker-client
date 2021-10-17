@@ -1,8 +1,6 @@
 import React from "react";
-import { View, StyleSheet, Text, Dimensions, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Icon } from 'react-native-elements';
-
-const { width } = Dimensions.get('window')
 
 const ProfileHeader = ({ numberOfOrders, userName, handleGoToSettings }) => {
 
