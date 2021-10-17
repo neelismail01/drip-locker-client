@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from "react";
-import { StyleSheet, ScrollView, SafeAreaView } from "react-native";
+import { StyleSheet, ScrollView, SafeAreaView, View, Text, TouchableOpacity } from "react-native";
+import { Icon } from 'react-native-elements';
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -39,6 +40,14 @@ const ProfileMain = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+            <View style={styles.headerContainer}>
+                <Text style={styles.header}>Profile</Text>
+                <TouchableOpacity
+                    style={styles.icon}
+                >
+                    <Icon name="search" type="font-awesome-5" color="black" size={20} />
+                </TouchableOpacity>
+            </View>
             <ScrollView>
                 <ProfileHeader
                     numberOfOrders={friendOrders.length}
@@ -54,7 +63,20 @@ const ProfileMain = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
-
+    headerContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginHorizontal: 20,
+        marginBottom: 10
+    },
+    header: {
+        fontSize: 24,
+        fontWeight: "bold",
+    },
+    icon: {
+        marginLeft: 20
+    },
 });
 
 export default ProfileMain;
