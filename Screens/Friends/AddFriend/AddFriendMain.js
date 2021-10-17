@@ -1,147 +1,102 @@
-import React, { useState } from "react";
-import { View, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, TextInput } from "react-native";
-
+import React, { useState, useCallback } from "react";
+import { View, SafeAreaView, StyleSheet, ScrollView, TextInput } from "react-native";
+import { useFocusEffect } from '@react-navigation/native'
 import axios from 'axios';
+import { BASE_URL } from "@env";
+
+import SearchResults from './SearchResults';
+import ReceivedRequests from './ReceivedRequests';
+import CurrentFriends from './CurrentFriends';
 
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../../../Redux/userSlice';
 
-import { BASE_URL } from "@env";
-
 const AddFriendMain = ({ navigation }) => {
-    const [noInteraction, setNoInteraction] = useState([]);
-    const [receivedRequest, setReceivedRequest] = useState([]);
-    const [sentRequest, setSentRequest] = useState([]);
-    const [alreadyFriends, setAlreadyFriends] = useState([]);
+    const [receivedRequests, setReceivedRequests] = useState([]);
+    const [friends, setFriends] = useState([]);
+    const [newFriends, setNewFriends] = useState([]);
 
     const userId = useSelector(selectUserId);
 
-    const handleFriendSearch = async name => {
+    const handleAcceptFriendRequest = async (friendRequest) => {
         try {
-            if (name.length > 2) {
-                const result = await axios.get(`${BASE_URL}friends/search/${userId}?searchTerm=${name}`)
-                setReceivedRequest(result.data.userRecievedRequest)
-                setSentRequest(result.data.userSentRequest)
-                setAlreadyFriends(result.data.userAlreadyFriends)
-                setNoInteraction(result.data.userNoInteraction)
-            } else if (name.length === 0) {
-                setReceivedRequest([])
-                setSentRequest([])
-                setAlreadyFriends([])
-                setNoInteraction([])
+            const requestData = {
+                requestId: friendRequest._id,
+                requester: friendRequest.requester._id,
+                recipient: friendRequest.recipient._id
             }
+            const response = await axios.put(`${BASE_URL}friends/acceptFriendRequest`, requestData)
+            setReceivedRequests(receivedRequests.filter(request => request._id !== response.data.id))
         } catch (err) {
-            console.log(err);
+            console.log("Error accepting friend request")
+            console.log(err)
         }
     }
 
-    const handleAddFriend = async result => {
+    const handleSendFriendRequest = async (recipient) => {
         try {
-            const friendship = {
+            const requestData = {
                 requester: userId,
-                recipient: result.user._id
+                recipient: recipient
             }
-            await axios.post(`${BASE_URL}friends/addFriend`, friendship)
-            const response = await axios.get(`${BASE_URL}friends/search/${userId}?searchTerm=${name}`)
-            setReceivedRequest(response.data.userRecievedRequest)
-            setSentRequest(response.data.userSentRequest)
-            setAlreadyFriends(response.data.userAlreadyFriends)
-            setNoInteraction(response.data.userNoInteraction)
+            const response = await axios.post(`${BASE_URL}friends/sendFriendRequest`, requestData)
+            setNewFriends(newFriends.filter(newFriend => newFriend._id !== response.data))
         } catch (err) {
-            console.log(err);
+            console.log(err)
         }
     }
 
-    const handleAcceptFriendRequest = async result => {
+    const handleGoToFriendProfile = (friendUserId, friendName) => {
+        navigation.navigate('Friend Profile Main', { friendUserId, friendName })
+    }
+
+    const handleSearch = async (text) => {
         try {
-            // await axios.put(`${BASE_URL}friends/acceptFriendRequest`, { friendId: result.friendId});
-            
+            if (text.length > 2) {
+                const response = await axios.get(`${BASE_URL}friends/search/${userId}?searchTerm=${text}`);
+                setReceivedRequests(response.data.friendRequests);
+                setFriends(response.data.friends);
+                setNewFriends(response.data.newUsers);
+            } else if (text.length === 0) {
+                setReceivedRequests([]);
+                setFriends([]);
+                setNewFriends([]);
+            }
         } catch (err) {
+            console.log("Error searching for user")
             console.log(err);
         }
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-            <ScrollView
-                contentContainerStyle={{ padding: 20 }}
-            >
-                <TextInput
-                    placeholder="Add friends on OrderBud..."
-                    style={styles.enterAddressField}
-                    onChangeText={name => handleFriendSearch(name)}
-                />
+        <SafeAreaView style={{ flex: 1, backgroundColor: "white"}}>
+            <TextInput
+                placeholder="Add friends on OrderBud..."
+                style={styles.enterAddressField}
+                onChangeText={text => handleSearch(text)}
+            />
+            <ScrollView>
                 {
-                    receivedRequest.map(result => {
-                        return (
-                            <View
-                                key={result.user._id}
-                                style={styles.resultContainer}
-                            >
-                                <View style={styles.userDetails}>
-                                    <Text style={styles.userMain}>{result.user.name}</Text>
-                                    <Text style={styles.userSecondary}>{result.user.email}</Text>
-                                </View>
-                                <TouchableOpacity
-                                    style={styles.addFriendButton}
-                                    onPress={() => handleAcceptFriendRequest(result)}
-                                >
-                                    <Text style={styles.addFriendButtonText}>Accept</Text>
-                                </TouchableOpacity>
-                            </View>
-                        )
-                    })
+                    friends.length > 0 &&
+                    <CurrentFriends
+                        friends={friends}
+                        userId={userId}
+                        handleGoToFriendProfile={handleGoToFriendProfile}
+                    />
                 }
                 {
-                    alreadyFriends.map(result => {
-                        return (
-                            <View
-                                key={result.user._id}
-                                style={styles.resultContainer}
-                            >
-                                <View style={styles.userDetails}>
-                                    <Text style={styles.userMain}>{result.user.name}</Text>
-                                    <Text style={styles.userSecondary}>{result.user.email}</Text>
-                                </View>
-                                <View style={styles.alreadyFriendsButton}>
-                                    <Text style={styles.alreadyFriendsButtonText}>Friends</Text>
-                                </View>
-                            </View>
-                        )
-                    })
+                    receivedRequests.length > 0 &&
+                    <ReceivedRequests
+                        receivedRequests={receivedRequests}
+                        handleAcceptFriendRequest={handleAcceptFriendRequest}
+                    />
                 }
                 {
-                    sentRequest.map(result => {
-                        return (
-                            <View
-                                key={result.user._id}
-                                style={styles.resultContainer}
-                            >
-                                <View style={styles.userDetails}>
-                                    <Text style={styles.userMain}>{result.user.name}</Text>
-                                    <Text style={styles.userSecondary}>{result.user.email}</Text>
-                                </View>
-                                <View style={styles.pendingFriendButton}>
-                                    <Text style={styles.addFriendButtonText}>Sent</Text>
-                                </View>
-                            </View>
-                        )
-                    })
-                }
-                {
-                    noInteraction.map(result => {
-                        return (
-                            <View key={result.user._id} style={styles.resultContainer}>
-                                <View style={styles.userDetails}>
-                                    <Text style={styles.userMain}>{result.user.name}</Text>
-                                    <Text style={styles.userSecondary}>{result.user.email}</Text>
-                                </View>
-                                <TouchableOpacity style={styles.addFriendButton} onPress={() => handleAddFriend(result)}>
-                                    <Text style={styles.addFriendButtonText}>Add Friend</Text>
-                                </TouchableOpacity>
-                            </View>
-                        )
-                    })
+                    newFriends.length > 0 &&
+                    <SearchResults
+                        newFriends={newFriends}
+                        handleSendFriendRequest={handleSendFriendRequest}
+                    />
                 }
             </ScrollView>
         </SafeAreaView>
@@ -158,63 +113,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         fontSize: 14,
         borderRadius: 15,
-        marginVertical: 10
-    },
-    resultContainer: {
-        backgroundColor: "white",
-        paddingVertical: 15,
-        borderBottomWidth: 0.25,
-        borderBottomColor: "grey",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between"
-    },
-    userDetails: {
-        marginHorizontal: 10
-    },
-    userMain: {
-        fontSize: 16,
-        fontWeight: "bold"
-    },
-    userSecondary: {
-        color: "grey",
-        fontSize: 14,
-        marginTop: 7.5
-    },
-    addFriendButton: {
-        backgroundColor: "black",
-        paddingVertical: 7.5,
-        paddingHorizontal: 15,
-        borderRadius: 10,
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    addFriendButtonText: {
-        color: "white",
-        fontWeight: "bold",
-        fontSize: 14
-    },
-    alreadyFriendsButton: {
-        backgroundColor: "white",
-        borderColor: "black",
-        borderWidth: 1,
-        paddingVertical: 7.5,
-        paddingHorizontal: 15,
-        borderRadius: 10,
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    alreadyFriendsButtonText: {
-        color: "black",
-        fontWeight: "bold"
-    },
-    pendingFriendButton: {
-        backgroundColor: "grey",
-        paddingVertical: 7.5,
-        paddingHorizontal: 15,
-        borderRadius: 10,
-        justifyContent: "center",
-        alignItems: "center"
+        marginBottom: 30,
+        marginHorizontal: 20,
     }
 })
 
