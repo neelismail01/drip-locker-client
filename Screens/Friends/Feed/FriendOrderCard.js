@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity, ScrollView, Dimensions } from "react-native";
 import { Icon } from 'react-native-elements';
 
-const { width, height } = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 
 const FriendOrderCard = ({ order, handleGoToFriendProfile }) => {
   const [imageActive, setImageActive] = useState(0);
@@ -63,7 +63,10 @@ const FriendOrderCard = ({ order, handleGoToFriendProfile }) => {
         {
           order.orderItems.map(item => {
             return (
-              <TouchableOpacity key={item._id}>
+              <View
+                key={item._id}
+                style={styles.productImageAndTag}
+              >
                 <Image
                   style={styles.productImage}
                   source={{ uri: item.product.image }}
@@ -71,10 +74,10 @@ const FriendOrderCard = ({ order, handleGoToFriendProfile }) => {
                 <View style={styles.productNameContainer}>
                   <Icon name="tag" type="font-awesome-5" color="black" size={12} />
                   <Text style={styles.productName}>
-                    {item.product.name.length > 20 ? `${item.product.name.substr(0, 20)}...` : item.product.name}
+                    {item.product.name.length > 30 ? `${item.product.name.substr(0, 30)}...` : item.product.name}
                   </Text>
                 </View>
-              </TouchableOpacity>
+              </View>
             )
           })
         }
@@ -102,13 +105,14 @@ const styles = StyleSheet.create({
   friendOrdersContainer: {
     width: "100%",
     backgroundColor: "white",
-    marginBottom: 50
+    marginVertical: 25
   },
   orderNameContainer: {
     width: width,
     paddingHorizontal: 20,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    marginBottom: 15
   },
   initialsCircle: {
     width: 40,
@@ -131,14 +135,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "grey"
   },
+  orderImagesCarousel: {
+    width: width,
+  },
   storeNameContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginHorizontal: 20,
-    marginTop: 20,
     backgroundColor: "black",
-    borderRadius: 5,
     paddingVertical: 7.5,
     paddingHorizontal: 15
   },
@@ -152,9 +156,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginLeft: 10
   },
-  orderImagesCarousel: {
-    width: width,
-    marginVertical: 10
+  productImageAndTag: {
+    alignItems: "flex-start"
   },
   productImage: {
     aspectRatio: 1,
@@ -162,19 +165,20 @@ const styles = StyleSheet.create({
   },
   productNameContainer: {
     flexDirection: "row",
-    marginHorizontal: 20,
-    marginTop: 10,
     alignItems: "center",
-    borderColor: "black",
+    backgroundColor: "white",
+    borderRadius: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 5,
     borderWidth: 1,
-    borderRadius: 15,
-    paddingVertical: 7.5,
-    paddingHorizontal: 15,
-    width: 200,
+    marginVertical: 10,
+    marginHorizontal: 10
   },
   productName: {
-    marginLeft: 10,
-    fontSize: 12
+    fontSize: 12,
+    color: "black",
+    fontWeight: "bold",
+    marginLeft: 10
   },
   dotWrapper: {
     flexDirection: "row",
