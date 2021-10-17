@@ -1,27 +1,10 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { Icon } from 'react-native-elements';
+import { View, StyleSheet, Text } from "react-native";
 
-const ProfileHeader = ({ numberOfOrders, userName, handleGoToSettings }) => {
+const ProfileHeader = ({ numberOfOrders, userName }) => {
 
     return (
         <View>
-            <View style={styles.headerContainer}>
-                <Text style={styles.header}>Profile</Text>
-                <View style={styles.iconContainer}>
-                    <TouchableOpacity
-                        style={styles.icon}
-                    >
-                        <Icon name="cloud-upload-alt" type="font-awesome-5" color="black" size={20} />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={handleGoToSettings}
-                        style={styles.icon}
-                    >
-                        <Icon name="cog" type="font-awesome-5" color="black" size={20} />
-                    </TouchableOpacity>
-                </View>
-            </View>
             <View style={styles.topRowContainer}>
                 <View style={styles.initialsCircle}>
                     <Text style={styles.initialsText}>
@@ -47,24 +30,6 @@ const ProfileHeader = ({ numberOfOrders, userName, handleGoToSettings }) => {
 };
 
 const styles = StyleSheet.create({
-    headerContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginHorizontal: 20,
-        marginBottom: 20
-    },
-    header: {
-        fontSize: 24,
-        fontWeight: "bold",
-    },
-    iconContainer: {
-        justifyContent: "flex-end",
-        flexDirection: "row"
-    },
-    icon: {
-        marginLeft: 20
-    },
     topRowContainer: {
         alignItems: "center",
         justifyContent: "space-between"

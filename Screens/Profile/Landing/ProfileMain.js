@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from "react";
-import { StyleSheet, ScrollView, SafeAreaView } from "react-native";
+import { StyleSheet, ScrollView, SafeAreaView, View, Text, TouchableOpacity } from "react-native";
+import { Icon } from 'react-native-elements';
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -25,7 +26,6 @@ const ProfileMain = ({ navigation }) => {
 
     useFocusEffect(
         useCallback(() => {
-
             // get friend orders
             axios.get(`${BASE_URL}orders/${userInfo.id}`)
             .then((res) => {
@@ -45,6 +45,22 @@ const ProfileMain = ({ navigation }) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+            <View style={styles.headerContainer}>
+                <Text style={styles.header}>Profile</Text>
+                <View style={styles.iconContainer}>
+                    <TouchableOpacity
+                        style={styles.icon}
+                    >
+                        <Icon name="cloud-upload-alt" type="font-awesome-5" color="black" size={20} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={handleGoToSettings}
+                        style={styles.icon}
+                    >
+                        <Icon name="cog" type="font-awesome-5" color="black" size={20} />
+                    </TouchableOpacity>
+                </View>
+            </View>
             <ScrollView>
                 <ProfileHeader
                     numberOfOrders={orders.length}
@@ -61,7 +77,24 @@ const ProfileMain = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-
+    headerContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginHorizontal: 20,
+        marginBottom: 10
+    },
+    header: {
+        fontSize: 24,
+        fontWeight: "bold",
+    },
+    iconContainer: {
+        justifyContent: "flex-end",
+        flexDirection: "row"
+    },
+    icon: {
+        marginLeft: 20
+    },
 });
 
 export default ProfileMain;
