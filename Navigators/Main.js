@@ -19,7 +19,7 @@ const Main = () => {
     if (isLoggedIn) {
         return (
             <Tab.Navigator
-                initialRouteName="Shop"
+                initialRouteName="Friends"
                 screenOptions={{
                     keyboardHidesTabBar: true,
                     tabBarActiveTintColor: "black",
