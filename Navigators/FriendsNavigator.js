@@ -11,34 +11,38 @@ const Stack = createNativeStackNavigator();
 const FriendsNavigator = () => {
     return (
         <Stack.Navigator>
-            <Stack.Screen
-                name="Feed Main"
-                component={FeedMain}
-                options={{
-                    headerShown: false,
-                }}
-            />
-            <Stack.Screen
-                name="Friend Profile Main"
-                component={FriendProfileMain}
-                options={{
-                    headerShown: false,
-                }}
-            />
-            <Stack.Screen
-                name="Friend Orders Feed Main"
-                component={FriendOrdersFeedMain}
-                options={{
-                    headerShown: false,
-                }}
-            />
-            <Stack.Screen
-                name="Add Friend Main"
-                component={AddFriendMain}
-                options={{
-                    headerShown: false,
-                }}
-            />
+            <Stack.Group>
+                <Stack.Screen
+                    name="Feed Main"
+                    component={FeedMain}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="Friend Profile Main"
+                    component={FriendProfileMain}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="Friend Orders Feed Main"
+                    component={FriendOrdersFeedMain}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+            </Stack.Group>
+            <Stack.Group screenOptions={{ presentation: 'modal' }}>
+                <Stack.Screen
+                    name="Add Friend Main"
+                    component={AddFriendMain}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+            </Stack.Group>
         </Stack.Navigator>
     )
 }

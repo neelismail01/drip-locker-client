@@ -24,7 +24,6 @@ const ProfileMain = ({ navigation, route }) => {
             axios.get(`${BASE_URL}orders/${friendUserId}`)
             .then((res) => {
                 setFriendOrders(res.data);
-                console.log("friend orders", res.data);
             })
             .catch((error) => {
                 console.log(error);

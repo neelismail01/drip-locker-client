@@ -50,13 +50,7 @@ const FriendSearchMain = ({ navigation }) => {
                         onPress={handleGoToFriendSearch}
                         style={styles.icon}
                     >
-                        <Icon name="user-plus" type="font-awesome-5" color="black" size={20} />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={handleGoToFriendSearch}
-                        style={styles.icon}
-                    >
-                        <Icon name="search" type="font-awesome-5" color="black" size={20} />
+                        <Icon name="user-plus" type="font-awesome-5" color="black" size={18} />
                     </TouchableOpacity>
                 </View>
             </View>

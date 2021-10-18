@@ -49,11 +49,6 @@ const ProfileMain = ({ navigation }) => {
                 <Text style={styles.header}>Profile</Text>
                 <View style={styles.iconContainer}>
                     <TouchableOpacity
-                        style={styles.icon}
-                    >
-                        <Icon name="cloud-upload-alt" type="font-awesome-5" color="black" size={20} />
-                    </TouchableOpacity>
-                    <TouchableOpacity
                         onPress={handleGoToSettings}
                         style={styles.icon}
                     >

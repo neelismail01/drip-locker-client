@@ -10,7 +10,6 @@ const OrdersGrid = ({ orders, handleGoToFriendOrdersFeed }) => {
         <View style={styles.ordersContainer}>
             {
                 orders.map(order => {
-                    console.log(order);
                     return (
                         <TouchableOpacity
                             style={styles.orderCard}

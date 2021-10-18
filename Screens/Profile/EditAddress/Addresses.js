@@ -33,7 +33,6 @@ const Addresses = ({ navigation }) => {
                 <Text style={styles.header}>Addresses</Text>
                 {
                     addresses.map(address => {
-                        console.log()
                         return (
                             <AddressRow
                                 key={address.addressPlaceId}
