@@ -4,8 +4,9 @@ import { Icon } from 'react-native-elements';
 
 const { width } = Dimensions.get('window')
 
-const OrderCard = ({ order }) => {
+const OrderCard = ({ order, liked, handleLikePhoto }) => {
   const [imageActive, setImageActive] = useState(0);
+  const [isLiked, setIsLiked] = useState(liked);
   
   const onchange = (nativeEvent) => {
     if (nativeEvent) {
@@ -14,6 +15,11 @@ const OrderCard = ({ order }) => {
         setImageActive(slide);
       }
     }
+  }
+
+  const handlePressLikePhotoButton = () => {
+    setIsLiked(!isLiked)
+    handleLikePhoto(order._id)
   }
 
   const monthNames = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.", "Jul.", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
@@ -35,8 +41,10 @@ const OrderCard = ({ order }) => {
             </Text>
         </View>
         <View>
-          <Text style={styles.orderName}>{order.user.name}</Text>
-          <Text style={styles.orderDate}>{formattedDate}</Text>
+          <View style={styles.textContainer}>
+            <Text style={styles.orderName}>{order.user.name}</Text>
+            <Text style={styles.orderDate}>{formattedDate}</Text>
+            </View>
         </View>
       </View>
       <TouchableOpacity style={styles.storeNameContainer}>
@@ -68,32 +76,50 @@ const OrderCard = ({ order }) => {
                   style={styles.productImage}
                   source={{ uri: item.product.image }}
                 />
-                <View style={styles.productNameContainer}>
-                  <Icon name="tag" type="font-awesome-5" color="black" size={12} />
-                  <Text style={styles.productName}>
-                    {item.product.name.length > 30 ? `${item.product.name.substr(0, 30)}...` : item.product.name}
-                  </Text>
+                <View style={styles.belowImageContainer}>
+                  <View style={styles.productNameContainer}>
+                    <Icon name="tag" type="font-awesome-5" color="black" size={14} />
+                    <Text style={styles.productName}>
+                      {item.product.name.length > 30 ? `${item.product.name.substr(0, 30)}...` : item.product.name}
+                    </Text>
+                  </View>
                 </View>
               </View>
             )
           })
         }
       </ScrollView>
-      <View style={styles.dotWrapper}>
         {
-          order.orderItems.length > 1 &&
-          order.orderItems.map((item, index) => {
-            return (
-              <Text
-                key={item._id}
-                style={imageActive === index ? styles.dotActive : styles.dotInactive}
-              >
-                •
-              </Text>
-            )
-          })
+          <View style={styles.belowScrollViewContainer}>
+            <TouchableOpacity
+              style={styles.likeIcon}
+              onPress={handlePressLikePhotoButton}
+            >
+              <Icon
+                name={isLiked ? "favorite" : "favorite-border"}
+                type="material"
+                color={isLiked ? "red" : "black"}
+                size={28} />
+            </TouchableOpacity>
+            <View style={styles.dotWrapper}>
+              {
+                order.orderItems.length > 1 &&
+                order.orderItems.map((item, index) => {
+                  return (
+                    <Icon
+                      key={item._id}
+                      name="circle"
+                      type="material"
+                      color={imageActive === index ? 'black' : 'grey'}
+                      size={8}
+                      style={imageActive === index ? styles.dotActive : styles.dotInactive}
+                    />
+                  )
+                })
+              }
+            </View>
+          </View>
         }
-      </View>
     </View>
   );
 };
@@ -106,10 +132,10 @@ const styles = StyleSheet.create({
   },
   orderNameContainer: {
     width: width,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 15
+    marginBottom: 20
   },
   initialsCircle: {
     width: 40,
@@ -118,7 +144,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "black",
-    marginRight: 10
+    marginRight: 15
+  },
+  textContainer: {
+    height: 40,
+    justifyContent: "space-evenly"
   },
   initialsText: {
     color: "white",
@@ -160,6 +190,13 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     width: width
   },
+  belowImageContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    marginVertical: 10
+  },
   productNameContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -168,7 +205,6 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 5,
     borderWidth: 1,
-    marginVertical: 10,
     marginHorizontal: 10
   },
   productName: {
@@ -177,17 +213,32 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginLeft: 10
   },
+  belowScrollViewContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    width: "100%"
+  },
+  likeIcon: {
+    position: "absolute",
+    height: 40,
+    width: 40,
+    left: 0,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   dotWrapper: {
     flexDirection: "row",
-    alignSelf: "center"
+    justifyContent: "center",
+    alignItems: "center",
+    height: 40
   },
   dotActive: {
-    marginHorizontal: 2,
+    marginHorizontal: 5,
     color: "black",
     fontSize: 32
   },
   dotInactive: {
-    marginHorizontal: 2,
+    marginHorizontal: 5,
     color: "grey",
     fontSize: 32
   }
