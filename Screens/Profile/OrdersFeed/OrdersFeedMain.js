@@ -1,6 +1,10 @@
 import React, { useState, useRef } from "react";
 import { View, ScrollView, SafeAreaView } from "react-native";
+import axios from 'axios';
 
+import { BASE_URL } from "@env";
+import { useSelector } from 'react-redux';
+import { selectUserId } from '../../../Redux/userSlice';
 
 import OrderCard from './OrderCard';
 
@@ -8,6 +12,8 @@ const OrdersFeedMain = ({ route }) => {
     const { order, orders } = route.params;
     const scrollRef = useRef();
     const [dataSourceCords, setDataSourceCords] = useState([]);
+
+    const userId = useSelector(selectUserId);
 
     const handleLayout = (event, index) => {
         const layout = event.nativeEvent.layout;
@@ -19,6 +25,10 @@ const OrdersFeedMain = ({ route }) => {
                 y: dataSourceCords[orders.indexOf(order)]
             })
         }
+    }
+
+    const handleLikePhoto = async (orderId) => {
+        await axios.put(`${BASE_URL}orders/like/${orderId}`, { userId })
     }
 
     return (
@@ -38,6 +48,8 @@ const OrdersFeedMain = ({ route }) => {
                                     >
                                         <OrderCard
                                             order={order}
+                                            liked={order.likedBy.includes(userId)}
+                                            handleLikePhoto={handleLikePhoto}
                                         />
                                     </View>
                                 )
