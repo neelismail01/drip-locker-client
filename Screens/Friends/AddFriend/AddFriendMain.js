@@ -54,12 +54,12 @@ const AddFriendMain = ({ navigation }) => {
 
   const handleSearch = async (text) => {
     try {
-      if (text.length > 1) {
+      if (text.length > 0) {
         const response = await axios.get(`${BASE_URL}friends/search/${userId}?searchTerm=${text}`);
         setReceivedRequests(response.data.friendRequests);
         setFriends(response.data.friends);
         setNewFriends(response.data.newUsers);
-      } else if (text.length === 0) {
+      } else {
         setReceivedRequests([]);
         setFriends([]);
         setNewFriends([]);
