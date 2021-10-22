@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
-const ProfileHeader = ({ numberOfOrders, friendName }) => {
+const ProfileHeader = ({ numberOfOrders, friendName, dripScore }) => {
 
     return (
         <View>
@@ -20,7 +20,7 @@ const ProfileHeader = ({ numberOfOrders, friendName }) => {
                         <Text>Orders</Text>
                     </View>
                     <View style={styles.userStats}>
-                        <Text style={styles.statValue}>1000</Text>
+                        <Text style={styles.statValue}>{dripScore}</Text>
                         <Text>Drip Score</Text>
                     </View>
                 </View>
