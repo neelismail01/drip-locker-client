@@ -12,6 +12,7 @@ import OrdersGrid from './OrdersGrid';
 const ProfileMain = ({ navigation, route }) => {
     const [friendOrders, setFriendOrders] = useState([]);
     const { friendUserId, friendName } = route.params;
+    const [dripScore, setDripScore] = useState();
 
     const handleGoToFriendOrdersFeed = (order) => {
         navigation.navigate('Friend Orders Feed Main', { friendOrders, order })
@@ -28,6 +29,15 @@ const ProfileMain = ({ navigation, route }) => {
             .catch((error) => {
                 console.log(error);
                 console.log('Api call error - getting friend orders');
+            })
+
+            // get total likes
+            axios.get(`${BASE_URL}orders/totalLikes/${friendUserId}`)
+            .then((res) => {
+                setDripScore(res.data.totalLikes)
+            })
+            .catch((error) => {
+                console.log(error)
             })
 
             return () => {
@@ -50,6 +60,7 @@ const ProfileMain = ({ navigation, route }) => {
             <ScrollView>
                 <ProfileHeader
                     numberOfOrders={friendOrders.length}
+                    dripScore={dripScore}
                     friendName={friendName}
                 />
                 <OrdersGrid
