@@ -23,11 +23,14 @@ const FriendSearchMain = ({ navigation }) => {
         navigation.navigate('Add Friend Main')
     }
 
+    const handleLikePhoto = async (orderId) => {
+        await axios.put(`${BASE_URL}orders/like/${orderId}`, { userId })
+    }
+
     useFocusEffect(
         useCallback(() => {
             axios.get(`${BASE_URL}orders/friendOrders/${userId}`)
             .then((res) => {
-                console.log(res)
                 setFriendOrders(res.data);
             })
             .catch((error) => {
@@ -64,6 +67,8 @@ const FriendSearchMain = ({ navigation }) => {
                                     <FriendOrderCard
                                         key={order._id}
                                         order={order}
+                                        liked={order.likedBy.includes(userId)}
+                                        handleLikePhoto={handleLikePhoto}
                                         handleGoToFriendProfile={handleGoToFriendProfile}
                                     />
                                 )
