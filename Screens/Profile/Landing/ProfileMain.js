@@ -13,7 +13,10 @@ import ProfileHeader from './ProfileHeader';
 import OrdersGrid from './OrdersGrid';
 
 const ProfileMain = ({ navigation }) => {
-    const [orders, setOrders] = useState([]);
+    const [myOrders, setMyOrders] = useState([]);
+    const [likedOrders, setLikedOrders] = useState([]);
+    const [activeTab, setActiveTab] = useState(0);
+    const [dripScore, setDripScore] = useState();
     const userInfo = useSelector(selectUserInfo);
 
     const handleGoToSettings = () => {
@@ -21,24 +24,58 @@ const ProfileMain = ({ navigation }) => {
     }
 
     const handleGoToOrdersFeed = (order) => {
+        const orders = (activeTab === 0 ? myOrders : likedOrders)
         navigation.navigate('Orders Feed Main', { orders, order })
+    }
+
+    const handleChangeToOrdersTab = () => {
+        if (activeTab !== 0) {
+            setActiveTab(0)
+            axios.get(`${BASE_URL}orders/${userInfo.id}`)
+            .then((res) => {
+                setMyOrders(res.data);
+            })
+            .catch((error) => {
+                console.log(error);
+                console.log('Api call error - getting orders');
+            })
+        }
+    }
+
+    const handleChangeToLikedTab = () => {
+        if (activeTab !== 1) {
+            setActiveTab(1)
+            axios.get(`${BASE_URL}orders/liked/${userInfo.id}`)
+            .then((res) => {
+                setLikedOrders(res.data);
+            })
+            .catch((error) => {
+                console.log(error);
+                console.log('Api call error - getting liked orders');
+            })
+        }
     }
 
     useFocusEffect(
         useCallback(() => {
-            // get friend orders
+            // get orders
             axios.get(`${BASE_URL}orders/${userInfo.id}`)
             .then((res) => {
-                setOrders(res.data);
+                setMyOrders(res.data);
             })
             .catch((error) => {
                 console.log(error);
-                console.log('Api call error - getting friend orders');
+                console.log('Api call error - getting orders');
             })
 
-            return () => {
-                setOrders([]);
-            };
+            // get total likes
+            axios.get(`${BASE_URL}orders/totalLikes/${userInfo.id}`)
+            .then((res) => {
+                setDripScore(res.data.totalLikes)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
 
         }, [])
     )
@@ -58,12 +95,27 @@ const ProfileMain = ({ navigation }) => {
             </View>
             <ScrollView>
                 <ProfileHeader
-                    numberOfOrders={orders.length}
+                    numberOfOrders={myOrders.length}
+                    dripScore={dripScore}
                     userName={userInfo.name}
                     handleGoToSettings={handleGoToSettings}
                 />
+                <View style={styles.tabsRow}>
+                    <TouchableOpacity
+                        style={[styles.tabContainer, activeTab === 0 && styles.activeTab]}
+                        onPress={handleChangeToOrdersTab}
+                    >
+                        <Icon name="receipt" type="font-awesome-5" color="black" size={18} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.tabContainer, activeTab === 1 && styles.activeTab]}
+                        onPress={handleChangeToLikedTab}
+                    >
+                        <Icon name="favorite" type="material" color="black" size={20} />
+                    </TouchableOpacity>
+                </View>
                 <OrdersGrid
-                    orders={orders}
+                    orders={activeTab === 0 ? myOrders : likedOrders}
                     handleGoToOrdersFeed={handleGoToOrdersFeed}
                 />
             </ScrollView>
@@ -90,6 +142,19 @@ const styles = StyleSheet.create({
     icon: {
         marginLeft: 20
     },
+    tabsRow: {
+        width: "100%",
+        flexDirection: "row"
+    },
+    tabContainer: { 
+        width: "50%",
+        paddingVertical: 10,
+        alignItems: "center",
+    },
+    activeTab: {
+        borderBottomWidth: 1,
+        borderBottomColor: "grey"
+    }
 });
 
 export default ProfileMain;
