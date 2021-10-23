@@ -1,33 +1,70 @@
 import React, { useState, useCallback } from "react";
-import { StyleSheet, ScrollView, SafeAreaView, View, Text, TouchableOpacity } from "react-native";
-import { Icon } from 'react-native-elements';
+import { ScrollView, SafeAreaView } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
 import { BASE_URL } from "@env";
 
-import ProfileHeader from './ProfileHeader';
-import OrdersGrid from './OrdersGrid';
+import ProfileHeader from '../../../components/Profile/ProfileHeader';
+import ProfileInformation from '../../../components/Profile/ProfileInformation';
+import OrdersGrid from '../../../components/Profile/OrdersGrid';
+import OrdersFilter from '../../../components/Profile/OrdersFilter';
 
-const ProfileMain = ({ navigation, route }) => {
-    const [friendOrders, setFriendOrders] = useState([]);
-    const { friendUserId, friendName } = route.params;
+const ProfileMain = ({ route, navigation }) => {
+    const [myOrders, setMyOrders] = useState([]);
+    const [likedOrders, setLikedOrders] = useState([]);
+    const [activeTab, setActiveTab] = useState(0);
     const [dripScore, setDripScore] = useState();
 
-    const handleGoToFriendOrdersFeed = (order) => {
-        navigation.navigate('Friend Orders Feed Main', { friendOrders, order })
+    const { friendUserId, friendName } = route.params;
+
+    const handleGoToSettings = () => {
+        navigation.navigate('Settings Main')
+    }
+
+    const handleGoToOrdersFeed = (order) => {
+        const orders = (activeTab === 0 ? myOrders : likedOrders)
+        navigation.navigate('Orders Feed Main', { orders, order })
+    }
+
+    const handleChangeToOrdersTab = () => {
+        if (activeTab !== 0) {
+            setActiveTab(0)
+            axios.get(`${BASE_URL}orders/${friendUserId}`)
+            .then((res) => {
+                setMyOrders(res.data);
+            })
+            .catch((error) => {
+                console.log(error);
+                console.log('Api call error - getting orders');
+            })
+        }
+    }
+
+    const handleChangeToLikedTab = () => {
+        if (activeTab !== 1) {
+            setActiveTab(1)
+            axios.get(`${BASE_URL}orders/liked/${friendUserId}`)
+            .then((res) => {
+                setLikedOrders(res.data);
+            })
+            .catch((error) => {
+                console.log(error);
+                console.log('Api call error - getting liked orders');
+            })
+        }
     }
 
     useFocusEffect(
         useCallback(() => {
-            // get friend orders
+            // get orders
             axios.get(`${BASE_URL}orders/${friendUserId}`)
             .then((res) => {
-                setFriendOrders(res.data);
+                setMyOrders(res.data);
             })
             .catch((error) => {
                 console.log(error);
-                console.log('Api call error - getting friend orders');
+                console.log('Api call error - getting orders');
             })
 
             // get total likes
@@ -39,53 +76,34 @@ const ProfileMain = ({ navigation, route }) => {
                 console.log(error)
             })
 
-            return () => {
-                setFriendOrders([]);
-            };
-
         }, [])
     )
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-            <View style={styles.headerContainer}>
-                <Text style={styles.header}>Profile</Text>
-                <TouchableOpacity
-                    style={styles.icon}
-                >
-                    <Icon name="search" type="font-awesome-5" color="black" size={20} />
-                </TouchableOpacity>
-            </View>
+            <ProfileHeader
+                showSettingsIcon={false}
+            />
             <ScrollView>
-                <ProfileHeader
-                    numberOfOrders={friendOrders.length}
+                <ProfileInformation
+                    numberOfOrders={myOrders.length}
                     dripScore={dripScore}
-                    friendName={friendName}
+                    userName={friendName}
+                    handleGoToSettings={handleGoToSettings}
+                />
+                <OrdersFilter
+                    activeTab={activeTab}
+                    profileId={friendUserId}
+                    handleChangeToOrdersTab={handleChangeToOrdersTab}
+                    handleChangeToLikedTab={handleChangeToLikedTab}
                 />
                 <OrdersGrid
-                    orders={friendOrders}
-                    handleGoToFriendOrdersFeed={handleGoToFriendOrdersFeed}
+                    orders={activeTab === 0 ? myOrders : likedOrders}
+                    handleGoToOrdersFeed={handleGoToOrdersFeed}
                 />
             </ScrollView>
         </SafeAreaView>
     )
 };
-
-const styles = StyleSheet.create({
-    headerContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginHorizontal: 20,
-        marginBottom: 10
-    },
-    header: {
-        fontSize: 24,
-        fontWeight: "bold",
-    },
-    icon: {
-        marginLeft: 20
-    },
-});
 
 export default ProfileMain;

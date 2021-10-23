@@ -8,10 +8,10 @@ import { BASE_URL } from "@env";
 import { useSelector } from "react-redux";
 import { selectUserInfo } from '../../../Redux/userSlice';
 
-import ProfileHeader from './ProfileHeader';
-import ProfileInformation from './ProfileInformation';
-import OrdersGrid from './OrdersGrid';
-import OrdersFilter from './OrdersFilter';
+import ProfileHeader from '../../../components/Profile/ProfileHeader';
+import ProfileInformation from '../../../components/Profile/ProfileInformation';
+import OrdersGrid from '../../../components/Profile/OrdersGrid';
+import OrdersFilter from '../../../components/Profile/OrdersFilter';
 
 const ProfileMain = ({ navigation }) => {
     const [myOrders, setMyOrders] = useState([]);
@@ -84,7 +84,8 @@ const ProfileMain = ({ navigation }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
             <ProfileHeader
-                handleGoToSetting={handleGoToSettings}
+                handleGoToSettings={handleGoToSettings}
+                showSettingsIcon={true}
             />
             <ScrollView>
                 <ProfileInformation
@@ -95,6 +96,7 @@ const ProfileMain = ({ navigation }) => {
                 />
                 <OrdersFilter
                     activeTab={activeTab}
+                    profileId={userInfo.id}
                     handleChangeToOrdersTab={handleChangeToOrdersTab}
                     handleChangeToLikedTab={handleChangeToLikedTab}
                 />
