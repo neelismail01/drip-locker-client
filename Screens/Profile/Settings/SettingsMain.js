@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectUserInfo, clearUser } from "../../../Redux/userSlice";
 import { clearCart } from "../../../Redux/cartSlice";
 
-const ProfileMain = (props) => {
+const ProfileMain = ({ navigation }) => {
     const { name } = useSelector(selectUserInfo);
     const dispatch = useDispatch();
 
@@ -31,7 +31,7 @@ const ProfileMain = (props) => {
                 <View style={styles.categoryContainer}>
                     <TouchableOpacity
                         style={styles.category}
-                        onPress={() => props.navigation.navigate('Personal Information')}
+                        onPress={() => navigation.navigate('Personal Information')}
                     >
                         <View style={styles.iconCategoryContainer}>
                             <View style={styles.iconContainer}>
@@ -43,7 +43,7 @@ const ProfileMain = (props) => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.category}
-                        onPress={() => props.navigation.navigate('Addresses')}
+                        onPress={() => navigation.navigate('Addresses')}
                     >
                         <View style={styles.iconCategoryContainer}>
                             <View style={styles.iconContainer}>
