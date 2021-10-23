@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { selectUserId } from '../../../Redux/userSlice';
 
 import FeedHeader from './FeedHeader';
-import FriendOrderCard from './FriendOrderCard';
+import OrderCard from '../../../components/FeedCard/OrderCard';
 
 const FeedMain = ({ navigation }) => {
     const [friendOrders, setFriendOrders] = useState([]);
@@ -44,7 +44,7 @@ const FeedMain = ({ navigation }) => {
                 {
                     friendOrders.map(order => {
                         return (
-                            <FriendOrderCard
+                            <OrderCard
                                 key={order._id}
                                 order={order}
                                 liked={order.likedBy.includes(userId)}
