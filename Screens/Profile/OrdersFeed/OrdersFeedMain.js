@@ -1,14 +1,12 @@
 import React, { useState, useRef } from "react";
 import { View, ScrollView, SafeAreaView } from "react-native";
-import axios from 'axios';
 
-import { BASE_URL } from "@env";
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../../../Redux/userSlice';
 
 import OrderCard from '../../../components/FeedCard/OrderCard';
 
-const OrdersFeedMain = ({ route }) => {
+const OrdersFeedMain = ({ route, navigation }) => {
     const { order, orders } = route.params;
     const scrollRef = useRef();
     const [dataSourceCords, setDataSourceCords] = useState([]);
@@ -27,10 +25,6 @@ const OrdersFeedMain = ({ route }) => {
         }
     }
 
-    const handleLikePhoto = async (orderId) => {
-        await axios.put(`${BASE_URL}orders/like/${orderId}`, { userId })
-    }
-
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
             <ScrollView ref={scrollRef}>
@@ -44,7 +38,7 @@ const OrdersFeedMain = ({ route }) => {
                                 <OrderCard
                                     order={order}
                                     liked={order.likedBy.includes(userId)}
-                                    handleLikePhoto={handleLikePhoto}
+                                    navigation={navigation}
                                 />
                             </View>
                         )
