@@ -20,7 +20,6 @@ const ProfileMain = ({ navigation, route }) => {
 
     useFocusEffect(
         useCallback(() => {
-
             // get friend orders
             axios.get(`${BASE_URL}orders/${friendUserId}`)
             .then((res) => {

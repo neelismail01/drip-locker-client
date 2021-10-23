@@ -2,8 +2,8 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import FeedMain from '../Screens/Friends/Feed/FeedMain';
-import FriendProfileMain from '../Screens/Friends/FriendProfile/ProfileMain';
-import FriendOrdersFeedMain from '../Screens/Friends/FriendOrdersFeed/FriendOrdersFeedMain';
+import ProfileMain from '../Screens/Friends/Profile/ProfileMain';
+import OrdersFeedMain from '../Screens/Friends/OrdersFeed/OrdersFeedMain';
 import AddFriendMain from '../Screens/Friends/AddFriend/AddFriendMain';
 
 const Stack = createNativeStackNavigator();
@@ -21,14 +21,14 @@ const FriendsNavigator = () => {
                 />
                 <Stack.Screen
                     name="Friend Profile Main"
-                    component={FriendProfileMain}
+                    component={ProfileMain}
                     options={{
                         headerShown: false,
                     }}
                 />
                 <Stack.Screen
                     name="Friend Orders Feed Main"
-                    component={FriendOrdersFeedMain}
+                    component={OrdersFeedMain}
                     options={{
                         headerShown: false,
                     }}

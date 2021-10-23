@@ -6,9 +6,9 @@ import { BASE_URL } from "@env";
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../../../Redux/userSlice';
 
-import FriendOrderCard from './FriendOrderCard';
+import OrderCard from '../../../components/FeedCard/OrderCard';
 
-const FriendOrdersFeedMain = ({ route }) => {
+const OrdersFeedMain = ({ route }) => {
     const { order, friendOrders } = route.params;
     const scrollRef = useRef();
     const [dataSourceCords, setDataSourceCords] = useState([]);
@@ -33,33 +33,26 @@ const FriendOrdersFeedMain = ({ route }) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-            <ScrollView
-                ref={scrollRef}
-            >
+            <ScrollView ref={scrollRef}>
                 {
-                    friendOrders.length > 0 &&
-                    <View>
-                        {
-                            friendOrders.map((order, index) => {
-                                return (
-                                    <View
-                                        key={order._id}
-                                        onLayout={(event) => handleLayout(event, index)}
-                                    >
-                                        <FriendOrderCard
-                                            order={order}
-                                            liked={order.likedBy.includes(userId)}
-                                            handleLikePhoto={handleLikePhoto}
-                                        />
-                                    </View>
-                                )
-                            })
-                        }
-                    </View>
+                    friendOrders.map((order, index) => {
+                        return (
+                            <View
+                                key={order._id}
+                                onLayout={(event) => handleLayout(event, index)}
+                            >
+                                <OrderCard
+                                    order={order}
+                                    liked={order.likedBy.includes(userId)}
+                                    handleLikePhoto={handleLikePhoto}
+                                />
+                            </View>
+                        )
+                    })
                 }
             </ScrollView>
         </SafeAreaView>
     )
 };
 
-export default FriendOrdersFeedMain;
+export default OrdersFeedMain;
