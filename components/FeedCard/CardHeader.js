@@ -1,20 +1,23 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
+import { useSelector } from 'react-redux';
+import { selectUserId } from '../../Redux/userSlice';
+
 const CardHeader = ({ order, handleGoToFriendProfile }) => {
+  const userId = useSelector(selectUserId);
 
   const monthNames = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.", "Jul.", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
   const date = order.dateOrdered.toString().substring(0, order.dateOrdered.toString().indexOf("T"));
   let dateParts = date.split("-");
-  dateParts = dateParts.map((datePart) => {
-      return parseInt(datePart - 1);
-  });
+  dateParts = dateParts.map((datePart) => { return parseInt(datePart - 1) });
   const formattedDate = `${monthNames[dateParts[1]]} ${dateParts[2]}, ${dateParts[0]}`;
 
   return (
       <TouchableOpacity
         style={styles.orderNameContainer}
         onPress={() => handleGoToFriendProfile(order.user.id, order.user.name)}
+        disabled={userId === order.user.id}
       >
         <View style={styles.initialsCircle}>
             <Text style={styles.initialsText}>
@@ -27,7 +30,7 @@ const CardHeader = ({ order, handleGoToFriendProfile }) => {
           <View style={styles.textContainer}>
             <Text style={styles.orderName}>{order.user.name}</Text>
             <Text style={styles.orderDate}>{formattedDate}</Text>
-            </View>
+          </View>
         </View>
       </TouchableOpacity>
   );
