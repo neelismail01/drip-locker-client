@@ -11,7 +11,7 @@ const OrdersFilter = ({ activeTab, profileId, handleChangeToOrdersTab, handleCha
     return (
         <View style={styles.tabsRow}>
             <TouchableOpacity
-                style={profileId !== userId ? styles.orderTabOnlyContainer : [styles.tabContainer, activeTab === 0 && styles.activeTab]}
+                style={[styles.tabContainer, activeTab === 0 && styles.activeTab]}
                 onPress={handleChangeToOrdersTab}
             >
                 <Icon name="receipt" type="font-awesome-5" color="black" size={18} />
@@ -33,13 +33,6 @@ const styles = StyleSheet.create({
     tabsRow: {
         width: "100%",
         flexDirection: "row"
-    },
-    orderTabOnlyContainer: {
-        width: "50%",
-        paddingVertical: 10,
-        alignItems: "center",
-        borderBottomWidth: 1,
-        borderBottomColor: "grey"
     },
     tabContainer: { 
         width: "50%",
