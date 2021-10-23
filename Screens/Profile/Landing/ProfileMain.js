@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { StyleSheet, ScrollView, SafeAreaView, View, Text, TouchableOpacity } from "react-native";
-import { Icon } from 'react-native-elements';
+import { ScrollView, SafeAreaView } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -10,7 +9,9 @@ import { useSelector } from "react-redux";
 import { selectUserInfo } from '../../../Redux/userSlice';
 
 import ProfileHeader from './ProfileHeader';
+import ProfileInformation from './ProfileInformation';
 import OrdersGrid from './OrdersGrid';
+import OrdersFilter from './OrdersFilter';
 
 const ProfileMain = ({ navigation }) => {
     const [myOrders, setMyOrders] = useState([]);
@@ -82,38 +83,21 @@ const ProfileMain = ({ navigation }) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-            <View style={styles.headerContainer}>
-                <Text style={styles.header}>Profile</Text>
-                <View style={styles.iconContainer}>
-                    <TouchableOpacity
-                        onPress={handleGoToSettings}
-                        style={styles.icon}
-                    >
-                        <Icon name="cog" type="font-awesome-5" color="black" size={20} />
-                    </TouchableOpacity>
-                </View>
-            </View>
+            <ProfileHeader
+                handleGoToSetting={handleGoToSettings}
+            />
             <ScrollView>
-                <ProfileHeader
+                <ProfileInformation
                     numberOfOrders={myOrders.length}
                     dripScore={dripScore}
                     userName={userInfo.name}
                     handleGoToSettings={handleGoToSettings}
                 />
-                <View style={styles.tabsRow}>
-                    <TouchableOpacity
-                        style={[styles.tabContainer, activeTab === 0 && styles.activeTab]}
-                        onPress={handleChangeToOrdersTab}
-                    >
-                        <Icon name="receipt" type="font-awesome-5" color="black" size={18} />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.tabContainer, activeTab === 1 && styles.activeTab]}
-                        onPress={handleChangeToLikedTab}
-                    >
-                        <Icon name="favorite" type="material" color="black" size={20} />
-                    </TouchableOpacity>
-                </View>
+                <OrdersFilter
+                    activeTab={activeTab}
+                    handleChangeToOrdersTab={handleChangeToOrdersTab}
+                    handleChangeToLikedTab={handleChangeToLikedTab}
+                />
                 <OrdersGrid
                     orders={activeTab === 0 ? myOrders : likedOrders}
                     handleGoToOrdersFeed={handleGoToOrdersFeed}
@@ -122,39 +106,5 @@ const ProfileMain = ({ navigation }) => {
         </SafeAreaView>
     )
 };
-
-const styles = StyleSheet.create({
-    headerContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginHorizontal: 20,
-        marginBottom: 10
-    },
-    header: {
-        fontSize: 24,
-        fontWeight: "bold",
-    },
-    iconContainer: {
-        justifyContent: "flex-end",
-        flexDirection: "row"
-    },
-    icon: {
-        marginLeft: 20
-    },
-    tabsRow: {
-        width: "100%",
-        flexDirection: "row"
-    },
-    tabContainer: { 
-        width: "50%",
-        paddingVertical: 10,
-        alignItems: "center",
-    },
-    activeTab: {
-        borderBottomWidth: 1,
-        borderBottomColor: "grey"
-    }
-});
 
 export default ProfileMain;
