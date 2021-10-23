@@ -6,7 +6,7 @@ import { BASE_URL } from "@env";
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../../../Redux/userSlice';
 
-import OrderCard from './OrderCard';
+import OrderCard from '../../../components/FeedCard/OrderCard';
 
 const OrdersFeedMain = ({ route }) => {
     const { order, orders } = route.params;
@@ -33,29 +33,22 @@ const OrdersFeedMain = ({ route }) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-            <ScrollView
-                ref={scrollRef}
-            >
+            <ScrollView ref={scrollRef}>
                 {
-                    orders.length > 0 &&
-                    <View>
-                        {
-                            orders.map((order, index) => {
-                                return (
-                                    <View
-                                        key={order._id}
-                                        onLayout={(event) => handleLayout(event, index)}
-                                    >
-                                        <OrderCard
-                                            order={order}
-                                            liked={order.likedBy.includes(userId)}
-                                            handleLikePhoto={handleLikePhoto}
-                                        />
-                                    </View>
-                                )
-                            })
-                        }
-                    </View>
+                    orders.map((order, index) => {
+                        return (
+                            <View
+                                key={order._id}
+                                onLayout={(event) => handleLayout(event, index)}
+                            >
+                                <OrderCard
+                                    order={order}
+                                    liked={order.likedBy.includes(userId)}
+                                    handleLikePhoto={handleLikePhoto}
+                                />
+                            </View>
+                        )
+                    })
                 }
             </ScrollView>
         </SafeAreaView>
