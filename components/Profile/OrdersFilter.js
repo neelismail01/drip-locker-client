@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { selectUserId } from '../../Redux/userSlice';
 
 const OrdersFilter = ({ activeTab, profileId, handleChangeToOrdersTab, handleChangeToLikedTab }) => {
-    const userId = useSelector(selectUserId);
+    const user_id = useSelector(selectUserId);
 
     return (
         <View style={styles.tabsRow}>
@@ -17,7 +17,7 @@ const OrdersFilter = ({ activeTab, profileId, handleChangeToOrdersTab, handleCha
                 <Icon name="receipt" type="font-awesome-5" color="black" size={18} />
             </TouchableOpacity>
             {
-                profileId === userId &&
+                profileId === user_id &&
                 <TouchableOpacity
                     style={[styles.tabContainer, activeTab === 1 && styles.activeTab]}
                     onPress={handleChangeToLikedTab}
