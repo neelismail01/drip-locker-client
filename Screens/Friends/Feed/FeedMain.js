@@ -12,7 +12,7 @@ import OrderCard from '../../../components/FeedCard/OrderCard';
 
 const FeedMain = ({ navigation }) => {
     const [friendOrders, setFriendOrders] = useState([]);
-    const userId = useSelector(selectUserId);
+    const user_id = useSelector(selectUserId);
 
     const handleGoToFriendSearch = () => {
         navigation.navigate('Add Friend Main')
@@ -20,7 +20,7 @@ const FeedMain = ({ navigation }) => {
 
     useFocusEffect(
         useCallback(() => {
-            axios.get(`${BASE_URL}orders/friendOrders/${userId}`)
+            axios.get(`${BASE_URL}orders/friendOrders/${user_id}`)
             .then((res) => {
                 setFriendOrders(res.data);
             })
@@ -47,7 +47,7 @@ const FeedMain = ({ navigation }) => {
                             <OrderCard
                                 key={order._id}
                                 order={order}
-                                liked={order.likedBy.includes(userId)}
+                                liked={order.likedBy.includes(user_id)}
                                 navigation={navigation}
                             />
                         )

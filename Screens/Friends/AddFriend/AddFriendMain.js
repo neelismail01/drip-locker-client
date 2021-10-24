@@ -20,7 +20,7 @@ const AddFriendMain = ({ navigation }) => {
   const [friends, setFriends] = useState([]);
   const [newFriends, setNewFriends] = useState([]);
 
-  const userId = useSelector(selectUserId);
+  const user_id = useSelector(selectUserId);
 
   const handleAcceptFriendRequest = async (friendRequest) => {
     try {
@@ -29,7 +29,7 @@ const AddFriendMain = ({ navigation }) => {
         requester: friendRequest.requester._id,
         recipient: friendRequest.recipient._id,
       };
-      const response = await axios.put(`${BASE_URL}friends/acceptFriendRequest`, requestData);
+      await axios.put(`${BASE_URL}friends/acceptFriendRequest`, requestData);
     } catch (err) {
       console.log("Error accepting friend request");
       console.log(err);
@@ -39,23 +39,23 @@ const AddFriendMain = ({ navigation }) => {
   const handleSendFriendRequest = async (recipient) => {
     try {
       const requestData = {
-        requester: userId,
+        requester: user_id,
         recipient: recipient,
       };
-      const response = await axios.post(`${BASE_URL}friends/sendFriendRequest`, requestData);
+      await axios.post(`${BASE_URL}friends/sendFriendRequest`, requestData);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleGoToFriendProfile = (friendUserId, friendName) => {
-    navigation.navigate("Friend Profile Main", { friendUserId, friendName });
+  const handleGoToFriendProfile = (userId, userName) => {
+    navigation.navigate("Profile Main", { userId, userName });
   };
 
   const handleSearch = async (text) => {
     try {
       if (text.length > 0) {
-        const response = await axios.get(`${BASE_URL}friends/search/${userId}?searchTerm=${text}`);
+        const response = await axios.get(`${BASE_URL}friends/search/${user_id}?searchTerm=${text}`);
         setReceivedRequests(response.data.friendRequests);
         setFriends(response.data.friends);
         setNewFriends(response.data.newUsers);
@@ -81,7 +81,7 @@ const AddFriendMain = ({ navigation }) => {
         {friends.length > 0 && (
           <CurrentFriends
             friends={friends}
-            userId={userId}
+            userId={user_id}
             handleGoToFriendProfile={handleGoToFriendProfile}
           />
         )}

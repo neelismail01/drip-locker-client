@@ -11,7 +11,7 @@ const OrdersFeedMain = ({ route, navigation }) => {
     const scrollRef = useRef();
     const [dataSourceCords, setDataSourceCords] = useState([]);
 
-    const userId = useSelector(selectUserId);
+    const user_id = useSelector(selectUserId);
 
     const handleLayout = (event, index) => {
         const layout = event.nativeEvent.layout;
@@ -37,7 +37,7 @@ const OrdersFeedMain = ({ route, navigation }) => {
                             >
                                 <OrderCard
                                     order={order}
-                                    liked={order.likedBy.includes(userId)}
+                                    liked={order.likedBy.includes(user_id)}
                                     navigation={navigation}
                                 />
                             </View>

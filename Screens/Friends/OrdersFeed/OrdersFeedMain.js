@@ -7,11 +7,11 @@ import { selectUserId } from '../../../Redux/userSlice';
 import OrderCard from '../../../components/FeedCard/OrderCard';
 
 const OrdersFeedMain = ({ route, navigation }) => {
-    const { order, friendOrders } = route.params;
+    const { order, orders } = route.params;
     const scrollRef = useRef();
     const [dataSourceCords, setDataSourceCords] = useState([]);
 
-    const userId = useSelector(selectUserId);
+    const user_id = useSelector(selectUserId);
 
     const handleLayout = (event, index) => {
         const layout = event.nativeEvent.layout; 
@@ -20,7 +20,7 @@ const OrdersFeedMain = ({ route, navigation }) => {
         if (dataSourceCords.indexOf(undefined) === -1) {
             scrollRef.current.scrollTo({
                 x: 0,
-                y: dataSourceCords[friendOrders.indexOf(order)]
+                y: dataSourceCords[orders.indexOf(order)]
             })
         }
     }
@@ -29,7 +29,7 @@ const OrdersFeedMain = ({ route, navigation }) => {
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
             <ScrollView ref={scrollRef}>
                 {
-                    friendOrders.map((order, index) => {
+                    orders.map((order, index) => {
                         return (
                             <View
                                 key={order._id}
@@ -37,7 +37,7 @@ const OrdersFeedMain = ({ route, navigation }) => {
                             >
                                 <OrderCard
                                     order={order}
-                                    liked={order.likedBy.includes(userId)}
+                                    liked={order.likedBy.includes(user_id)}
                                     navigation={navigation}
                                 />
                             </View>

@@ -15,15 +15,15 @@ const OrderCard = ({ order, liked, navigation }) => {
   const [imageActive, setImageActive] = useState(0);
   const [isLiked, setIsLiked] = useState(liked);
 
-  const userId = useSelector(selectUserId);
+  const user_id = useSelector(selectUserId);
 
   const handleLikePhoto = async () => {
     setIsLiked(!isLiked)
-    await axios.put(`${BASE_URL}orders/like/${order._id}`, { userId })
+    await axios.put(`${BASE_URL}orders/like/${order._id}`, { user_id })
   }
 
-  const handleGoToFriendProfile = (friendUserId, friendName) => {
-    navigation.navigate('Friend Profile Main', { friendUserId, friendName })
+  const handleGoToFriendProfile = (userId, userName) => {
+    navigation.push('Profile Main', { userId, userName })
   }
   
   const onchange = (nativeEvent) => {

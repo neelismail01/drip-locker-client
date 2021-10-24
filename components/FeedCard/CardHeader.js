@@ -1,12 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
-import { useSelector } from 'react-redux';
-import { selectUserId } from '../../Redux/userSlice';
-
 const CardHeader = ({ order, handleGoToFriendProfile }) => {
-  const userId = useSelector(selectUserId);
-
   const monthNames = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.", "Jul.", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
   const date = order.dateOrdered.toString().substring(0, order.dateOrdered.toString().indexOf("T"));
   let dateParts = date.split("-");
@@ -17,7 +12,6 @@ const CardHeader = ({ order, handleGoToFriendProfile }) => {
       <TouchableOpacity
         style={styles.orderNameContainer}
         onPress={() => handleGoToFriendProfile(order.user.id, order.user.name)}
-        disabled={userId === order.user.id}
       >
         <View style={styles.initialsCircle}>
             <Text style={styles.initialsText}>

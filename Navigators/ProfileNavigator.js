@@ -1,7 +1,7 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import ProfileMain from '../Screens/Profile/Landing/ProfileMain';
+import ProfileMain from '../Screens/Profile/Landing/UserProfile';
 import SettingsMain from '../Screens/Profile/Settings/SettingsMain';
 import PersonalInformation from '../Screens/Profile/EditPersonalInformation/PersonalInformation';
 import Addresses from '../Screens/Profile/EditAddress/Addresses';
