@@ -1,24 +1,34 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
-import { BASE_URL } from "@env";
-
-import { useDispatch } from 'react-redux';
-import { setUserInfo } from '../../../Redux/userSlice';
+import { AWS_BASE_URL } from "@env";
+import { useDispatch } from "react-redux";
+import { setAccessToken, setUserInfo } from "../../../Redux/userSlice";
 
 const LoginForm = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     const dispatch = useDispatch();
 
     const handleLogin = async () => {
+        await AsyncStorage.removeItem('access_token')
         try {
-            const response = await axios.post(`${BASE_URL}users/login`, { email, password })
-            dispatch(setUserInfo(response.data.userInfo));
+            const response = await axios.post(`${AWS_BASE_URL}users/login`, { email, password });
+            if (response.status === 200) {
+                await AsyncStorage.setItem('access_token', response.data.body.accessToken);
+                dispatch(setAccessToken(response.data.body.accessToken));
+                dispatch(setUserInfo(response.data.body.userInfo));
+                setError('');
+            } else {
+                setError(response.data.body);
+            }
         } catch (err) {
+            setError('An error occurred while logging in. Please try again.');
             console.log(err);
             console.log('An error occurred while logging in. Please try again.');
         }
@@ -52,6 +62,10 @@ const LoginForm = () => {
                 >
                     <Text style={styles.buttonText}>Sign In</Text>
                 </TouchableOpacity>
+                {
+                    error.length > 0 &&
+                    <Text style={styles.errorMessage}>{error}</Text>
+                }
             </View>
         </View>
     )
@@ -97,7 +111,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 7.5,
-        marginTop: 30,
+        marginVertical: 30,
         backgroundColor: "black",
         shadowColor: '#171717',
         shadowOffset: { width: -2, height: 8 },
@@ -108,6 +122,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
         color: "white"
+    },
+    errorMessage: {
+        color: "red"
     }
 })
 
