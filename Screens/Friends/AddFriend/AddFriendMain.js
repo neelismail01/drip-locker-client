@@ -6,30 +6,25 @@ import {
   TextInput,
 } from "react-native";
 import axios from "axios";
-import { BASE_URL } from "@env";
+import { AWS_BASE_URL } from "@env";
 
 import SearchResults from "./SearchResults";
 import ReceivedRequests from "./ReceivedRequests";
 import CurrentFriends from "./CurrentFriends";
 
 import { useSelector } from "react-redux";
-import { selectUserId } from "../../../Redux/userSlice";
+import { selectAccessToken } from "../../../Redux/userSlice";
 
 const AddFriendMain = ({ navigation }) => {
   const [receivedRequests, setReceivedRequests] = useState([]);
   const [friends, setFriends] = useState([]);
   const [newFriends, setNewFriends] = useState([]);
 
-  const user_id = useSelector(selectUserId);
+  const accessToken = useSelector(selectAccessToken);
 
   const handleAcceptFriendRequest = async (friendRequest) => {
     try {
-      const requestData = {
-        requestId: friendRequest._id,
-        requester: friendRequest.requester._id,
-        recipient: friendRequest.recipient._id,
-      };
-      await axios.put(`${BASE_URL}friends/acceptFriendRequest`, requestData);
+      await axios.put(`${AWS_BASE_URL}friends/${friendRequest._id}`, { headers: { 'authorization': accessToken } });
     } catch (err) {
       console.log("Error accepting friend request");
       console.log(err);
@@ -39,10 +34,9 @@ const AddFriendMain = ({ navigation }) => {
   const handleSendFriendRequest = async (recipient) => {
     try {
       const requestData = {
-        requester: user_id,
         recipient: recipient,
       };
-      await axios.post(`${BASE_URL}friends/sendFriendRequest`, requestData);
+      await axios.post(`${AWS_BASE_URL}friends`, { headers: { 'authorization': accessToken } }, requestData);
     } catch (err) {
       console.log(err);
     }
@@ -55,10 +49,10 @@ const AddFriendMain = ({ navigation }) => {
   const handleSearch = async (text) => {
     try {
       if (text.length > 0) {
-        const response = await axios.get(`${BASE_URL}friends/search/${user_id}?searchTerm=${text}`);
-        setReceivedRequests(response.data.friendRequests);
-        setFriends(response.data.friends);
-        setNewFriends(response.data.newUsers);
+        const response = await axios.get(`${AWS_BASE_URL}users?searchTerm=${text}`, { headers: { 'authorization': accessToken } });
+        setReceivedRequests(response.data.body.friendRequests);
+        setFriends(response.data.body.friends);
+        setNewFriends(response.data.body.newUsers);
       } else {
         setReceivedRequests([]);
         setFriends([]);
