@@ -6,6 +6,7 @@ export const CLEAR_CART = "CLEAR_CART";
 export const SET_USER_INFO = "SET_USER_INFO";
 export const CLEAR_USER = "CLEAR_USER";
 
+export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN";
 export const SET_NAME = "SET_NAME";
 export const SET_EMAIL = "SET_EMAIL";
 export const SET_ADDRESS = "SET_ADDRESS";
