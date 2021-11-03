@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import axios from 'axios';
 
-import { BASE_URL } from "@env";
+import { AWS_BASE_URL } from "@env";
 import { useSelector } from 'react-redux';
-import { selectUserId } from '../../Redux/userSlice';
+import { selectAccessToken } from '../../Redux/userSlice';
 
 import CardHeader from './CardHeader';
 import StoreBar from './StoreBar';
@@ -15,11 +15,14 @@ const OrderCard = ({ order, liked, navigation }) => {
   const [imageActive, setImageActive] = useState(0);
   const [isLiked, setIsLiked] = useState(liked);
 
-  const user_id = useSelector(selectUserId);
+  const accessToken = useSelector(selectAccessToken);
 
   const handleLikePhoto = async () => {
+    const requestData = {
+      alreadyLiked: isLiked
+    }
     setIsLiked(!isLiked)
-    await axios.put(`${BASE_URL}orders/like/${order._id}`, { user_id })
+    await axios.put(`${AWS_BASE_URL}orders/${order._id}/likes`, { headers: { 'authorization': accessToken } }, requestData)
   }
 
   const handleGoToFriendProfile = (userId, userName) => {
