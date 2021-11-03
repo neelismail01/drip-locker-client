@@ -39,12 +39,11 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 id: action.payload.id,
-                email: action.payload.email,
                 name: action.payload.name,
-                addresses: action.payload.address
+                email: action.payload.email
             }
         case CLEAR_USER:
-            return state = {};
+            return state = initialState;
     }
     return state;
 }
@@ -55,4 +54,3 @@ export const selectIsLoggedIn = (state) => state.userInfo.accessToken.length > 0
 export const selectAccessToken = (state) => state.userInfo.accessToken;
 export const selectUserInfo = (state) => state.userInfo;
 export const selectUserId = (state) => state.userInfo.id;
-export const selectUserAddresses = (state) => state.userInfo.addresses;
