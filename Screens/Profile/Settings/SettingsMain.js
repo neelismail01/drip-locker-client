@@ -1,6 +1,7 @@
 import React from "react";
 import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Icon } from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useSelector, useDispatch } from "react-redux";
 import { selectUserInfo, clearUser } from "../../../Redux/userSlice";
@@ -10,9 +11,10 @@ const ProfileMain = ({ navigation }) => {
     const { name } = useSelector(selectUserInfo);
     const dispatch = useDispatch();
 
-    const handleLogoutUser = () => {
+    const handleLogoutUser = async () => {
         dispatch(clearCart());
         dispatch(clearUser());
+        await AsyncStorage.removeItem('access_token');
     }
 
     return (
