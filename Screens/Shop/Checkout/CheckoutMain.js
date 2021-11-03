@@ -34,17 +34,18 @@ const CheckoutMain = ({ navigation }) => {
                 business: cartItems[0].product.business._id,
                 orderItems: cartItems.map(item => {
                     return {
-                        id: item.product.id,
+                        product: item.product.id,
                         quantity: item.quantity, 
-                        description: item.product.description,
-                        image: item.product.image
                     }
                 }),
                 shippingAddress: activeAddress,
                 totalPrice: cartValue,
                 totalQuantity: cartSize,
+                dateOrdered: Date.now(),
+                likedBy: [],
+                user: userInfo.id
             }
-            await axios.post(`${BASE_URL}orders/${userInfo.id}`, order);
+            await axios.post(`https://4r84cu44c4.execute-api.us-east-1.amazonaws.com/beta/orders`, order);
             navigation.navigate('Shop Main');
             dispatch(clearCart());
         } catch (err) {
