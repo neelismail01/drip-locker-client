@@ -1,18 +1,18 @@
 import React, { useState, useCallback } from "react";
-import { ScrollView, SafeAreaView } from "react-native";
+import { ScrollView, SafeAreaView, Button } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
-import { BASE_URL } from "@env";
+import { AWS_BASE_URL } from "@env";
 import { useSelector } from 'react-redux';
-import { selectUserId } from '../../../Redux/userSlice';
+import { selectAccessToken } from '../../../Redux/userSlice';
 
 import FeedHeader from './FeedHeader';
 import OrderCard from '../../../components/FeedCard/OrderCard';
 
 const FeedMain = ({ navigation }) => {
     const [friendOrders, setFriendOrders] = useState([]);
-    const user_id = useSelector(selectUserId);
+    const accessToken = useSelector(selectAccessToken);
 
     const handleGoToFriendSearch = () => {
         navigation.navigate('Add Friend Main')
@@ -20,14 +20,18 @@ const FeedMain = ({ navigation }) => {
 
     useFocusEffect(
         useCallback(() => {
-            axios.get(`${BASE_URL}orders/friendOrders/${user_id}`)
-            .then((res) => {
-                setFriendOrders(res.data);
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log('Api call error - getting friend orders');
-            })
+
+            const getFriendOrders = async () => {
+                try {
+                    const response = await axios.get(`${AWS_BASE_URL}orders/friends`, { headers: { 'authorization': accessToken } });
+                    setFriendOrders(response.data.body);
+                } catch (err) {
+                    console.log(err);
+                    console.log('Api call error - getting friend orders');
+                }
+            }
+
+            getFriendOrders();
 
             return () => {
                 setFriendOrders([]);
