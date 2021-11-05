@@ -25,7 +25,10 @@ export const clearUser = () => {
 
 // REDUCER
 const initialState = {
-    accessToken: ''
+    accessToken: '',
+    id: '',
+    name: '',
+    email: ''
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -38,7 +41,7 @@ export const userReducer = (state = initialState, action) => {
         case SET_USER_INFO:
             return {
                 ...state,
-                id: action.payload.id,
+                id: action.payload._id,
                 name: action.payload.name,
                 email: action.payload.email
             }
