@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { View, StyleSheet, Text } from "react-native";
 import { Icon } from 'react-native-elements'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import AuthenticationNavigator from './AuthenticationNavigator';
-import ShopNavigator from './ShopNavigator';
 import FriendsNavigator from './FriendsNavigator';
 import ProfileNavigator from './ProfileNavigator';
 
@@ -35,7 +35,7 @@ const Main = () => {
     if (isLoggedIn) {
         return (
             <Tab.Navigator
-                initialRouteName="Friends"
+                initialRouteName="Home"
                 screenOptions={{
                     keyboardHidesTabBar: true,
                     tabBarActiveTintColor: "black",
@@ -43,21 +43,65 @@ const Main = () => {
                 }}
             >
                 <Tab.Screen
-                    name="Shop"
-                    component={ShopNavigator}
+                    name="Home"
+                    component={FriendsNavigator}
                     options={{
                         tabBarIcon: ({ color }) => (
-                          <Icon name="shopping-bag" type="font-awesome-5" color={color} size={24} />
+                            <Icon
+                                name={'home'}
+                                type={'material'}
+                                color={color}
+                                size={28}
+                            />
+                        ),
+                        labelStyle: [{  }],
+                        headerShown: false
+                    }}
+                />
+                <Tab.Screen
+                    name="Search"
+                    component={ProfileNavigator}
+                    options={{
+                        tabBarIcon: ({ color }) => (
+                            <Icon
+                                name={'search'}
+                                type={'material'}
+                                color={color}
+                                size={28}
+                            />
+                        ),
+                        labelStyle: [{  }],
+                        headerShown: false
+                    }}
+                />
+                <Tab.Screen
+                    name="Post"
+                    component={FriendsNavigator}
+                    options={{
+                        tabBarIcon: () => (
+                            <View style={styles.postButton }>
+                                <Icon
+                                    name="add"
+                                    type="material"
+                                    color={'white'}
+                                    size={24}
+                                />
+                            </View>
                         ),
                         headerShown: false
                     }}
                 />
                 <Tab.Screen
-                    name="Friends"
-                    component={FriendsNavigator}
+                    name="Trending"
+                    component={ProfileNavigator}
                     options={{
                         tabBarIcon: ({ color }) => (
-                          <Icon name="users" type="font-awesome-5" color={color} size={24} />
+                          <Icon
+                            name="trending-up"
+                            type="material"
+                            color={color}
+                            size={28}
+                        />
                         ),
                         headerShown: false
                     }}
@@ -67,7 +111,12 @@ const Main = () => {
                     component={ProfileNavigator}
                     options={{
                         tabBarIcon: ({ color }) => (
-                          <Icon name="user-circle" type="font-awesome-5" color={color} size={24} />
+                          <Icon
+                            name="person"
+                            type="material"
+                            color={color}
+                            size={28}
+                        />
                         ),
                         headerShown: false
                     }}
@@ -78,5 +127,20 @@ const Main = () => {
         return <AuthenticationNavigator />
     }
 }
+
+const styles = StyleSheet.create({
+    postButton: {
+        height: 30,
+        width: 40,
+        borderRadius: 5,
+        backgroundColor: "black",
+        justifyContent: "center",
+        alignItems: "center",
+        shadowColor: '#171717',
+        shadowOffset: { width: -2, height: 8 },
+        shadowOpacity: 0.2,
+        shadowRadius: 7
+    }
+})
 
 export default Main;
