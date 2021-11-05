@@ -8,7 +8,7 @@ const ProfileHeader = ({ handleGoToSettings, showSettingsIcon }) => {
             <Text style={styles.header}>Profile</Text>
             {
                 showSettingsIcon &&
-                <View style={styles.iconContainer}>
+                <View style={styles.iconsContainer}>
                     <TouchableOpacity
                         onPress={handleGoToSettings}
                         style={styles.icon}
@@ -33,9 +33,9 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "bold",
     },
-    iconContainer: {
-        justifyContent: "flex-end",
-        flexDirection: "row"
+    iconsContainer: {
+        flexDirection: "row",
+        alignItems: "center"
     },
     icon: {
         marginLeft: 20
