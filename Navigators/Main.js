@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from 'react-native-elements'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -39,7 +39,7 @@ const Main = () => {
                 screenOptions={{
                     keyboardHidesTabBar: true,
                     tabBarActiveTintColor: "black",
-                    tabBarShowLabel: false
+                    tabBarShowLabel: true
                 }}
             >
                 <Tab.Screen
@@ -51,7 +51,7 @@ const Main = () => {
                                 name={'home'}
                                 type={'material'}
                                 color={color}
-                                size={28}
+                                size={24}
                             />
                         ),
                         labelStyle: [{  }],
@@ -67,7 +67,7 @@ const Main = () => {
                                 name={'search'}
                                 type={'material'}
                                 color={color}
-                                size={28}
+                                size={24}
                             />
                         ),
                         labelStyle: [{  }],
@@ -79,15 +79,16 @@ const Main = () => {
                     component={FriendsNavigator}
                     options={{
                         tabBarIcon: () => (
-                            <View style={styles.postButton }>
+                            <TouchableOpacity style={styles.postButton }>
                                 <Icon
                                     name="add"
                                     type="material"
-                                    color={'white'}
-                                    size={24}
+                                    color={'black'}
+                                    size={28}
                                 />
-                            </View>
+                            </TouchableOpacity>
                         ),
+                        tabBarLabel: () => null,
                         headerShown: false
                     }}
                 />
@@ -100,7 +101,7 @@ const Main = () => {
                             name="trending-up"
                             type="material"
                             color={color}
-                            size={28}
+                            size={24}
                         />
                         ),
                         headerShown: false
@@ -115,7 +116,7 @@ const Main = () => {
                             name="person"
                             type="material"
                             color={color}
-                            size={28}
+                            size={24}
                         />
                         ),
                         headerShown: false
@@ -130,10 +131,11 @@ const Main = () => {
 
 const styles = StyleSheet.create({
     postButton: {
-        height: 30,
-        width: 40,
-        borderRadius: 5,
-        backgroundColor: "black",
+        height: 35,
+        width: 35,
+        borderRadius: 17.5,
+        borderWidth: 1,
+        borderColor: "black",
         justifyContent: "center",
         alignItems: "center",
         shadowColor: '#171717',
