@@ -5,14 +5,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useSelector, useDispatch } from "react-redux";
 import { selectUserInfo, clearUser } from "../../../Redux/userSlice";
-import { clearCart } from "../../../Redux/cartSlice";
 
 const ProfileMain = ({ navigation }) => {
     const { name } = useSelector(selectUserInfo);
     const dispatch = useDispatch();
 
     const handleLogoutUser = async () => {
-        dispatch(clearCart());
         dispatch(clearUser());
         await AsyncStorage.removeItem('access_token');
     }
@@ -40,18 +38,6 @@ const ProfileMain = ({ navigation }) => {
                                 <Icon name="user" type="font-awesome-5" color="black" size={22} />
                             </View>
                             <Text style={styles.categoryText}>Personal Information</Text>
-                        </View>
-                        <Icon name="angle-right" type="font-awesome-5" color="black" size={22} />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.category}
-                        onPress={() => navigation.navigate('Addresses')}
-                    >
-                        <View style={styles.iconCategoryContainer}>
-                            <View style={styles.iconContainer}>
-                                <Icon name="home" type="font-awesome-5" color="black" size={22} />
-                            </View>
-                            <Text style={styles.categoryText}>Addresses</Text>
                         </View>
                         <Icon name="angle-right" type="font-awesome-5" color="black" size={22} />
                     </TouchableOpacity>
