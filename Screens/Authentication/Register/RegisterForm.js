@@ -1,75 +1,79 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import GetName from './GetName';
 import GetEmail from './GetEmail';
-import GetAddress from './GetAddress';
 import GetPassword from './GetPassword';
 import ConfirmRegistration from './ConfirmRegistration';
 
-import { BASE_URL } from "@env";
+import { AWS_BASE_URL } from "@env";
 
-import { useDispatch, useSelector } from 'react-redux';
-import { setName, setEmail, setPassword, selectRegisterInfo, clearRegister } from '../../../Redux/registerSlice';
-import { setUserInfo } from '../../../Redux/userSlice';
+import { useDispatch } from 'react-redux';
+import { setAccessToken, setUserInfo } from "../../../Redux/userSlice";
 
-const RegisterForm = ({ navigation }) => {
+const RegisterForm = () => {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     const dispatch = useDispatch();
-    const registerData = useSelector(selectRegisterInfo);
 
     const handleSetName = (data) => {
-        dispatch(setName(data))
+        setName(data);
     }
 
     const handleSetEmail = (data) => {
-        dispatch(setEmail(data))
+        setEmail(data);
     }
 
     const handleSetPassword = (data) => {
-        dispatch(setPassword(data))
+        setPassword(data);
     }
 
     const handleRegister = async () => {
         try {
-            const response = await axios.post(`${BASE_URL}users/register`, registerData)
-            dispatch(setUserInfo(response.data.userInfo));
-            dispatch(clearRegister())
+            const registerData = { name, email, password }
+            const response = await axios.post(`${AWS_BASE_URL}users/register`, registerData);
+            if (response.status === 200) {
+                await AsyncStorage.setItem('access_token', response.data.body.accessToken);
+                dispatch(setAccessToken(response.data.body.accessToken));
+                dispatch(setUserInfo(response.data.body.userInfo));
+            } else {
+                setError(response.data.body);
+            }
         } catch (err) {
+            setError('An error occurred while creating your account. Please try again.');
             console.log(err);
             console.log('An error occurred while creating your account. Please try again.');
         }
     }
 
-    if (registerData.password !== undefined) {
+    if (name === '') {
         return (
-            <ConfirmRegistration
-                handleRegister={handleRegister}
-            /> 
-        )
-    } else if (registerData.fullAddress !== undefined) {
-        return (
-            <GetPassword
-                handleSetPassword={handleSetPassword}
+            <GetName
+                handleSetName={handleSetName}
             />
-        ) 
-    } else if (registerData.email !== undefined) {
-        return (
-            <GetAddress
-                navigation={navigation}
-            />          
         )
-    } else if (registerData.name !== undefined) {
+    } else if (email === '') {
         return (
             <GetEmail
                 handleSetEmail={handleSetEmail}
             /> 
         )
+    } else if (password === '') {
+        return (
+            <GetPassword
+                handleSetPassword={handleSetPassword}
+            /> 
+        )
     } else {
         return (
-            <GetName
-                handleSetName={handleSetName}
-            />
+            <ConfirmRegistration
+                handleRegister={handleRegister}
+                error={error}
+            /> 
         )
     }
 }
