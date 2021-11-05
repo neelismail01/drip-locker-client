@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import { AWS_BASE_URL } from "@env";
 import { useSelector } from 'react-redux';
-import { selectAccessToken } from '../../../Redux/userSlice';
+import { selectAccessToken, selectUserId } from '../../../Redux/userSlice';
 
 import FeedHeader from './FeedHeader';
 import OrderCard from '../../../components/FeedCard/OrderCard';
@@ -13,6 +13,7 @@ import OrderCard from '../../../components/FeedCard/OrderCard';
 const FeedMain = ({ navigation }) => {
     const [friendOrders, setFriendOrders] = useState([]);
     const accessToken = useSelector(selectAccessToken);
+    const userId = useSelector(selectUserId)
 
     const handleGoToFriendSearch = () => {
         navigation.navigate('Add Friend Main')
@@ -23,7 +24,8 @@ const FeedMain = ({ navigation }) => {
 
             const getFriendOrders = async () => {
                 try {
-                    const response = await axios.get(`${AWS_BASE_URL}orders/friends`, { headers: { 'authorization': accessToken } });
+                    const response = await axios.get(`${AWS_BASE_URL}orders/friends`, { headers: { 'authorization': `Bearer ${accessToken}` } });
+                    console.log(response.data.body);
                     setFriendOrders(response.data.body);
                 } catch (err) {
                     console.log(err);
@@ -51,7 +53,7 @@ const FeedMain = ({ navigation }) => {
                             <OrderCard
                                 key={order._id}
                                 order={order}
-                                liked={order.likedBy.includes(user_id)}
+                                liked={order.likedBy.includes(userId)}
                                 navigation={navigation}
                             />
                         )

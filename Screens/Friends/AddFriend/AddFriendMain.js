@@ -24,7 +24,7 @@ const AddFriendMain = ({ navigation }) => {
 
   const handleAcceptFriendRequest = async (friendRequest) => {
     try {
-      await axios.put(`${AWS_BASE_URL}friends/${friendRequest._id}`, { headers: { 'authorization': accessToken } });
+      await axios.put(`${AWS_BASE_URL}friends/${friendRequest._id}`, { headers: { 'authorization': `Bearer ${accessToken}` } });
     } catch (err) {
       console.log("Error accepting friend request");
       console.log(err);
@@ -36,7 +36,7 @@ const AddFriendMain = ({ navigation }) => {
       const requestData = {
         recipient: recipient,
       };
-      await axios.post(`${AWS_BASE_URL}friends`, { headers: { 'authorization': accessToken } }, requestData);
+      await axios.post(`${AWS_BASE_URL}friends`, { headers: { 'authorization': `Bearer ${accessToken}` } }, requestData);
     } catch (err) {
       console.log(err);
     }
@@ -49,7 +49,7 @@ const AddFriendMain = ({ navigation }) => {
   const handleSearch = async (text) => {
     try {
       if (text.length > 0) {
-        const response = await axios.get(`${AWS_BASE_URL}users?searchTerm=${text}`, { headers: { 'authorization': accessToken } });
+        const response = await axios.get(`${AWS_BASE_URL}users?searchTerm=${text}`, { headers: { 'authorization': `Bearer ${accessToken}` } });
         setReceivedRequests(response.data.body.friendRequests);
         setFriends(response.data.body.friends);
         setNewFriends(response.data.body.newUsers);

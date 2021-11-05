@@ -22,7 +22,7 @@ const OrderCard = ({ order, liked, navigation }) => {
       alreadyLiked: isLiked
     }
     setIsLiked(!isLiked)
-    await axios.put(`${AWS_BASE_URL}orders/${order._id}/likes`, { headers: { 'authorization': accessToken } }, requestData)
+    await axios.put(`${AWS_BASE_URL}orders/${order._id}/likes`, { headers: { 'authorization': `Bearer ${accessToken}` } }, requestData)
   }
 
   const handleGoToFriendProfile = (userId, userName) => {
