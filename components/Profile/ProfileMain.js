@@ -3,7 +3,7 @@ import { ScrollView, SafeAreaView } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
-import { BASE_URL } from "@env";
+import { AWS_BASE_URL } from "@env";
 
 import { useSelector } from "react-redux";
 import { selectUserInfo } from '../../Redux/userSlice';
@@ -17,39 +17,32 @@ const ProfileMain = ({ navigation, route }) => {
     const [myOrders, setMyOrders] = useState([]);
     const [likedOrders, setLikedOrders] = useState([]);
     const [activeTab, setActiveTab] = useState(0);
-    const [dripScore, setDripScore] = useState();
+    const [dripScore, setDripScore] = useState(0);
 
     const userInfo = useSelector(selectUserInfo);
-    const userName = route.params ? route.params.userName : userInfo.name;
+    const accessToken = userInfo.accessToken;
     const userId = route.params ? route.params.userId : userInfo.id;
+    const userName = route.params ? route.params.userName : userInfo.name;
 
     const handleGoToSettings = () => {
-        navigation.navigate('Settings Main')
+        navigation.navigate('Settings Main');
     }
 
     const handleGoToOrdersFeed = (order) => {
-        const orders = (activeTab === 0 ? myOrders : likedOrders)
-        navigation.push('Orders Feed Main', { orders, order })
+        const orders = (activeTab === 0 ? myOrders : likedOrders);
+        navigation.push('Orders Feed Main', { orders, order });
     }
 
     const handleChangeToOrdersTab = () => {
         if (activeTab !== 0) {
-            setActiveTab(0)
-            axios.get(`${BASE_URL}orders/${userId}`)
-            .then((res) => {
-                setMyOrders(res.data);
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log('Api call error - getting orders');
-            })
+            setActiveTab(0);
         }
     }
 
     const handleChangeToLikedTab = () => {
         if (activeTab !== 1) {
             setActiveTab(1)
-            axios.get(`${BASE_URL}orders/liked/${userId}`)
+            axios.get(`${AWS_BASE_URL}orders/liked/${userId}`, { headers: { 'authorization': `Bearer ${accessToken}` } })
             .then((res) => {
                 setLikedOrders(res.data);
             })
@@ -62,24 +55,39 @@ const ProfileMain = ({ navigation, route }) => {
 
     useFocusEffect(
         useCallback(() => {
+            
             // get orders
-            axios.get(`${BASE_URL}orders/${userId}`)
-            .then((res) => {
-                setMyOrders(res.data);
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log('Api call error - getting orders');
-            })
+            const getDripScore = async () => {
+                try {
+                    const response = await axios.get(`${AWS_BASE_URL}users/${userId}/drip-score`, { headers: { 'authorization': `Bearer ${accessToken}` } })
+                    if (response.data.status === 200) {
+                        setDripScore(response.data.body)
+                    }
+                } catch (err) {
+                    console.log(err);
+                    console.log('Api call error - getting drip score');
+                }
+            }
 
-            // get total likes
-            axios.get(`${BASE_URL}orders/totalLikes/${userId}`)
-            .then((res) => {
-                setDripScore(res.data.totalLikes)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+            // get orders
+            const getOrders = async () => {
+                try {
+                    const response = await axios.get(`${AWS_BASE_URL}orders/user/${userId}`, { headers: { 'authorization': `Bearer ${accessToken}` } })
+                    if (response.data.status === 200) {
+                        setMyOrders(response.data.body)
+                    }
+                } catch (err) {
+                    console.log(err);
+                    console.log('Api call error - getting orders');
+                }
+            }
+
+            getDripScore();
+            getOrders();
+
+            return () => {
+                setMyOrders([])
+            }
 
         }, [])
     )
