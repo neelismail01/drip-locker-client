@@ -25,8 +25,9 @@ const FeedMain = ({ navigation }) => {
             const getFriendOrders = async () => {
                 try {
                     const response = await axios.get(`${AWS_BASE_URL}orders/friends`, { headers: { 'authorization': `Bearer ${accessToken}` } });
-                    console.log(response.data.body);
-                    setFriendOrders(response.data.body);
+                    if (response.status === 200) {
+                        setFriendOrders(response.data.body);
+                    }
                 } catch (err) {
                     console.log(err);
                     console.log('Api call error - getting friend orders');
