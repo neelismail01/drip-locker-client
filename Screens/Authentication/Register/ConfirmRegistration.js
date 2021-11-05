@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 
-const ConfirmRegistration = ({ handleRegister }) => {
+const ConfirmRegistration = ({ handleRegister, error }) => {
 
     return (
         <View style={styles.container}>
@@ -13,6 +13,10 @@ const ConfirmRegistration = ({ handleRegister }) => {
             >
                 <Text style={styles.buttonText}>Create Account</Text>
             </TouchableOpacity>
+            {
+                error.length > 0 &&
+                <Text style={styles.errorMessage}>{error}</Text>
+            }
         </View>
     )
 }
@@ -29,7 +33,6 @@ const styles = StyleSheet.create({
         fontSize: 28,
         fontWeight: "bold",
         color: "black",
-        marginBottom: 30
     },
     button: {
         width: "100%",
@@ -41,11 +44,15 @@ const styles = StyleSheet.create({
         shadowColor: '#171717',
         shadowOffset: { width: -2, height: 8 },
         shadowOpacity: 0.2,
-        shadowRadius: 7
+        shadowRadius: 7,
+        marginVertical: 30
     },
     buttonText: {
         color: "white",
         fontWeight: "bold"
+    },
+    errorMessage: {
+        color: "red"
     }
 })
 
