@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Icon } from 'react-native-elements'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import AuthenticationNavigator from './AuthenticationNavigator';
 import FriendsNavigator from './FriendsNavigator';
+import PostNavigator from './PostNavigator';
 import ProfileNavigator from './ProfileNavigator';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -76,17 +77,17 @@ const Main = () => {
                 />
                 <Tab.Screen
                     name="Post"
-                    component={FriendsNavigator}
+                    component={PostNavigator}
                     options={{
                         tabBarIcon: () => (
-                            <TouchableOpacity style={styles.postButton }>
+                            <View style={styles.postButton }>
                                 <Icon
                                     name="add"
                                     type="material"
                                     color={'black'}
                                     size={28}
                                 />
-                            </TouchableOpacity>
+                            </View>
                         ),
                         tabBarLabel: () => null,
                         headerShown: false
