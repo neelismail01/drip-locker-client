@@ -13,7 +13,7 @@ const ProfileHeader = ({ handleGoToSettings, showSettingsIcon }) => {
                         onPress={handleGoToSettings}
                         style={styles.icon}
                     >
-                        <Icon name="cog" type="font-awesome-5" color="black" size={20} />
+                        <Icon name="menu" type="material" color="black" size={22} />
                     </TouchableOpacity>
                 </View>
             }
