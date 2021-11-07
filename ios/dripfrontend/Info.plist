@@ -51,5 +51,9 @@
 	<false/>
   <key>UIStatusBarStyle</key>
   <string>UIStatusBarStyleDefault</string>
+  <key>NSCameraUsageDescription</key>
+  <string>Allow Drip to use the camera</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Allow Drip to use the microphone</string>
 </dict>
 </plist>
