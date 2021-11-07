@@ -40,7 +40,8 @@ const Main = () => {
                 screenOptions={{
                     keyboardHidesTabBar: true,
                     tabBarActiveTintColor: "black",
-                    tabBarShowLabel: true
+                    tabBarShowLabel: false,
+                    tabBarStyle: { height: 80 }
                 }}
             >
                 <Tab.Screen
