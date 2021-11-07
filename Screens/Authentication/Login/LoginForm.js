@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
@@ -34,59 +34,66 @@ const LoginForm = () => {
     }
 
     return (
-        <View style={styles.formContainer}>
-            <Text style={styles.loginHeader}>Welcome Back</Text>
-            <View style={styles.loginForm}>
-                <TextInput
-                    style={styles.textInput}
-                    name="email"
-                    value={email}
-                    onChangeText={text => setEmail(text)}
-                    placeholder="Email"
-                    autoCapitalize='none'
-                />
-                <TextInput
-                    style={styles.textInput}
-                    name="password"
-                    value={password}
-                    onChangeText={text => setPassword(text)}
-                    placeholder="Password"
-                    autoCapitalize='none'
-                    secureTextEntry={true}
-                />
-                <TouchableOpacity
-                    style={styles.buttonContainer}
-                    onPress={handleLogin}
-                    disabled={email === "" || password === ""}
-                >
-                    <Text style={styles.buttonText}>Sign In</Text>
-                </TouchableOpacity>
-                {
-                    error.length > 0 &&
-                    <Text style={styles.errorMessage}>{error}</Text>
-                }
-            </View>
-        </View>
+        <SafeAreaView style={styles.formContainer}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={styles.innerContainer}
+            >
+                <View style={styles.loginForm}>
+                    <Text style={styles.loginHeader}>Welcome Back</Text>
+                    <TextInput
+                        style={styles.textInput}
+                        name="email"
+                        value={email}
+                        onChangeText={text => setEmail(text)}
+                        placeholder="Email"
+                        autoCapitalize='none'
+                    />
+                    <TextInput
+                        style={styles.textInput}
+                        name="password"
+                        value={password}
+                        onChangeText={text => setPassword(text)}
+                        placeholder="Password"
+                        autoCapitalize='none'
+                        secureTextEntry={true}
+                    />
+                    <TouchableOpacity
+                        style={styles.buttonContainer}
+                        onPress={handleLogin}
+                        disabled={email === "" || password === ""}
+                    >
+                        <Text style={styles.buttonText}>Sign In</Text>
+                    </TouchableOpacity>
+                    {
+                        error.length > 0 &&
+                        <Text style={styles.errorMessage}>{error}</Text>
+                    }
+                </View>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     formContainer: {
-        width: "100%",
-        height: "100%",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "white",
-        padding: 40
+        flex: 1,
+        backgroundColor: "white"
+    },
+    innerContainer: {
+        padding: 20,
     },
     loginHeader: {
         fontSize: 36,
         color: "black",
         fontWeight: "bold",
+        marginBottom: 40
     },
     loginForm: {
         width: "100%",
-        marginVertical: 30,
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center"
     },
     textInput: {
         marginVertical: 10,
