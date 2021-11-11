@@ -16,11 +16,17 @@ const PersonalInformation = () => {
 
     const handlePressUpdateButton = async () => {
         try {
+            /*const config = {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${accessToken}`
+                }
+            }
             const response = await axios.put(`${BASE_URL}users/changeDetails/${id}`, { 
                 name: updatedName,
                 email: updatedEmail 
             })
-            dispatch(setUserInfo(response.data));
+            dispatch(setUserInfo(response.data));*/
         } catch (err) {
             console.log(err);
             console.log('An error occurred while changing your personal information. Please try again.');
