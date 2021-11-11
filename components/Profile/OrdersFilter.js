@@ -14,7 +14,7 @@ const OrdersFilter = ({ activeTab, profileId, handleChangeToOrdersTab, handleCha
                 style={[styles.tabContainer, activeTab === 0 && styles.activeTab]}
                 onPress={handleChangeToOrdersTab}
             >
-                <Icon name="receipt" type="font-awesome-5" color="black" size={18} />
+                <Icon name="photo-camera" type="material" color="black" size={18} />
             </TouchableOpacity>
             {
                 profileId === user_id &&
