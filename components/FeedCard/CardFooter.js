@@ -1,11 +1,12 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import { Icon } from 'react-native-elements';
 
 const CardFooter = ({ order, isLiked, handleLikePhoto, imageActive }) => {
 
   return (
         <View style={styles.cardFooter}>
+          <View style={styles.likeButtonAndPictureIndicator}>
             <TouchableOpacity
               style={styles.likeIcon}
               onPress={handleLikePhoto}
@@ -18,8 +19,8 @@ const CardFooter = ({ order, isLiked, handleLikePhoto, imageActive }) => {
             </TouchableOpacity>
             <View style={styles.dotWrapper}>
               {
-                order.orderItems.length > 1 &&
-                order.orderItems.map((item, index) => {
+                order.pictureUrls.length > 1 &&
+                order.pictureUrls.map((item, index) => {
                   return (
                     <Icon
                       key={item._id}
@@ -33,15 +34,18 @@ const CardFooter = ({ order, isLiked, handleLikePhoto, imageActive }) => {
                 })
               }
             </View>
+          </View>
         </View>
   );
 };
 
 const styles = StyleSheet.create({
     cardFooter: {
-        flexDirection: "row",
-        justifyContent: "center",
         width: "100%"
+    },
+    likeButtonAndPictureIndicator: {
+      flexDirection: "row",
+      justifyContent: "center",
     },
     likeIcon: {
         position: "absolute",
@@ -66,6 +70,9 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
         color: "grey",
         fontSize: 32
+    },
+    caption: {
+      marginHorizontal: 10
     }
 });
 

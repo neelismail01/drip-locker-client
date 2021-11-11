@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
 const CardHeader = ({ order, handleGoToFriendProfile }) => {
   const monthNames = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.", "Jul.", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
-  const date = order.dateOrdered.toString().substring(0, order.dateOrdered.toString().indexOf("T"));
+  const date = order.datePosted.toString().substring(0, order.datePosted.toString().indexOf("T"));
   let dateParts = date.split("-");
   dateParts = dateParts.map((datePart) => { return parseInt(datePart - 1) });
   const formattedDate = `${monthNames[dateParts[1]]} ${dateParts[2]}, ${dateParts[0]}`;
@@ -39,9 +39,9 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   initialsCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "black",
@@ -56,11 +56,11 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   orderName: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "bold"
   },
   orderDate: {
-    fontSize: 12,
+    fontSize: 14,
     color: "grey"
   }
 });

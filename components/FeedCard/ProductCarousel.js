@@ -1,6 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Image, Text, ScrollView, Dimensions } from "react-native";
-import { Icon } from 'react-native-elements';
+import { StyleSheet, View, Image, ScrollView, Dimensions } from "react-native";
 
 const { width } = Dimensions.get('window')
 
@@ -12,31 +11,20 @@ const ProductCarousel = ({ order, onchange }) => {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         snapToInterval={width}
-        decelerationRate={"fast"}
+        snapToAlignment={"center"}
+        decelerationRate={0}
         onScroll={({ nativeEvent }) => onchange(nativeEvent)}
         scrollEventThrottle={200}
-        scrollEnabled={order.orderItems.length > 1}
+        scrollEnabled={order.pictureUrls.length > 1}
       >
         {
-          order.orderItems.map(item => {
+          order.pictureUrls.map(pictureUrl => {
             return (
-              <View
-                key={item._id}
-                style={styles.productImageAndTag}
-              >
                 <Image
+                  key={pictureUrl}
                   style={styles.productImage}
-                  source={{ uri: item.product.image }}
+                  source={{ uri: pictureUrl }}
                 />
-                <View style={styles.belowImageContainer}>
-                  <View style={styles.productNameContainer}>
-                    <Icon name="tag" type="font-awesome-5" color="black" size={14} />
-                    <Text style={styles.productName}>
-                      {item.product.name.length > 30 ? `${item.product.name.substr(0, 30)}...` : item.product.name}
-                    </Text>
-                  </View>
-                </View>
-              </View>
             )
           })
         }

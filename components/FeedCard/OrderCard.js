@@ -7,8 +7,9 @@ import { useSelector } from 'react-redux';
 import { selectAccessToken } from '../../Redux/userSlice';
 
 import CardHeader from './CardHeader';
-import StoreBar from './StoreBar';
+import Caption from './Caption';
 import ProductCarousel from './ProductCarousel';
+import BrandDetails from './BrandDetails';
 import CardFooter from './CardFooter';
 
 const OrderCard = ({ order, liked, navigation }) => {
@@ -21,8 +22,14 @@ const OrderCard = ({ order, liked, navigation }) => {
     const requestData = {
       alreadyLiked: isLiked
     }
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`
+      }
+    }
     setIsLiked(!isLiked)
-    await axios.put(`${AWS_BASE_URL}orders/${order._id}/likes`, { headers: { 'authorization': `Bearer ${accessToken}` } }, requestData)
+    await axios.put(`${AWS_BASE_URL}orders/${order._id}/likes`, requestData, config);
   }
 
   const handleGoToFriendProfile = (userId, userName) => {
@@ -44,11 +51,14 @@ const OrderCard = ({ order, liked, navigation }) => {
         order={order}
         handleGoToFriendProfile={handleGoToFriendProfile}
       />
-      <StoreBar
+      <Caption
         order={order}
       />
       <ProductCarousel
         onchange={onchange}
+        order={order}
+      />
+      <BrandDetails
         order={order}
       />
       <CardFooter
