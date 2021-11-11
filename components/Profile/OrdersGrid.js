@@ -13,15 +13,15 @@ const OrdersGrid = ({ orders, handleGoToOrdersFeed }) => {
                     return (
                         <TouchableOpacity
                             style={styles.orderCard}
-                            key={order.id}
+                            key={order._id}
                             onPress={() => handleGoToOrdersFeed(order)}
                         >
                             <Image
-                                source={{ uri: order.business.coverImage }}
+                                source={{ uri: order.pictureUrls[0] }}
                                 style={styles.orderCardImage}
                             />
                             <BlurView intensity={100} style={styles.orderInformation}>
-                                <Text style={styles.businessName}>{order.business.name}</Text>
+                                <Text style={styles.businessName}>{order.brandName}</Text>
                             </BlurView>
                         </TouchableOpacity>
                     )
