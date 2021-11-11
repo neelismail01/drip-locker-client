@@ -12,6 +12,8 @@ import ProfileHeader from './ProfileHeader';
 import ProfileInformation from './ProfileInformation';
 import OrdersGrid from './OrdersGrid';
 import OrdersFilter from './OrdersFilter';
+import EmptyOrders from './EmptyOrders';
+import EmptyLikes from './EmptyLikes';
 
 const ProfileMain = ({ navigation, route }) => {
     const [myOrders, setMyOrders] = useState([]);
@@ -41,8 +43,14 @@ const ProfileMain = ({ navigation, route }) => {
 
     const handleChangeToLikedTab = () => {
         if (activeTab !== 1) {
-            setActiveTab(1)
-            axios.get(`${AWS_BASE_URL}orders/liked/${userId}`, { headers: { 'authorization': `Bearer ${accessToken}` } })
+            setActiveTab(1);
+            const config = {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${accessToken}`
+                }
+            }
+            axios.get(`${AWS_BASE_URL}orders/liked/${userId}`, config)
             .then((res) => {
                 setLikedOrders(res.data);
             })
@@ -55,42 +63,56 @@ const ProfileMain = ({ navigation, route }) => {
 
     useFocusEffect(
         useCallback(() => {
-            
-            // get orders
-            const getDripScore = async () => {
-                try {
-                    const response = await axios.get(`${AWS_BASE_URL}users/${userId}/drip-score`, { headers: { 'authorization': `Bearer ${accessToken}` } })
-                    if (response.data.status === 200) {
-                        setDripScore(response.data.body)
-                    }
-                } catch (err) {
-                    console.log(err);
-                    console.log('Api call error - getting drip score');
+
+            const config = {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${accessToken}`
                 }
             }
 
-            // get orders
-            const getOrders = async () => {
-                try {
-                    const response = await axios.get(`${AWS_BASE_URL}orders/user/${userId}`, { headers: { 'authorization': `Bearer ${accessToken}` } })
-                    if (response.data.status === 200) {
-                        setMyOrders(response.data.body)
-                    }
-                } catch (err) {
-                    console.log(err);
-                    console.log('Api call error - getting orders');
+            axios.get(`${AWS_BASE_URL}users/${userId}/drip-score`, config)
+            .then(response => {
+                if (response.data.statusCode === 200) {
+                    setDripScore(response.data.body)
                 }
-            }
+            })
+            .catch(err => {
+                console.log(err);
+                console.log('Api call error - getting drip score');
+            })
 
-            getDripScore();
-            getOrders();
+
+            axios.get(`${AWS_BASE_URL}orders/user/${userId}`, config)
+            .then(response => {
+                if (response.data.statusCodeCode === 200) {
+                    setMyOrders(response.data.body)
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                console.log('Api call error - getting orders');
+            })
 
             return () => {
-                setMyOrders([])
+                setMyOrders([]);
+                setLikedOrders([]);
             }
 
-        }, [])
+        }, [myOrders])
     )
+
+    let Body = null;
+
+    if (activeTab === 0 && myOrders.length > 0) {
+        Body = <OrdersGrid orders={myOrders} handleGoToOrdersFeed={handleGoToOrdersFeed} />
+    } else if (activeTab === 1 && likedOrders.length > 0) {
+        Body = <OrdersGrid orders={likedOrders} handleGoToOrdersFeed={handleGoToOrdersFeed} />
+    } else if (activeTab === 0) {
+        Body = <EmptyOrders />
+    } else {
+        Body = <EmptyLikes />
+    }
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -111,10 +133,7 @@ const ProfileMain = ({ navigation, route }) => {
                     handleChangeToOrdersTab={handleChangeToOrdersTab}
                     handleChangeToLikedTab={handleChangeToLikedTab}
                 />
-                <OrdersGrid
-                    orders={activeTab === 0 ? myOrders : likedOrders}
-                    handleGoToOrdersFeed={handleGoToOrdersFeed}
-                />
+                {Body}
             </ScrollView>
         </SafeAreaView>
     )
