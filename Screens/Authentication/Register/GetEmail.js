@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 
 const GetEmail = ({ handleSetEmail }) => {
     const [email, setEmail] = useState('');
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.container}
+        >
             <Text style={styles.header}>What's your email?</Text>
             <TextInput
                 style={styles.textInput}
@@ -22,7 +25,7 @@ const GetEmail = ({ handleSetEmail }) => {
             >
                 <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>
-        </View>
+        </KeyboardAvoidingView>
     )
 }
 

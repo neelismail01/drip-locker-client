@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, KeyboardAvoidingView, View, TextInput, TouchableOpacity } from 'react-native';
 
 
 const GetPassword = ({ handleSetPassword }) => {
@@ -13,7 +13,10 @@ const GetPassword = ({ handleSetPassword }) => {
     }
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.container}
+        >
             <Text style={styles.header}>Enter A Password</Text>
             <View style={styles.inputContainer}>
                 <TextInput
@@ -40,7 +43,7 @@ const GetPassword = ({ handleSetPassword }) => {
             >
                 <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>
-        </View>
+        </KeyboardAvoidingView>
     )
 }
 

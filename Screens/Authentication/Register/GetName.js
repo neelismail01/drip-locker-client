@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, KeyboardAvoidingView, TextInput, TouchableOpacity } from 'react-native';
 
 const GetName = ({ handleSetName }) => {
     const [name, setName] = useState('');
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.container}
+        >
             <Text style={styles.header}>What's your name?</Text>
             <TextInput
                 style={styles.textInput}
@@ -21,7 +24,7 @@ const GetName = ({ handleSetName }) => {
             >
                 <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>
-        </View>
+        </KeyboardAvoidingView>
     )
 }
 
