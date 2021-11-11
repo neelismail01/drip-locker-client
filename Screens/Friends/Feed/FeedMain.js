@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { ScrollView, SafeAreaView } from "react-native";
+import { SafeAreaView } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -8,7 +8,8 @@ import { useSelector } from 'react-redux';
 import { selectAccessToken, selectUserId } from '../../../Redux/userSlice';
 
 import FeedHeader from './FeedHeader';
-import OrderCard from '../../../components/FeedCard/OrderCard';
+import NonEmptyFeed from './NonEmptyFeed';
+import EmptyFeed from './EmptyFeed';
 
 const FeedMain = ({ navigation }) => {
     const [friendOrders, setFriendOrders] = useState([]);
@@ -24,7 +25,13 @@ const FeedMain = ({ navigation }) => {
 
             const getFriendOrders = async () => {
                 try {
-                    const response = await axios.get(`${AWS_BASE_URL}orders/friends`, { headers: { 'authorization': `Bearer ${accessToken}` } });
+                    const config = {
+                        headers: {
+                          'Content-Type': 'application/json',
+                          'Authorization': `Bearer ${accessToken}`
+                        }
+                    }
+                    const response = await axios.get(`${AWS_BASE_URL}orders/friends`, config);
                     if (response.status === 200) {
                         setFriendOrders(response.data.body);
                     }
@@ -47,20 +54,15 @@ const FeedMain = ({ navigation }) => {
             <FeedHeader
                 handleGoToFriendSearch={handleGoToFriendSearch}
             />
-            <ScrollView>
-                {
-                    friendOrders.map(order => {
-                        return (
-                            <OrderCard
-                                key={order._id}
-                                order={order}
-                                liked={order.likedBy.includes(userId)}
-                                navigation={navigation}
-                            />
-                        )
-                    })
-                }
-            </ScrollView>
+            {
+                friendOrders.length > 0 ?
+                <NonEmptyFeed
+                    friendOrders={friendOrders}
+                    navigation={navigation}
+                    userId={userId}
+                /> :
+                <EmptyFeed />
+            }
         </SafeAreaView>
     )
 };
