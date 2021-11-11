@@ -26,7 +26,7 @@ const Caption = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={styles.captionBody}>
           <Text style={styles.captionHeader}>Caption</Text>
           <Text style={styles.captionHeaderSubtext}>Add a message about this purchase for your friends</Text>
