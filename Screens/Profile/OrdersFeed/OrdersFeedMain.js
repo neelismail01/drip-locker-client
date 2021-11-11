@@ -37,7 +37,7 @@ const OrdersFeedMain = ({ route, navigation }) => {
                             >
                                 <OrderCard
                                     order={order}
-                                    liked={order.likedBy.includes(user_id)}
+                                    liked={order.likedBy.includes(user_id.toString())}
                                     navigation={navigation}
                                 />
                             </View>
