@@ -10,20 +10,25 @@ import { Icon } from "react-native-elements";
 import axios from "axios";
 import { AWS_BASE_URL } from "@env";
 
-import { useSelector } from "react-redux";
-import { selectPostInfo } from "../../../Redux/postSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { selectPostInfo, clearPost } from "../../../Redux/postSlice";
 import { selectAccessToken } from "../../../Redux/userSlice";
 
 const PurchaseDetails = ({ navigation }) => {
   const postInfo = useSelector(selectPostInfo);
   const accessToken = useSelector(selectAccessToken);
+  const dispatch = useDispatch();
 
   const handlePostPurchase = async () => {
     try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        }
+      }
       const secureS3UrlPromises = postInfo.pictures.map(async picture => {
-        const response = await axios.get(`${AWS_BASE_URL}s3-secure-url`, {
-          headers: { authorization: `Bearer ${accessToken}` },
-        });
+        const response = await axios.get(`${AWS_BASE_URL}s3-secure-url`, config);
         return response;
       })
   
@@ -50,7 +55,8 @@ const PurchaseDetails = ({ navigation }) => {
         caption: postInfo.caption
       }
 
-      await axios.post(`${AWS_BASE_URL}orders`, postData, { headers: { 'authorization': `Bearer ${accessToken}` } });
+      await axios.post(`${AWS_BASE_URL}orders`, postData, config);
+      dispatch(clearPost());
       navigation.navigate('Purchase Camera')
     } catch (error) {
       console.log("error uploading to s3", error)
