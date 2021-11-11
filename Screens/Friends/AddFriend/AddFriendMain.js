@@ -24,7 +24,20 @@ const AddFriendMain = ({ navigation }) => {
 
   const handleAcceptFriendRequest = async (friendRequest) => {
     try {
-      await axios.put(`${AWS_BASE_URL}friends/${friendRequest._id}`, { headers: { 'authorization': `Bearer ${accessToken}` } });
+      const addedFriend = {
+        _id: friendRequest.requester._id,
+        name: friendRequest.requester.name,
+        email: friendRequest.requester.email
+      }
+      setFriends([addedFriend, ...friends]);
+      setReceivedRequests(receivedRequests.filter(request => request._id !== friendRequest._id));
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        }
+    }
+      await axios.put(`${AWS_BASE_URL}friends/${friendRequest._id}`, config);
     } catch (err) {
       console.log("Error accepting friend request");
       console.log(err);
