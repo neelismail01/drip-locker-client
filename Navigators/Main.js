@@ -6,7 +6,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import AuthenticationNavigator from './AuthenticationNavigator';
 import FriendsNavigator from './FriendsNavigator';
+import SearchNavigator from './SearchNavigator';
 import PostNavigator from './PostNavigator';
+import TrendingNavigator from './TrendingNavigator';
 import ProfileNavigator from './ProfileNavigator';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -62,7 +64,7 @@ const Main = () => {
                 />
                 <Tab.Screen
                     name="Search"
-                    component={ProfileNavigator}
+                    component={SearchNavigator}
                     options={{
                         tabBarIcon: ({ color }) => (
                             <Icon
@@ -96,7 +98,7 @@ const Main = () => {
                 />
                 <Tab.Screen
                     name="Trending"
-                    component={ProfileNavigator}
+                    component={TrendingNavigator}
                     options={{
                         tabBarIcon: ({ color }) => (
                           <Icon
