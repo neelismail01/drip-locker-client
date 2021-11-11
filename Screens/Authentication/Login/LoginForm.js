@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
@@ -105,11 +105,6 @@ const styles = StyleSheet.create({
         width: "100%",
         paddingHorizontal: 20,
         fontSize: 14
-    },
-    focusInputStyle: {
-        borderColor: "black",
-        backgroundColor: "white",
-        borderWidth: 2
     },
     buttonContainer: {
         height: 45,
