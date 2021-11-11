@@ -9,13 +9,14 @@ import {
   KeyboardAvoidingView
 } from "react-native";
 
-import { useDispatch } from "react-redux";
-import { setPostCaption } from '../../../Redux/postSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { setPostCaption, selectPostInfo } from '../../../Redux/postSlice';
 
 
 const Caption = ({ navigation }) => {
+  const postInfo = useSelector(selectPostInfo)
   const dispatch = useDispatch();
-  const [caption, setCaption] = useState('')
+  const [caption, setCaption] = useState(postInfo.caption)
 
   const handleAddCaption = () => {
     dispatch(setPostCaption(caption));
@@ -35,7 +36,7 @@ const Caption = ({ navigation }) => {
             onChangeText={text => setCaption(text)}
             value={caption}
           />
-          <View style={{ marginHorizontal: 20 }}>
+          <View>
             <TouchableOpacity
               style={styles.buttonContainer}
               onPress={handleAddCaption}
