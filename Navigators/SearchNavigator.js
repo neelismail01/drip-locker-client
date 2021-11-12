@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SearchMain from '../Screens/Search/Landing/SearchMain';
 import ProfileMain from '../components/Profile/ProfileMain';
-import OrdersFeedMain from '../Screens/Search/OrdersFeed/OrdersFeedMain';
+import ProfileFeedMain from '../components/ProfileFeed/ProfileFeedMain';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,8 +26,8 @@ const SearchNavigator = () => {
                     }}
                 />
                 <Stack.Screen
-                    name="Orders Feed Main"
-                    component={OrdersFeedMain}
+                    name="Profile Feed Main"
+                    component={ProfileFeedMain}
                     options={{
                         headerShown: false,
                     }}
