@@ -2,7 +2,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import FeedMain from '../Screens/Friends/Feed/FeedMain';
-import ProfileMain from '../Screens/Friends/Profile/UserProfile';
+import ProfileMain from '../components/Profile/ProfileMain';
 import OrdersFeedMain from '../Screens/Friends/OrdersFeed/OrdersFeedMain';
 
 const Stack = createNativeStackNavigator();
