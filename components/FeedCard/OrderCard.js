@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { AWS_BASE_URL } from "@env";
 import { useSelector } from 'react-redux';
-import { selectAccessToken } from '../../Redux/userSlice';
+import { selectAccessToken, selectUserInfo } from '../../Redux/userSlice';
 
 import CardHeader from './CardHeader';
 import Caption from './Caption';
@@ -17,6 +17,7 @@ const OrderCard = ({ order, liked, navigation }) => {
   const [isLiked, setIsLiked] = useState(liked);
 
   const accessToken = useSelector(selectAccessToken);
+  const userInfo = useSelector(selectUserInfo);
 
   const handleLikePhoto = async () => {
     const requestData = {
@@ -50,6 +51,7 @@ const OrderCard = ({ order, liked, navigation }) => {
       <CardHeader
         order={order}
         handleGoToFriendProfile={handleGoToFriendProfile}
+        userInfo={userInfo}
       />
       <Caption
         order={order}
