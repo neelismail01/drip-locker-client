@@ -31,7 +31,7 @@ const ProfileMain = ({ navigation, route }) => {
 
     const handleGoToOrdersFeed = (order) => {
         const orders = (activeTab === 0 ? myOrders : likedOrders);
-        navigation.push('Orders Feed Main', { orders, order });
+        navigation.push('Profile Feed Main', { orders, order });
     }
 
     const handleChangeToOrdersTab = () => {

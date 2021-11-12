@@ -12,7 +12,7 @@ import ProductCarousel from './ProductCarousel';
 import BrandDetails from './BrandDetails';
 import CardFooter from './CardFooter';
 
-const OrderCard = ({ order, liked, navigation }) => {
+const FeedCard = ({ order, liked, navigation }) => {
   const [imageActive, setImageActive] = useState(0);
   const [isLiked, setIsLiked] = useState(liked);
 
@@ -81,4 +81,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default OrderCard;
+export default FeedCard;
