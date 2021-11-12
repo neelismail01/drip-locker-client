@@ -35,6 +35,7 @@ const Caption = ({ navigation }) => {
             style={styles.captionInput}
             onChangeText={text => setCaption(text)}
             value={caption}
+            multiline
           />
           <View>
             <TouchableOpacity
