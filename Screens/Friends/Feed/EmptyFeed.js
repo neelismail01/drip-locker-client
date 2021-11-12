@@ -1,14 +1,10 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import { Icon } from "react-native-elements";
 
 const EmptyFeed = () => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.iconContainer}>
-                <Icon name="image" type="material" color="black" size={48} />
-            </View>
             <View style={styles.textContainer}>
                 <Text style={styles.header}>No Posts Yet</Text>
                 <Text style={styles.subHeader}>
@@ -24,16 +20,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         height: "100%",
-    },
-    iconContainer: {
-        borderWidth: 1,
-        borderColor: "black",
-        height: 100,
-        width: 100,
-        borderRadius: 50,
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: 20
     },
     textContainer: {
         width: "66%",

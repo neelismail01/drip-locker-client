@@ -1,20 +1,11 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { Icon } from 'react-native-elements';
+import { View, StyleSheet, Text } from "react-native";
 
-const FeedHeader = ({ handleGoToFriendSearch }) => {
+const FeedHeader = () => {
 
     return (
         <View style={styles.headerContainer}>
             <Text style={styles.header}>Friends</Text>
-            <View style={styles.iconContainer}>
-                <TouchableOpacity
-                    onPress={handleGoToFriendSearch}
-                    style={styles.icon}
-                >
-                    <Icon name="user-plus" type="font-awesome-5" color="black" size={18} />
-                </TouchableOpacity>
-            </View>
         </View>
     )
 };

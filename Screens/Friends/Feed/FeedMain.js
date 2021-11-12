@@ -16,10 +16,6 @@ const FeedMain = ({ navigation }) => {
     const accessToken = useSelector(selectAccessToken);
     const userId = useSelector(selectUserId)
 
-    const handleGoToFriendSearch = () => {
-        navigation.navigate('Add Friend Main')
-    }
-
     useFocusEffect(
         useCallback(() => {
 
@@ -32,7 +28,7 @@ const FeedMain = ({ navigation }) => {
                         }
                     }
                     const response = await axios.get(`${AWS_BASE_URL}orders/friends`, config);
-                    if (response.status === 200) {
+                    if (response.data.statusCode === 200) {
                         setFriendOrders(response.data.body);
                     }
                 } catch (err) {
@@ -51,9 +47,7 @@ const FeedMain = ({ navigation }) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-            <FeedHeader
-                handleGoToFriendSearch={handleGoToFriendSearch}
-            />
+            <FeedHeader />
             {
                 friendOrders.length > 0 ?
                 <NonEmptyFeed
