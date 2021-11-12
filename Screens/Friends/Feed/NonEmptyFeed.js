@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView } from "react-native";
-import OrderCard from '../../../components/FeedCard/OrderCard';
+import FeedCard from '../../../components/ProfileFeed/FeedCard';
 
 const NonEmptyFeed = ({ friendOrders, navigation, userId }) => {
 
@@ -9,7 +9,7 @@ const NonEmptyFeed = ({ friendOrders, navigation, userId }) => {
             {
                 friendOrders.map(order => {
                     return (
-                        <OrderCard
+                        <FeedCard
                             key={order._id}
                             order={order}
                             liked={order.likedBy.map(like => like.userId).includes(userId)}
