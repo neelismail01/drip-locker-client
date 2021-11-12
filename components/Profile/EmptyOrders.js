@@ -1,15 +1,18 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
-const EmptyOrders = () => {
+const EmptyOrders = ({ showPostPrompt }) => {
 
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
                 <Text style={styles.header}>No Posts Yet</Text>
-                <Text style={styles.subHeader}>
-                    Post pictures of your purchases to inspire your friends.
-                </Text>
+                {
+                    showPostPrompt &&
+                    <Text style={styles.subHeader}>
+                        Post pictures of your purchases to inspire your friends.
+                    </Text>
+                }
             </View>
         </View>
     )

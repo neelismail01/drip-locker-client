@@ -2,22 +2,18 @@ import React from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { Icon } from 'react-native-elements';
 
-import { useSelector } from 'react-redux';
-import { selectUserId } from '../../Redux/userSlice';
-
-const OrdersFilter = ({ activeTab, profileId, handleChangeToOrdersTab, handleChangeToLikedTab }) => {
-    const user_id = useSelector(selectUserId);
+const OrdersFilter = ({ activeTab, showLikedTab, handleChangeToOrdersTab, handleChangeToLikedTab }) => {
 
     return (
         <View style={styles.tabsRow}>
             <TouchableOpacity
-                style={[styles.tabContainer, activeTab === 0 && styles.activeTab]}
+                style={[styles.tabContainer, activeTab === 0 && styles.activeTab, !showLikedTab && styles.fullWidthTab]}
                 onPress={handleChangeToOrdersTab}
             >
                 <Icon name="photo-camera" type="material" color="black" size={18} />
             </TouchableOpacity>
             {
-                profileId === user_id &&
+                showLikedTab &&
                 <TouchableOpacity
                     style={[styles.tabContainer, activeTab === 1 && styles.activeTab]}
                     onPress={handleChangeToLikedTab}
@@ -42,6 +38,11 @@ const styles = StyleSheet.create({
     activeTab: {
         borderBottomWidth: 1,
         borderBottomColor: "grey"
+    },
+    fullWidthTab: {
+        width: "100%",
+        borderTopWidth: 1,
+        borderTopColor: "grey"
     }
 });
 

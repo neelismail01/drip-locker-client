@@ -10,21 +10,22 @@ import { selectUserInfo } from '../../Redux/userSlice';
 
 import ProfileHeader from './ProfileHeader';
 import ProfileInformation from './ProfileInformation';
-import OrdersGrid from './OrdersGrid';
 import OrdersFilter from './OrdersFilter';
-import EmptyOrders from './EmptyOrders';
-import EmptyLikes from './EmptyLikes';
+import ProfileContent from './ProfileContent';
 
 const ProfileMain = ({ navigation, route }) => {
     const [myOrders, setMyOrders] = useState([]);
     const [likedOrders, setLikedOrders] = useState([]);
     const [activeTab, setActiveTab] = useState(0);
-    const [dripScore, setDripScore] = useState(0);
+    const [dripScore, setDripScore] = useState(null);
+    const [numberOfOrders, setNumberOfOrders] = useState(null)
 
     const userInfo = useSelector(selectUserInfo);
     const accessToken = userInfo.accessToken;
     const userId = route.params ? route.params.userId : userInfo.id;
     const userName = route.params ? route.params.userName : userInfo.name;
+
+    console.log(userId)
 
     const handleGoToSettings = () => {
         navigation.navigate('Settings Main');
@@ -50,9 +51,12 @@ const ProfileMain = ({ navigation, route }) => {
                   'Authorization': `Bearer ${accessToken}`
                 }
             }
-            axios.get(`${AWS_BASE_URL}orders/liked/${userId}`, config)
-            .then((res) => {
-                setLikedOrders(res.data);
+
+            axios.get(`${AWS_BASE_URL}orders/user/${userId}/liked`, config)
+            .then((response) => {
+                if (response.data.statusCode === 200) {
+                    setLikedOrders(response.data.body);
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -63,7 +67,33 @@ const ProfileMain = ({ navigation, route }) => {
 
     useFocusEffect(
         useCallback(() => {
+            const config = {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${accessToken}`
+                }
+            }
 
+            axios.get(`${AWS_BASE_URL}orders/user/${userId}`, config)
+            .then(response => {
+                if (response.data.statusCode === 200) {
+                    setMyOrders(response.data.body);
+                    setNumberOfOrders(response.data.body.length);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                console.log('Api call error - getting orders');
+            })
+
+            return () => {
+                setMyOrders([])
+            }
+        }, [])
+    )
+
+    useFocusEffect(
+        useCallback(() =>{
             const config = {
                 headers: {
                   'Content-Type': 'application/json',
@@ -82,47 +112,24 @@ const ProfileMain = ({ navigation, route }) => {
                 console.log('Api call error - getting drip score');
             })
 
-
-            axios.get(`${AWS_BASE_URL}orders/user/${userId}`, config)
-            .then(response => {
-                if (response.data.statusCodeCode === 200) {
-                    setMyOrders(response.data.body)
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                console.log('Api call error - getting orders');
-            })
-
             return () => {
-                setMyOrders([]);
-                setLikedOrders([]);
+                setDripScore(null)
             }
-
-        }, [myOrders])
+        }, [])
     )
 
-    let Body = null;
-
-    if (activeTab === 0 && myOrders.length > 0) {
-        Body = <OrdersGrid orders={myOrders} handleGoToOrdersFeed={handleGoToOrdersFeed} />
-    } else if (activeTab === 1 && likedOrders.length > 0) {
-        Body = <OrdersGrid orders={likedOrders} handleGoToOrdersFeed={handleGoToOrdersFeed} />
-    } else if (activeTab === 0) {
-        Body = <EmptyOrders />
-    } else {
-        Body = <EmptyLikes />
-    }
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
             <ProfileHeader
                 handleGoToSettings={handleGoToSettings}
-                showSettingsIcon={true}
+                showSettingsIcon={userInfo.id === userId}
+                userInfo={userInfo}
+                userId={userId}
             />
             <ScrollView>
                 <ProfileInformation
-                    numberOfOrders={myOrders.length}
+                    numberOfOrders={numberOfOrders}
                     dripScore={dripScore}
                     userName={userName}
                     handleGoToSettings={handleGoToSettings}
@@ -130,10 +137,16 @@ const ProfileMain = ({ navigation, route }) => {
                 <OrdersFilter
                     activeTab={activeTab}
                     profileId={userId}
+                    showLikedTab={userInfo.id === userId}
                     handleChangeToOrdersTab={handleChangeToOrdersTab}
                     handleChangeToLikedTab={handleChangeToLikedTab}
                 />
-                {Body}
+                <ProfileContent
+                    loggedInUserProfile={userInfo.id === userId}
+                    myOrdersTab={activeTab === 0}
+                    orders={activeTab === 0 ? myOrders : likedOrders}
+                    handleGoToOrdersFeed={handleGoToOrdersFeed}
+                />
             </ScrollView>
         </SafeAreaView>
     )
