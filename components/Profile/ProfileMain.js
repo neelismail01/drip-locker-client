@@ -25,8 +25,6 @@ const ProfileMain = ({ navigation, route }) => {
     const userId = route.params ? route.params.userId : userInfo.id;
     const userName = route.params ? route.params.userName : userInfo.name;
 
-    console.log(userId)
-
     const handleGoToSettings = () => {
         navigation.navigate('Settings Main');
     }
