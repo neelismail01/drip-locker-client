@@ -1,20 +1,22 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
-const EmptyOrders = ({ showPostPrompt }) => {
+const EmptyOrders = ({ loading, showPostPrompt }) => {
 
+    
     return (
-        <View style={styles.container}>
-            <View style={styles.textContainer}>
-                <Text style={styles.header}>No Posts Yet</Text>
-                {
-                    showPostPrompt &&
-                    <Text style={styles.subHeader}>
-                        Post pictures of your purchases to inspire your friends.
-                    </Text>
-                }
+            !loading &&
+            <View style={styles.container}>
+                <View style={styles.textContainer}>
+                    <Text style={styles.header}>No Posts Yet</Text>
+                    {
+                        showPostPrompt &&
+                        <Text style={styles.subHeader}>
+                            Post pictures of your purchases to inspire your friends.
+                        </Text>
+                    }
+                </View>
             </View>
-        </View>
     )
 };
 
@@ -22,7 +24,7 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: "center",
         alignItems: "center",
-        height: "100%",
+        marginTop: 25
     },
     textContainer: {
         width: "66%",

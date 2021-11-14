@@ -1,9 +1,10 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
-const EmptyFeed = () => {
+const EmptyFeed = ({ loading }) => {
 
     return (
+        !loading &&
         <View style={styles.container}>
             <View style={styles.textContainer}>
                 <Text style={styles.header}>No Posts Yet</Text>
