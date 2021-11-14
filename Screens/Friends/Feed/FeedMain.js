@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from "react";
-import { SafeAreaView } from "react-native";
+import React, { useState, useCallback, useRef } from "react";
+import { SafeAreaView, ActivityIndicator, FlatList } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -8,55 +8,77 @@ import { useSelector } from 'react-redux';
 import { selectAccessToken, selectUserId } from '../../../Redux/userSlice';
 
 import FeedHeader from './FeedHeader';
-import NonEmptyFeed from './NonEmptyFeed';
 import EmptyFeed from './EmptyFeed';
+import FeedCard from '../../../components/ProfileFeed/FeedCard';
 
 const FeedMain = ({ navigation }) => {
-    const [friendOrders, setFriendOrders] = useState([]);
     const accessToken = useSelector(selectAccessToken);
-    const userId = useSelector(selectUserId)
+    const userId = useSelector(selectUserId);
+    let scrollRef = useRef(null);
+
+    const [friendOrders, setFriendOrders] = useState([]);
+    const [page, setPage] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [endReached, setEndReached] = useState(false);
+
+    const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        }
+    }
+
+    const loadMore = () => {
+        setPage(page + 1);
+    }
 
     useFocusEffect(
         useCallback(() => {
-
-            const getFriendOrders = async () => {
-                try {
-                    const config = {
-                        headers: {
-                          'Content-Type': 'application/json',
-                          'Authorization': `Bearer ${accessToken}`
-                        }
-                    }
-                    const response = await axios.get(`${AWS_BASE_URL}orders/friends`, config);
+            if (!endReached) {
+                setLoading(true);
+                axios.get(`${AWS_BASE_URL}orders/friends?limit=${10}&page=${page}`, config)
+                .then(response => {
                     if (response.data.statusCode === 200) {
-                        setFriendOrders(response.data.body);
+                        if (response.data.body.length < 10) {
+                            setEndReached(true);
+                        }
+                        setFriendOrders([...friendOrders, ...response.data.body]);
+                        setLoading(false);
                     }
-                } catch (err) {
+                })
+                .catch(err => {
                     console.log(err);
                     console.log('Api call error - getting friend orders');
-                }
+                })
             }
-
-            getFriendOrders();
-
-            return () => {
-                setFriendOrders([]);
-            };
-        }, [])
+        }, [page])
     )
+
+    const renderFooter = () => {
+        return (
+            loading && <ActivityIndicator size="large" />
+        )
+    }
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
             <FeedHeader />
-            {
-                friendOrders.length > 0 ?
-                <NonEmptyFeed
-                    friendOrders={friendOrders}
-                    navigation={navigation}
-                    userId={userId}
-                /> :
-                <EmptyFeed />
-            }
+            <FlatList
+                ref={scrollRef}
+                data={friendOrders}
+                keyExtractor={item => item._id}
+                onEndReached={loadMore}
+                onEndReachedThreshold={0.5}
+                ListEmptyComponent={<EmptyFeed loading={loading} />}
+                ListFooterComponent={renderFooter}
+                renderItem={({ item }) => 
+                    <FeedCard
+                        order={item}
+                        navigation={navigation}
+                        liked={item.likedBy.map(like => like.userId).includes(userId)}
+                    />
+                }
+            />
         </SafeAreaView>
     )
 };
