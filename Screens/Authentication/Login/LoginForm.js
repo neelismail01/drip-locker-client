@@ -19,10 +19,10 @@ const LoginForm = () => {
         try {
             const response = await axios.post(`${AWS_BASE_URL}users/login`, { email, password });
             if (response.status === 200) {
+                setError('');
                 await AsyncStorage.setItem('access_token', response.data.body.accessToken);
                 dispatch(setAccessToken(response.data.body.accessToken));
                 dispatch(setUserInfo(response.data.body.userInfo));
-                setError('');
             } else {
                 setError(response.data.body);
             }
