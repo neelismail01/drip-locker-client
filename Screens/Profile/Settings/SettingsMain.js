@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useSelector, useDispatch } from "react-redux";
 import { selectUserInfo, clearUser } from "../../../Redux/userSlice";
+import { clearPost } from '../../../Redux/postSlice';
 
 const ProfileMain = ({ navigation }) => {
     const { name } = useSelector(selectUserInfo);
@@ -12,6 +13,7 @@ const ProfileMain = ({ navigation }) => {
 
     const handleLogoutUser = async () => {
         dispatch(clearUser());
+        dispatch(clearPost())
         await AsyncStorage.removeItem('access_token');
     }
 
