@@ -1,4 +1,4 @@
-import { SET_POST_PICTURES, SET_BRAND_DETAILS, SET_POST_CAPTION, SET_PRODUCT_TAGS, CLEAR_POST } from './constants';
+import { SET_POST_PICTURES, SET_BRAND_DETAILS, SET_POST_CAPTION, SET_HASH_TAGS, CLEAR_POST } from './constants';
 
 // ACTIONS
 export const setPostPictures = (payload) => {
@@ -23,9 +23,9 @@ export const setPostCaption = (payload) => {
     }
 }
 
-export const setProductTags = (payload) => {
+export const setHashTags = (payload) => {
     return {
-        type: SET_PRODUCT_TAGS,
+        type: SET_HASH_TAGS,
         payload
     }
 }
@@ -40,7 +40,7 @@ export const clearPost = () => {
 // REDUCER
 const initialState = {
     pictures: [],
-    productTags: [],
+    hashTags: [],
     brandName: '',
     brandWebsite: '',
     brandLogo: '',
@@ -61,10 +61,10 @@ export const postReducer = (state = initialState, action) => {
                 brandLogo: action.payload.brandLogo,
                 brandWebsite: action.payload.brandWebsite
             }
-        case SET_PRODUCT_TAGS:
+        case SET_HASH_TAGS:
             return {
                 ...state,
-                productTags: action.payload
+                hashTags: action.payload
             }
         case SET_POST_CAPTION:
             return {
