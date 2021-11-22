@@ -103,7 +103,6 @@ const ProfileMain = ({ navigation, route }) => {
         axios
           .get(`${AWS_BASE_URL}${path}`, config)
           .then((response) => {
-            console.log(response.data);
             if (response.data.statusCode === 200) {
               if (activeTab === 0) {
                 if (response.data.body.length < 10) {
