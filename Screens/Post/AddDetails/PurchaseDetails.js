@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
   View,
   Text,
   TouchableOpacity,
+  ActivityIndicator
 } from "react-native";
 import { Icon } from "react-native-elements";
 import axios from "axios";
@@ -19,14 +20,19 @@ const PurchaseDetails = ({ navigation }) => {
   const accessToken = useSelector(selectAccessToken);
   const dispatch = useDispatch();
 
+  const [loading, setLoading] = useState(false);
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    }
+  }
+
   const handlePostPurchase = async () => {
     try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`
-        }
-      }
+      setLoading(true);
+
       const secureS3UrlPromises = postInfo.pictures.map(async picture => {
         const response = await axios.get(`${AWS_BASE_URL}s3-secure-url`, config);
         return response;
@@ -56,6 +62,7 @@ const PurchaseDetails = ({ navigation }) => {
       }
 
       await axios.post(`${AWS_BASE_URL}orders`, postData, config);
+      setLoading(false);
       dispatch(clearPost());
       navigation.navigate('Purchase Camera')
     } catch (error) {
@@ -64,78 +71,83 @@ const PurchaseDetails = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <Text style={styles.header}>Add details to your post</Text>
-      <Text style={styles.headerSubtext}>
-        These details help your friends learn about and discover your purchase
-        more easily.
-      </Text>
-      <View>
-        <TouchableOpacity
-          style={styles.postDetailsRow}
-          onPress={() => navigation.navigate("Brand Search")}
-        >
-          <View style={styles.mainRow}>
-            <Text style={styles.detailName}>Brand Details</Text>
-            <Icon
-              name="chevron-right"
-              type="material"
-              color="black"
-              size={22}
-            />
+      loading ?
+      <SafeAreaView style={{ flex: 1, backgroundColor: "white", justifyContent: "center", alignItems: "center" }}>
+        <Text>Uploading your purchase</Text>
+        <ActivityIndicator size="large" />
+      </SafeAreaView> :
+      <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+        <Text style={styles.header}>Add details to your post</Text>
+          <Text style={styles.headerSubtext}>
+            These details help your friends learn about and discover your purchase
+            more easily.
+          </Text>
+          <View>
+            <TouchableOpacity
+              style={styles.postDetailsRow}
+              onPress={() => navigation.navigate("Brand Search")}
+            >
+              <View style={styles.mainRow}>
+                <Text style={styles.detailName}>Brand Details</Text>
+                <Icon
+                  name="chevron-right"
+                  type="material"
+                  color="black"
+                  size={22}
+                />
+              </View>
+              {postInfo.brandName !== "" && (
+                <Text style={styles.brandNameText}>{postInfo.brandName}</Text>
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.postDetailsRow}
+              onPress={() => navigation.navigate("Product Tagging")}
+            >
+              <View style={styles.mainRow}>
+                <Text style={styles.detailName}>Product Tags</Text>
+                <Icon
+                  name="chevron-right"
+                  type="material"
+                  color="black"
+                  size={22}
+                />
+              </View>
+              <View style={styles.tagsContainer}>
+                {postInfo.hashTags.map((tag, index) => (
+                  <Text key={index} style={styles.tagText}>
+                    {tag}
+                  </Text>
+                ))}
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.postDetailsRow}
+              onPress={() => navigation.navigate("Caption")}
+            >
+              <View style={styles.mainRow}>
+                <Text style={styles.detailName}>Caption</Text>
+                <Icon
+                  name="chevron-right"
+                  type="material"
+                  color="black"
+                  size={22}
+                />
+              </View>
+              {postInfo.caption !== "" && (
+                <Text style={styles.brandNameText}>{postInfo.caption}</Text>
+              )}
+            </TouchableOpacity>
           </View>
-          {postInfo.brandName !== "" && (
-            <Text style={styles.brandNameText}>{postInfo.brandName}</Text>
-          )}
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.postDetailsRow}
-          onPress={() => navigation.navigate("Product Tagging")}
-        >
-          <View style={styles.mainRow}>
-            <Text style={styles.detailName}>Product Tags</Text>
-            <Icon
-              name="chevron-right"
-              type="material"
-              color="black"
-              size={22}
-            />
+          <View style={{ marginHorizontal: 20, marginVertical: 50 }}>
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={handlePostPurchase}
+            >
+              <Text style={styles.buttonText}>Post</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.tagsContainer}>
-            {postInfo.productTags.map((tag, index) => (
-              <Text key={index} style={styles.tagText}>
-                {tag}
-              </Text>
-            ))}
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.postDetailsRow}
-          onPress={() => navigation.navigate("Caption")}
-        >
-          <View style={styles.mainRow}>
-            <Text style={styles.detailName}>Caption</Text>
-            <Icon
-              name="chevron-right"
-              type="material"
-              color="black"
-              size={22}
-            />
-          </View>
-          {postInfo.caption !== "" && (
-            <Text style={styles.brandNameText}>{postInfo.caption}</Text>
-          )}
-        </TouchableOpacity>
-      </View>
-      <View style={{ marginHorizontal: 20, marginVertical: 50 }}>
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={handlePostPurchase}
-        >
-          <Text style={styles.buttonText}>Post</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
   );
 };
 
