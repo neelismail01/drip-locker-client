@@ -9,7 +9,6 @@ import {
   Dimensions,
   Text,
 } from "react-native";
-import { BlurView } from "expo-blur";
 import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
 
@@ -189,7 +188,7 @@ const ProfileMain = ({ navigation, route }) => {
       <FlatList
         data={activeTab === 0 ? myOrders : likedOrders}
         horizontal={false}
-        numColumns={3}
+        numColumns={2}
         keyExtractor={(item) => item._id}
         ListEmptyComponent={
           activeTab === 0 ? (
@@ -214,9 +213,7 @@ const ProfileMain = ({ navigation, route }) => {
               source={{ uri: item.pictureUrls[0] }}
               style={styles.orderCardImage}
             />
-            <BlurView intensity={100} style={styles.orderInformation}>
-              <Text style={styles.businessName}>{item.brandName}</Text>
-            </BlurView>
+            <Text style={styles.businessName}>{item.brandName}</Text>
           </TouchableOpacity>
         )}
       />
@@ -227,25 +224,18 @@ const ProfileMain = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   orderCard: {
     justifyContent: "center",
+    marginBottom: 10
   },
   orderCardImage: {
-    width: width * 0.33,
-    height: width * 0.33,
+    width: width * 0.5,
+    height: width * 0.5,
     borderWidth: 2,
-    borderColor: "white",
-  },
-  orderInformation: {
-    width: width * 0.33,
-    borderRadius: 5,
-    padding: 5,
-    borderBottomWidth: 2,
-    borderLeftWidth: 2,
-    borderRightWidth: 2,
     borderColor: "white",
   },
   businessName: {
     fontWeight: "bold",
     fontSize: 12,
+    margin: 5
   },
 });
 
