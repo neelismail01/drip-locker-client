@@ -114,7 +114,7 @@ const PurchaseDetails = ({ navigation }) => {
                 />
               </View>
               <View style={styles.tagsContainer}>
-                {postInfo.hashTags.map((tag, index) => (
+                {postInfo.productTags.map((tag, index) => (
                   <Text key={index} style={styles.tagText}>
                     {tag}
                   </Text>
