@@ -23,7 +23,7 @@ const CardFooter = ({ order, isLiked, handleLikePhoto, imageActive }) => {
                 order.pictureUrls.map((item, index) => {
                   return (
                     <Icon
-                      key={item._id}
+                      key={item}
                       name="circle"
                       type="material"
                       color={imageActive === index ? 'black' : 'grey'}
