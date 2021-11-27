@@ -16,7 +16,7 @@ const ProfileHeader = ({ numberOfOrders, userName, dripScore }) => {
             <View style={styles.userStatsContainer}>
                 <View style={styles.userStats}>
                     <Text style={styles.statValue}>{numberOfOrders}</Text>
-                    <Text>Orders</Text>
+                    <Text>Posts</Text>
                 </View>
                 <View style={styles.userStats}>
                     <Text style={styles.statValue}>{dripScore}</Text>
