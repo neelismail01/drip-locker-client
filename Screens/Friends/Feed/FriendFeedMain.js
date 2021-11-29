@@ -9,7 +9,7 @@ import { selectAccessToken, selectUserId } from '../../../Redux/userSlice';
 
 import FeedHeader from './FeedHeader';
 import EmptyFeed from './EmptyFeed';
-import FeedCard from '../../../components/ProfileFeed/FeedCard';
+import FeedCard from '../../../components/Feed/FeedCard';
 
 const FeedMain = ({ navigation }) => {
     const accessToken = useSelector(selectAccessToken);
