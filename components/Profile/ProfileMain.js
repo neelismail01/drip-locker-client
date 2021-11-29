@@ -58,13 +58,15 @@ const ProfileMain = ({ navigation, route }) => {
   const handleGoToOrdersFeed = (order) => {
     const orders = activeTab === 0 ? myOrders : likedOrders;
     const page = activeTab === 0 ? myOrdersPage : likedOrdersPage;
-    const feedUserId = userId;
-    navigation.push("Profile Feed Main", {
+    const urlPath =
+      activeTab === 0
+        ? `orders/user/${userId}?limit=10`
+        : `orders/user/${userId}/liked?limit=10`;
+    navigation.push("Feed Main", {
       orders,
       order,
-      activeTab,
       page,
-      feedUserId,
+      urlPath,
     });
   };
 
@@ -176,7 +178,9 @@ const ProfileMain = ({ navigation, route }) => {
   };
 
   const FooterComponent = () => {
-    return loading && <ActivityIndicator style={{marginTop: 15}}size="large" />;
+    return (
+      loading && <ActivityIndicator style={{ marginTop: 15 }} size="large" />
+    );
   };
 
   return (
@@ -224,7 +228,7 @@ const ProfileMain = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   orderCard: {
     justifyContent: "center",
-    marginBottom: 10
+    marginBottom: 10,
   },
   orderCardImage: {
     width: width * 0.5,
@@ -235,7 +239,7 @@ const styles = StyleSheet.create({
   businessName: {
     fontWeight: "bold",
     fontSize: 12,
-    margin: 5
+    margin: 5,
   },
 });
 
