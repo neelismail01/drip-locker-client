@@ -3,7 +3,6 @@ import { View, StyleSheet, Text } from "react-native";
 
 const EmptyOrders = ({ loading, showPostPrompt }) => {
 
-    
     return (
             !loading &&
             <View style={styles.container}>
