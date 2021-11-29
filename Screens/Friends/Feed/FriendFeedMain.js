@@ -20,6 +20,7 @@ const FeedMain = ({ navigation }) => {
     const [page, setPage] = useState(0);
     const [loading, setLoading] = useState(false);
     const [endReached, setEndReached] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
 
     const config = {
         headers: {
@@ -30,6 +31,12 @@ const FeedMain = ({ navigation }) => {
 
     const loadMore = () => {
         setPage(page + 1);
+    }
+
+    const handleRefresh = () => {
+        setRefreshing(true);
+        setEndReached(false);
+        setPage(0);
     }
 
     useFocusEffect(
@@ -43,12 +50,15 @@ const FeedMain = ({ navigation }) => {
                             setEndReached(true);
                         }
                         setFriendOrders([...friendOrders, ...response.data.body]);
-                        setLoading(false);
                     }
                 })
                 .catch(err => {
                     console.log(err);
                     console.log('Api call error - getting friend orders');
+                })
+                .finally(() => {
+                    setLoading(false);
+                    setRefreshing(false);
                 })
             }
         }, [page])
@@ -69,6 +79,8 @@ const FeedMain = ({ navigation }) => {
                 keyExtractor={item => item._id}
                 onEndReached={loadMore}
                 onEndReachedThreshold={0.5}
+                onRefresh={handleRefresh}
+                refreshing={refreshing}
                 ListEmptyComponent={<EmptyFeed loading={loading} />}
                 ListFooterComponent={renderFooter}
                 renderItem={({ item }) => 
