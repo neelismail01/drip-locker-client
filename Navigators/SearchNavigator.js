@@ -2,8 +2,9 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SearchMain from '../Screens/Search/Landing/SearchMain';
+import FullResults from '../Screens/Search/Results/FullResults';
 import ProfileMain from '../components/Profile/ProfileMain';
-import ProfileFeedMain from '../components/ProfileFeed/ProfileFeedMain';
+import FeedMain from '../components/Feed/FeedMain';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,13 @@ const SearchNavigator = () => {
                     }}
                 />
                 <Stack.Screen
+                    name="Full Results"
+                    component={FullResults}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
                     name="Profile Main"
                     component={ProfileMain}
                     options={{
@@ -26,8 +34,8 @@ const SearchNavigator = () => {
                     }}
                 />
                 <Stack.Screen
-                    name="Profile Feed Main"
-                    component={ProfileFeedMain}
+                    name="Feed Main"
+                    component={FeedMain}
                     options={{
                         headerShown: false,
                     }}
