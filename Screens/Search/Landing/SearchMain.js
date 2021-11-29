@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { SafeAreaView, KeyboardAvoidingView, ScrollView } from "react-native";
 import axios from "axios";
 import { AWS_BASE_URL } from "@env";
@@ -14,6 +15,7 @@ import { selectAccessToken, selectUserId } from "../../../Redux/userSlice";
 
 const SearchMain = ({ navigation }) => {
   const userId = useSelector(selectUserId);
+  const [query, setQuery] = useState('')
   const [receivedRequests, setReceivedRequests] = useState([]);
   const [friends, setFriends] = useState([]);
   const [newFriends, setNewFriends] = useState([]);
@@ -55,77 +57,130 @@ const SearchMain = ({ navigation }) => {
     navigation.navigate("Profile Main", { userId, userName });
   };
 
-  const handleSearch = async (text) => {
-    try {
-      if (text.length > 0) {
-        const response = await axios.get(
-          `${AWS_BASE_URL}users?searchTerm=${text}`,
-          config
-        );
-        setReceivedRequests(response.data.body.friendRequests);
-        setFriends(response.data.body.friends);
-        setNewFriends(response.data.body.newUsers);
+  const handleGoToFullResults = (type) => {
+    const path = (type === "Friend" ? `orders/friends` : `orders/user/${userId}`);
+    navigation.navigate("Full Results", { query, path })
+  }
 
-        const friendResults = await axios.get(
-          `${AWS_BASE_URL}orders/friends?searchTerm=${text}&limit=10&page=0`,
-          config
-        );
-        setFriendPosts(friendResults.data.body);
+  const handleGoToOrdersFeed = (type, order) => {
+    const orders = (type === "Friend" ? friendPosts : userPosts);
+    const path = (type === "Friend" ? `orders/friends` : `orders/user/${userId}`);
+    const urlPath = `${path}?searchTerm=${query}&limit=10`;
+    const page = 0
+    navigation.push("Feed Main", {
+      orders,
+      order,
+      page,
+      urlPath
+    });
+  };
 
-        const userResults = await axios.get(
-          `${AWS_BASE_URL}orders/user/${userId}?searchTerm=${text}&limit=10&page=0`,
-          config
-        );
-        setUserPosts(userResults.data.body);
-      } else {
+  const handleQueryChange = (text) => {
+    setQuery(text)
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      if (query.length === 0) {
         setReceivedRequests([]);
         setFriends([]);
         setNewFriends([]);
-        setFriendPosts([]);
-        setUserPosts([]);
+      } else if (query.length > 2) {
+        axios.get(`${AWS_BASE_URL}users?searchTerm=${query}`, config)
+        .then(response => {
+          setReceivedRequests(response.data.body.friendRequests);
+          setFriends(response.data.body.friends);
+          setNewFriends(response.data.body.newUsers);
+        })
+        .catch(err => {
+          console.log("An error occurred while searching for users")
+          console.log(err);
+        })
       }
-    } catch (err) {
-      console.log("Error searching for user");
-      console.log(err);
-    }
-  };
+    }, [query])
+  )
+
+  useFocusEffect(
+    useCallback(() => {
+      if (query.length === 0) {
+        setFriendPosts([]);
+      } else if (query.length > 2) {
+        axios.get(`${AWS_BASE_URL}orders/friends?searchTerm=${query}&limit=10&page=0`, config)
+        .then(response => {
+          setFriendPosts(response.data.body);
+        })
+        .catch(err => {
+          console.log("An error occurred while searching for friend orders")
+          console.log(err)
+        })
+      }
+    }, [query])
+  )
+
+  useFocusEffect(
+    useCallback(() => {
+      if (query.length === 0) {
+        setUserPosts([]);
+      } else if (query.length > 2) {
+        axios.get(`${AWS_BASE_URL}orders/user/${userId}?searchTerm=${query}&limit=10&page=0`, config)
+        .then(response => {
+          setUserPosts(response.data.body);
+        })
+        .catch(err => {
+          console.log("An error occurred while searching for user orders");
+          console.log(err);
+        })
+      }
+    }, [query])
+  )
+
 
   return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-          <SearchBar handleSearch={handleSearch} />
-          <ScrollView>
-            {friends.length > 0 && (
-              <CurrentFriends
-                friends={friends}
-                userId={userId}
-                handleGoToFriendProfile={handleGoToFriendProfile}
-              />
-            )}
-            {receivedRequests.length > 0 && (
-              <ReceivedRequests
-                receivedRequests={receivedRequests}
-                handleAcceptFriendRequest={handleAcceptFriendRequest}
-                handleGoToFriendProfile={handleGoToFriendProfile}
-              />
-            )}
-            {newFriends.length > 0 && (
-              <SearchResults
-                newFriends={newFriends}
-                handleSendFriendRequest={handleSendFriendRequest}
-              />
-            )}
-            {friendPosts.length > 0 && (
-              <PostResults results={friendPosts} type="Friend" />
-            )}
-            {userPosts.length > 0 && (
-              <PostResults results={userPosts} type="User" />
-            )}
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <SearchBar query={query} handleQueryChange={handleQueryChange} />
+        <ScrollView>
+          {friends.length > 0 && (
+            <CurrentFriends
+              friends={friends}
+              userId={userId}
+              handleGoToFriendProfile={handleGoToFriendProfile}
+            />
+          )}
+          {receivedRequests.length > 0 && (
+            <ReceivedRequests
+              receivedRequests={receivedRequests}
+              handleAcceptFriendRequest={handleAcceptFriendRequest}
+              handleGoToFriendProfile={handleGoToFriendProfile}
+            />
+          )}
+          {newFriends.length > 0 && (
+            <SearchResults
+              newFriends={newFriends}
+              handleSendFriendRequest={handleSendFriendRequest}
+            />
+          )}
+          {friendPosts.length > 0 && (
+            <PostResults
+              results={friendPosts}
+              type="Friend"
+              handleGoToFullResults={handleGoToFullResults}
+              handleGoToOrdersFeed={handleGoToOrdersFeed}
+            />
+          )}
+          {userPosts.length > 0 && (
+            <PostResults
+              results={userPosts}
+              type="User"
+              handleGoToFullResults={handleGoToFullResults}
+              handleGoToOrdersFeed={handleGoToOrdersFeed}
+            />
+          )}
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 

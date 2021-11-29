@@ -1,29 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   StyleSheet,
-  SafeAreaView,
-  Text,
-  View,
   TextInput,
-  TouchableOpacity,
-  KeyboardAvoidingView
 } from "react-native";
 
 
-const SearchBar = ({ handleSearch }) => {
-    const [query, setQuery] = useState('');
-
-    const handleChangeText = (text) => {
-        setQuery(text);
-        handleSearch(text);
-    }
+const SearchBar = ({ query, handleQueryChange }) => {
 
     return (
         <TextInput
             placeholder="Search Friends, Brands, and Categories"
             style={styles.searchBar}
             value={query}
-            onChangeText={text => handleChangeText(text)}
+            onChangeText={text => handleQueryChange(text)}
         />
     );
 };

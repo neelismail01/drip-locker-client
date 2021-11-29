@@ -6,31 +6,28 @@ import {
   Dimensions,
   TouchableOpacity,
   Image,
-  Touchable
 } from "react-native";
 
 const { width } = Dimensions.get('window');
 
-const PostResults = ({ results, type }) => {
+const PostResults = ({ results, type, handleGoToFullResults, handleGoToOrdersFeed }) => {
     return (
       <View style={styles.sectionContainer}>
         <View style={styles.headerRow}>
           <Text style={styles.sectionHeader}>
             {type === "Friend" ? "Friend" : "My" } Posts
           </Text>
-          {
-            results.length > 4 &&
-            <TouchableOpacity>
-              <Text>View All</Text>
-            </TouchableOpacity>
-          }
+          <TouchableOpacity onPress={() => handleGoToFullResults(type)}>
+            <Text>View All</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.resultsGrid}>
-          {results.slice(0, 4).map(result => {
+          {results.slice(0, 2).map(result => {
             return (
               <TouchableOpacity
                 key={result._id}
                 style={styles.orderCard}
+                onPress={() => handleGoToOrdersFeed(type, result)}
               >
                 <Image
                   source={{ uri: result.pictureUrls[0] }}
