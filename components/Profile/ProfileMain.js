@@ -30,6 +30,9 @@ const ProfileMain = ({ navigation, route }) => {
   const [dripScore, setDripScore] = useState(null);
   const [numberOfOrders, setNumberOfOrders] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [dripScoreRefreshing, setDripScoreRefreshing] = useState(false);
+  const [postsCountRefreshing, setPostsCountRefreshing] = useState(false);
+  const [postsRefreshing, setPostsRefreshing] = useState(false);
 
   const [myOrders, setMyOrders] = useState([]);
   const [myOrdersPage, setMyOrdersPage] = useState(0);
@@ -83,12 +86,27 @@ const ProfileMain = ({ navigation, route }) => {
   };
 
   const loadMore = () => {
-    if (activeTab === 0) {
+    if (activeTab === 0 && !endMyOrdersReached) {
+      setLoading(true);
       setMyOrdersPage(myOrdersPage + 1);
-    } else {
+    } else if (activeTab === 1 && !endLikedOrdersReached) {
+      setLoading(true);
       setLikedOrdersPage(likedOrdersPage + 1);
     }
   };
+
+  const handleRefresh = () => {
+    setDripScoreRefreshing(true);
+    setPostsCountRefreshing(true);
+    setPostsRefreshing(true);
+    if (activeTab === 0) {
+      setMyOrdersPage(0);
+      setEndMyOrdersReached(false);
+    } else {
+      setLikedOrdersPage(0);
+      setEndLikedOrdersReached(false);
+    }
+  }
 
   useFocusEffect(
     useCallback(() => {
@@ -96,7 +114,9 @@ const ProfileMain = ({ navigation, route }) => {
         (activeTab === 0 && !endMyOrdersReached) ||
         (activeTab === 1 && !endLikedOrdersReached)
       ) {
-        setLoading(true);
+        if (!postsRefreshing) {
+          setLoading(true);
+        }
         const path =
           activeTab === 0
             ? `orders/user/${userId}?limit=${10}&page=${myOrdersPage}`
@@ -109,20 +129,33 @@ const ProfileMain = ({ navigation, route }) => {
                 if (response.data.body.length < 10) {
                   setEndMyOrdersReached(true);
                 }
-                setMyOrders([...myOrders, ...response.data.body]);
+
+                if (postsRefreshing) {
+                  setMyOrders([...response.data.body])
+                } else {
+                  setMyOrders([...myOrders, ...response.data.body]);
+                }
               } else if (activeTab === 1) {
                 if (response.data.body.length === 0) {
                   setEndLikedOrdersReached(true);
                 }
-                setLikedOrders([...likedOrders, ...response.data.body]);
+
+                if (postsRefreshing) {
+                  setLikedOrders([...response.data.body])
+                } else {
+                  setLikedOrders([...likedOrders, ...response.data.body]);
+                }
               }
-              setLoading(false);
             }
           })
           .catch((err) => {
             console.log(err);
             console.log("Api call error - getting orders");
-          });
+          })
+          .finally(() => {
+            setLoading(false);
+            setPostsRefreshing(false);
+          })
       }
     }, [myOrdersPage, likedOrdersPage, activeTab])
   );
@@ -139,8 +172,11 @@ const ProfileMain = ({ navigation, route }) => {
         .catch((err) => {
           console.log(err);
           console.log("Api call error - getting drip score");
+        })
+        .finally(() => {
+          setDripScoreRefreshing(false);
         });
-    }, [])
+    }, [dripScoreRefreshing])
   );
 
   useFocusEffect(
@@ -155,8 +191,11 @@ const ProfileMain = ({ navigation, route }) => {
         .catch((err) => {
           console.log(err);
           console.log("Api call error - getting drip score");
+        })
+        .finally(() => {
+          setPostsCountRefreshing(false);
         });
-    }, [])
+    }, [postsCountRefreshing])
   );
 
   const HeaderComponent = () => {
@@ -208,18 +247,22 @@ const ProfileMain = ({ navigation, route }) => {
         ListFooterComponent={FooterComponent}
         onEndReached={loadMore}
         onEndReachedThreshold={0}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.orderCard}
-            onPress={() => handleGoToOrdersFeed(item)}
-          >
-            <Image
-              source={{ uri: item.pictureUrls[0] }}
-              style={styles.orderCardImage}
-            />
-            <Text style={styles.businessName}>{item.brandName}</Text>
-          </TouchableOpacity>
-        )}
+        onRefresh={handleRefresh}
+        refreshing={postsCountRefreshing || dripScoreRefreshing || postsRefreshing}
+        renderItem={({ item }) => {
+          return (
+            <TouchableOpacity
+              style={styles.orderCard}
+              onPress={() => handleGoToOrdersFeed(item)}
+            >
+              <Image
+                source={{ uri: item.pictureUrls[0] }}
+                style={styles.orderCardImage}
+              />
+              <Text style={styles.businessName}>{item.brandName}</Text>
+            </TouchableOpacity>
+          )
+        }}
       />
     </SafeAreaView>
   );
