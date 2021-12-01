@@ -47,9 +47,11 @@ const styles = StyleSheet.create({
     marginLeft: 20
   },
   brandLogo: {
-    height: 50,
-    width: 50,
-    resizeMode: "contain"
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    resizeMode: "contain",
+    backgroundColor: "white"
   },
   brandName: {
     color: "white",
