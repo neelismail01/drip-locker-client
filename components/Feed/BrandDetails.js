@@ -12,11 +12,11 @@ const PostDetails = ({ order }) => {
               source={{
                 uri: order.brandLogo
               }}
-              style={{ height: 50, width: 50 }}
+              style={styles.brandLogo}
             /> :
             <Icon name="store-alt" type="font-awesome-5" color="white" size={12} />
           }
-          <View style={styles.storeNameAndWebsite}>
+          <View style={styles.brandNameAndWebsite}>
             <Text style={styles.brandName}>{order.brandName}</Text>
             {
               order.brandWebsite !== '' &&
@@ -42,9 +42,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  storeNameAndWebsite: {
+  brandNameAndWebsite: {
     alignItems: "flex-start",
     marginLeft: 20
+  },
+  brandLogo: {
+    height: 50,
+    width: 50,
+    resizeMode: "contain"
   },
   brandName: {
     color: "white",
