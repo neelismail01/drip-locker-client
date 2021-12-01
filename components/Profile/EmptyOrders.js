@@ -4,18 +4,18 @@ import { View, StyleSheet, Text } from "react-native";
 const EmptyOrders = ({ loading, showPostPrompt }) => {
 
     return (
-            !loading &&
-            <View style={styles.container}>
-                <View style={styles.textContainer}>
-                    <Text style={styles.header}>No Posts Yet</Text>
-                    {
-                        showPostPrompt &&
-                        <Text style={styles.subHeader}>
-                            Post pictures of your purchases to inspire your friends.
-                        </Text>
-                    }
-                </View>
+        !loading &&
+        <View style={styles.container}>
+            <View style={styles.textContainer}>
+                <Text style={styles.header}>No Posts Yet</Text>
+                {
+                    showPostPrompt &&
+                    <Text style={styles.subHeader}>
+                        Post pictures of your purchases to inspire your friends.
+                    </Text>
+                }
             </View>
+        </View>
     )
 };
 
