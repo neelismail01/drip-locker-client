@@ -2,12 +2,7 @@ import React, { useState, useCallback } from "react";
 import {
   SafeAreaView,
   FlatList,
-  Image,
-  TouchableOpacity,
   ActivityIndicator,
-  StyleSheet,
-  Dimensions,
-  Text,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
@@ -22,8 +17,7 @@ import ProfileInformation from "./ProfileInformation";
 import OrdersFilter from "./OrdersFilter";
 import EmptyOrders from "./EmptyOrders";
 import EmptyLikes from "./EmptyLikes";
-
-const { width } = Dimensions.get("window");
+import PostTile from "./PostTile";
 
 const ProfileMain = ({ navigation, route }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -249,41 +243,16 @@ const ProfileMain = ({ navigation, route }) => {
         onEndReachedThreshold={0}
         onRefresh={handleRefresh}
         refreshing={postsCountRefreshing || dripScoreRefreshing || postsRefreshing}
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity
-              style={styles.orderCard}
-              onPress={() => handleGoToOrdersFeed(item)}
-            >
-              <Image
-                source={{ uri: item.pictureUrls[0] }}
-                style={styles.orderCardImage}
-              />
-              <Text style={styles.businessName}>{item.brandName}</Text>
-            </TouchableOpacity>
-          )
-        }}
+        renderItem={({ item }) => (
+          <PostTile
+            post={item}
+            handleGoToOrdersFeed={handleGoToOrdersFeed}
+          />
+        )}
       />
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  orderCard: {
-    justifyContent: "center",
-    marginBottom: 10,
-  },
-  orderCardImage: {
-    width: width * 0.5,
-    height: width * 0.5,
-    borderWidth: 2,
-    borderColor: "white",
-  },
-  businessName: {
-    fontWeight: "bold",
-    fontSize: 12,
-    margin: 5,
-  },
-});
 
 export default ProfileMain;
