@@ -112,9 +112,6 @@ const BrandSearch = ({ navigation }) => {
                             onChangeText={text => setBrandWebsite(text)}
                           />
                         </View>
-                        <Text style={styles.brandRowSubtext}>
-                          Adding the brand's website improves your Drip Score.
-                        </Text>
                       </View>
                     )
                   }
