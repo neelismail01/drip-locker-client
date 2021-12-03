@@ -57,14 +57,19 @@ const SearchMain = ({ navigation }) => {
     navigation.navigate("Profile Main", { userId, userName });
   };
 
-  const handleGoToFullResults = (type) => {
-    const path = (type === "Friend" ? `orders/friends` : `orders/user/${userId}`);
-    navigation.navigate("Full Results", { query, path })
+  const handleGoToFullResultsFriend = () => {
+    const path = "orders/friends";
+    navigation.navigate("Full Results", { query, path });
   }
 
-  const handleGoToOrdersFeed = (type, order) => {
-    const orders = (type === "Friend" ? friendPosts : userPosts);
-    const path = (type === "Friend" ? `orders/friends` : `orders/user/${userId}`);
+  const handleGoToFullResultsUser = () => {
+    const path = `orders/user/${userId}`;
+    navigation.navigate("Full Results", { query, path });
+  }
+
+  const handleGoToOrdersFeedFriend = (order) => {
+    const orders = friendPosts;
+    const path = "orders/friends";
     const urlPath = `${path}?searchTerm=${query}&limit=10`;
     const page = 0
     navigation.push("Feed Main", {
@@ -74,6 +79,19 @@ const SearchMain = ({ navigation }) => {
       urlPath
     });
   };
+
+  const handleGoToOrdersFeedUser = (order) => {
+    const orders = userPosts;
+    const path = `orders/user/${userId}`;
+    const urlPath = `${path}?searchTerm=${query}&limit=10`;
+    const page = 0
+    navigation.push("Feed Main", {
+      orders,
+      order,
+      page,
+      urlPath
+    });
+  }
 
   const handleQueryChange = (text) => {
     setQuery(text)
@@ -166,16 +184,16 @@ const SearchMain = ({ navigation }) => {
             <PostResults
               results={friendPosts}
               type="Friend"
-              handleGoToFullResults={handleGoToFullResults}
-              handleGoToOrdersFeed={handleGoToOrdersFeed}
+              handleGoToFullResults={handleGoToFullResultsFriend}
+              handleGoToOrdersFeed={handleGoToOrdersFeedFriend}
             />
           )}
           {userPosts.length > 0 && (
             <PostResults
               results={userPosts}
               type="User"
-              handleGoToFullResults={handleGoToFullResults}
-              handleGoToOrdersFeed={handleGoToOrdersFeed}
+              handleGoToFullResults={handleGoToFullResultsUser}
+              handleGoToOrdersFeed={handleGoToOrdersFeedUser}
             />
           )}
         </ScrollView>
