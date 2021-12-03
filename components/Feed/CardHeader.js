@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     marginRight: 15
   },
   textContainer: {
-    height: 40,
+    height: 50,
     justifyContent: "space-evenly"
   },
   initialsText: {
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   orderDate: {
-    fontSize: 14,
+    fontSize: 12,
     color: "grey"
   }
 });
