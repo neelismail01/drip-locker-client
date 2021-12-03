@@ -13,7 +13,6 @@ const FriendFeedMain = ({ route, navigation }) => {
     const userId = useSelector(selectUserId);
     const accessToken = useSelector(selectAccessToken);
     let scrollRef = useRef(null);
-
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(page)
     const [loadedOrders, setLoadedOrders] = useState(orders);
@@ -28,29 +27,29 @@ const FriendFeedMain = ({ route, navigation }) => {
 
     const loadMore = () => {
         if (!endReached) {
-            setCurrentPage(currentPage + 1);
             setLoading(true);
             axios.get(`${AWS_BASE_URL}${urlPath}&page=${currentPage}`, config)
             .then(response => {
-                if (response.data.statusCode === 200) {
-                    if (response.data.body.length < 10) {
-                        setEndReached(true);
-                    } else {
-                        setLoadedOrders([...loadedOrders, ...response.data.body]);
-                    }
-                    setLoading(false);
+                if (response.data.body.length < 10) {
+                    setEndReached(true);
+                } else {
+                    setCurrentPage(currentPage + 1);
                 }
+                setLoadedOrders([...loadedOrders, ...response.data.body]);
             })
             .catch(err => {
                 console.log(err);
                 console.log('Api call error - getting orders');
+            })
+            .finally(() => {
+                setLoading(false);
             })
         }
     }
 
     const renderFooter = () => {
         return (
-            loading && <ActivityIndicator size="large" />
+            loading && <ActivityIndicator size="small" />
         )
     }
 
