@@ -25,16 +25,14 @@ const TrendingBrandRow = ({ rank, brand }) => {
           )}
           <View style={styles.brandNameAndWebsite}>
             <Text style={styles.brandName}>{brand.brandName}</Text>
-            <Text style={styles.brandStats}>
-              {brand.totalPosts} {brand.totalPosts === 1 ? "Post" : "Posts"}{" "}
-              {"&"} {brand.totalLikes}{" "}
-              {brand.totalLikes === 1 ? "Like" : "Likes"}
-            </Text>
+            <Text style={styles.brandWebsite}>{brand.brandWebsite}</Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.shopButton}>
-          <Text style={styles.shopText}>Shop</Text>
-        </TouchableOpacity>
+        <View style={styles.brandStatsContainer}>
+          <Text style={styles.brandStats}>
+            {brand.totalPosts}
+          </Text>
+        </View>
       </View>
       <View style={styles.separator} />
     </View>
@@ -48,7 +46,7 @@ const styles = StyleSheet.create({
   brandRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "space-between"
   },
   brandDetails: {
     flexDirection: "row",
@@ -57,29 +55,34 @@ const styles = StyleSheet.create({
   brandLogo: {
     height: 50,
     width: 50,
+    borderRadius: 25,
     resizeMode: "contain",
     marginHorizontal: 20,
+    backgroundColor: "white"
+  },
+  brandNameAndWebsite: {
+    height: 50,
+    justifyContent: "space-evenly"
   },
   brandName: {
     fontWeight: "bold",
     fontSize: 14,
   },
-  brandNameAndWebsite: {
-    height: "auto",
-  },
-  brandStats: {
+  brandWebsite: {
     color: "grey",
     fontSize: 12,
   },
-  shopButton: {
+  brandStatsContainer: {
     backgroundColor: "#efefef",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 10,
+    borderRadius: 5,
+    padding: 5,
+    width: 50,
+    alignItems: "center"
   },
-  shopText: {
-    fontSize: 12,
+  brandStats: {
+    color: "black",
     fontWeight: "bold",
+    fontSize: 12,
   },
   separator: {
     borderBottomColor: "#efefef",
