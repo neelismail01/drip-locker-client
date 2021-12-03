@@ -1,10 +1,9 @@
 import React from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
-import { Icon } from 'react-native-elements';
+import { StyleSheet, View, Text, Image } from "react-native";
 
 const PostDetails = ({ order }) => {
   return (
-      <TouchableOpacity style={styles.brandDetailsContainer}>
+      <View style={styles.brandDetailsContainer}>
         <View style={styles.brandInfo}>
           {
             order.brandLogo !== '' ?
@@ -24,8 +23,7 @@ const PostDetails = ({ order }) => {
             }
           </View>
         </View>
-        <Icon name="angle-right" type="font-awesome-5" color="white" size={14} />
-      </TouchableOpacity>
+      </View>
   );
 };
 
