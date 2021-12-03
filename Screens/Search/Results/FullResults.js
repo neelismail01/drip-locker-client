@@ -3,7 +3,6 @@ import {
   SafeAreaView,
   View,
   FlatList,
-  Image,
   TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
@@ -13,8 +12,8 @@ import {
 import { Icon } from 'react-native-elements'
 import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
-
 import { AWS_BASE_URL } from "@env";
+import PostTile from "../../../components/Profile/PostTile";
 
 import { useSelector } from "react-redux";
 import { selectAccessToken } from "../../../Redux/userSlice";
@@ -75,7 +74,7 @@ const FullResults = ({ navigation, route }) => {
   );
 
   const FooterComponent = () => {
-    return loading && <ActivityIndicator style={{marginTop: 15}} size="large" />;
+    return loading && <ActivityIndicator style={{marginTop: 15}} size="small" />;
   };
 
   return (
@@ -95,16 +94,10 @@ const FullResults = ({ navigation, route }) => {
         onEndReached={loadMore}
         onEndReachedThreshold={0}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.orderCard}
-            onPress={() => handleGoToOrdersFeed(item)}
-          >
-            <Image
-              source={{ uri: item.pictureUrls[0] }}
-              style={styles.orderCardImage}
-            />
-            <Text style={styles.businessName}>{item.brandName}</Text>
-          </TouchableOpacity>
+          <PostTile
+            post={item}
+            handleGoToOrdersFeed={handleGoToOrdersFeed}
+          />
         )}
       />
     </SafeAreaView>
