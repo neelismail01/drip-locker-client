@@ -5,8 +5,9 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
-  Image,
 } from "react-native";
+
+import PostTile from "../../../components/Profile/PostTile";
 
 const { width } = Dimensions.get('window');
 
@@ -17,24 +18,18 @@ const PostResults = ({ results, type, handleGoToFullResults, handleGoToOrdersFee
           <Text style={styles.sectionHeader}>
             {type === "Friend" ? "Friend" : "My" } Posts
           </Text>
-          <TouchableOpacity onPress={() => handleGoToFullResults(type)}>
+          <TouchableOpacity onPress={() => handleGoToFullResults()}>
             <Text>View All</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.resultsGrid}>
           {results.slice(0, 2).map(result => {
             return (
-              <TouchableOpacity
+              <PostTile
                 key={result._id}
-                style={styles.orderCard}
-                onPress={() => handleGoToOrdersFeed(type, result)}
-              >
-                <Image
-                  source={{ uri: result.pictureUrls[0] }}
-                  style={styles.orderCardImage}
-                />
-                <Text style={styles.businessName}>{result.brandName}</Text>
-              </TouchableOpacity>
+                post={result}
+                handleGoToOrdersFeed={handleGoToOrdersFeed}
+              />
             )
           })}
         </View>
