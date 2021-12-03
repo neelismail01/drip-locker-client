@@ -8,6 +8,7 @@ import { selectAccessToken, selectUserInfo } from '../../Redux/userSlice';
 
 import CardHeader from './CardHeader';
 import Caption from './Caption';
+import ProductTags from './ProductTags';
 import ProductCarousel from './ProductCarousel';
 import BrandDetails from './BrandDetails';
 import CardFooter from './CardFooter';
@@ -15,6 +16,7 @@ import CardFooter from './CardFooter';
 const FeedCard = ({ order, liked, navigation }) => {
   const [imageActive, setImageActive] = useState(0);
   const [isLiked, setIsLiked] = useState(liked);
+  const [likeCount, setLikeCount] = useState(order.likedBy.length)
 
   const accessToken = useSelector(selectAccessToken);
   const userInfo = useSelector(selectUserInfo);
@@ -29,7 +31,12 @@ const FeedCard = ({ order, liked, navigation }) => {
         'Authorization': `Bearer ${accessToken}`
       }
     }
-    setIsLiked(!isLiked)
+    if (isLiked) {
+      setLikeCount(likeCount - 1)
+    } else {
+      setLikeCount(likeCount + 1)
+    }
+    setIsLiked(!isLiked);
     await axios.put(`${AWS_BASE_URL}orders/${order._id}/likes`, requestData, config);
   }
 
@@ -56,6 +63,9 @@ const FeedCard = ({ order, liked, navigation }) => {
       <Caption
         order={order}
       />
+      <ProductTags
+        order={order}
+      />
       <ProductCarousel
         onchange={onchange}
         order={order}
@@ -66,6 +76,7 @@ const FeedCard = ({ order, liked, navigation }) => {
       <CardFooter
         order={order}
         isLiked={isLiked}
+        likeCount={likeCount}
         imageActive={imageActive}
         handleLikePhoto={handleLikePhoto}
       />
