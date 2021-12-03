@@ -71,7 +71,7 @@ const SearchMain = ({ navigation }) => {
     const orders = friendPosts;
     const path = "orders/friends";
     const urlPath = `${path}?searchTerm=${query}&limit=10`;
-    const page = 0
+    const page = 1
     navigation.push("Feed Main", {
       orders,
       order,
@@ -84,7 +84,7 @@ const SearchMain = ({ navigation }) => {
     const orders = userPosts;
     const path = `orders/user/${userId}`;
     const urlPath = `${path}?searchTerm=${query}&limit=10`;
-    const page = 0
+    const page = 1
     navigation.push("Feed Main", {
       orders,
       order,
