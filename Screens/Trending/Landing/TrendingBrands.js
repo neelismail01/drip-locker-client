@@ -3,6 +3,8 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
+  View,
+  StyleSheet
 } from "react-native";
 
 import TrendingBrandRow from "./TrendingBrandRow";
@@ -14,7 +16,9 @@ const TrendingBrands = ({
   handleRefresh,
 }) => {
   return loading ? (
-    <ActivityIndicator size="large" />
+    <View style={styles.loadingContainer}>
+      <ActivityIndicator size="small" />
+    </View>
   ) : (
     <ScrollView
       refreshControl={
@@ -29,5 +33,13 @@ const TrendingBrands = ({
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  }
+})
 
 export default TrendingBrands;
