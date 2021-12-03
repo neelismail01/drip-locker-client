@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import { Icon } from 'react-native-elements';
 
-const CardFooter = ({ order, isLiked, handleLikePhoto, imageActive }) => {
+const CardFooter = ({ order, isLiked, likeCount, handleLikePhoto, imageActive }) => {
 
   return (
         <View style={styles.cardFooter}>
@@ -15,7 +15,11 @@ const CardFooter = ({ order, isLiked, handleLikePhoto, imageActive }) => {
                 name={isLiked ? "favorite" : "favorite-border"}
                 type="material"
                 color={isLiked ? "red" : "black"}
-                size={28} />
+                size={28}
+              />
+              <Text style={styles.likesCount}>
+                {likeCount} {order.likedBy.length === 1 ? "like" : "likes"}
+              </Text>
             </TouchableOpacity>
             <View style={styles.dotWrapper}>
               {
@@ -50,10 +54,14 @@ const styles = StyleSheet.create({
     likeIcon: {
         position: "absolute",
         height: 40,
-        width: 40,
-        left: 0,
+        left: 10,
+        flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
+    },
+    likesCount: {
+      marginLeft: 7.5,
+      fontWeight: "bold"
     },
     dotWrapper: {
         flexDirection: "row",
