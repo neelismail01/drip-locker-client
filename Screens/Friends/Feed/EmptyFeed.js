@@ -2,14 +2,13 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
 const EmptyFeed = ({ loading }) => {
-
     return (
         !loading &&
         <View style={styles.container}>
             <View style={styles.textContainer}>
                 <Text style={styles.header}>No Posts Yet</Text>
                 <Text style={styles.subHeader}>
-                    Add more friends to get inspired by what they are buying.
+                    Add more friends to get inspired by what they are buying!
                 </Text>
             </View>
         </View>
@@ -18,9 +17,9 @@ const EmptyFeed = ({ loading }) => {
 
 const styles = StyleSheet.create({
     container: {
+        flexGrow: 1,
         justifyContent: "center",
         alignItems: "center",
-        height: "100%",
     },
     textContainer: {
         width: "66%",
