@@ -54,7 +54,7 @@ const ProfileMain = ({ navigation, route }) => {
 
   const handleGoToOrdersFeed = (order) => {
     const orders = activeTab === 0 ? myOrders : likedOrders;
-    const page = activeTab === 0 ? myOrdersPage : likedOrdersPage;
+    const page = activeTab === 0 ? myOrdersPage + 1 : likedOrdersPage + 1;
     const urlPath =
       activeTab === 0
         ? `orders/user/${userId}?limit=10`
@@ -79,13 +79,70 @@ const ProfileMain = ({ navigation, route }) => {
     }
   };
 
+  const getMyPosts = async (isLoading) => {
+    const path = `orders/user/${userId}?limit=${10}&page=${myOrdersPage}`;
+    axios.get(`${AWS_BASE_URL}${path}`, config)
+    .then(response => {
+      if (response.data.body.length > 0) {
+        if (myOrders.length === 0) {
+          setMyOrders([...response.data.body])
+        } else if (isLoading) {
+          setMyOrders([...myOrders, response.data.body])
+        } else if (myOrders[0]._id !== response.data.body[0]._id) {
+          setMyOrders([...response.data.body])
+        }
+      }
+
+      if (response.data.body.length < 10) {
+        setEndMyOrdersReached(true);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    })
+    .finally(() => {
+      setLoading(false);
+      setPostsRefreshing(false);
+    })
+  }
+
+  const getLikedPosts = async (isLoading) => {
+    const path = `orders/user/${userId}/liked?limit=${10}&page=${likedOrdersPage}`;
+    axios.get(`${AWS_BASE_URL}${path}`, config)
+    .then((response) => {
+      if (response.data.body.length > 0) {
+        if (likedOrders.length === 0) {
+          setLikedOrders([...response.data.body])
+        } else if (isLoading) {
+          setLikedOrders([...likedOrders, ...response.data.body])
+        } else if (likedOrders[0]._id !== response.data.body[0]._id) {
+          setLikedOrders([...response.data.body])
+        }
+      }
+
+      if (response.data.body.length < 10) {
+        setEndLikedOrdersReached(true);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Api call error - getting orders");
+    })
+    .finally(() => {
+      setLoading(false);
+      setPostsRefreshing(false);
+    })
+  }
+
   const loadMore = () => {
     if (activeTab === 0 && !endMyOrdersReached) {
-      setLoading(true);
       setMyOrdersPage(myOrdersPage + 1);
-    } else if (activeTab === 1 && !endLikedOrdersReached) {
       setLoading(true);
-      setLikedOrdersPage(likedOrdersPage + 1);
+      getMyPosts(true);
+    } else if (activeTab === 1 && !endLikedOrdersReached) {
+      setLikedOrdersPage(likedOrdersPage + 1)
+      setLoading(true);
+      getLikedPosts(true);
     }
   };
 
@@ -96,63 +153,28 @@ const ProfileMain = ({ navigation, route }) => {
     if (activeTab === 0) {
       setMyOrdersPage(0);
       setEndMyOrdersReached(false);
+      getMyPosts(false);
     } else {
       setLikedOrdersPage(0);
       setEndLikedOrdersReached(false);
+      getLikedPosts(false);
     }
   }
 
   useFocusEffect(
     useCallback(() => {
-      if (
-        (activeTab === 0 && !endMyOrdersReached) ||
-        (activeTab === 1 && !endLikedOrdersReached)
-      ) {
-        if (!postsRefreshing) {
-          setLoading(true);
-        }
-        const path =
-          activeTab === 0
-            ? `orders/user/${userId}?limit=${10}&page=${myOrdersPage}`
-            : `orders/user/${userId}/liked?limit=${10}&page=${likedOrdersPage}`;
-        axios
-          .get(`${AWS_BASE_URL}${path}`, config)
-          .then((response) => {
-            if (response.data.statusCode === 200) {
-              if (activeTab === 0) {
-                if (response.data.body.length < 10) {
-                  setEndMyOrdersReached(true);
-                }
-
-                if (postsRefreshing) {
-                  setMyOrders([...response.data.body])
-                } else {
-                  setMyOrders([...myOrders, ...response.data.body]);
-                }
-              } else if (activeTab === 1) {
-                if (response.data.body.length === 0) {
-                  setEndLikedOrdersReached(true);
-                }
-
-                if (postsRefreshing) {
-                  setLikedOrders([...response.data.body])
-                } else {
-                  setLikedOrders([...likedOrders, ...response.data.body]);
-                }
-              }
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-            console.log("Api call error - getting orders");
-          })
-          .finally(() => {
-            setLoading(false);
-            setPostsRefreshing(false);
-          })
+      if (activeTab === 0 && !endMyOrdersReached) {
+        setLoading(true);
+        getMyPosts(true);
+        setMyOrdersPage(myOrdersPage + 1);
+      } else if (activeTab === 1 && !endLikedOrdersReached) {
+        setLoading(true);
+        getLikedPosts(true);
+        setLikedOrdersPage(likedOrdersPage + 1);
       }
-    }, [myOrdersPage, likedOrdersPage, activeTab])
-  );
+    }, [activeTab])
+  )
+
 
   useFocusEffect(
     useCallback(() => {
@@ -212,7 +234,7 @@ const ProfileMain = ({ navigation, route }) => {
 
   const FooterComponent = () => {
     return (
-      loading && <ActivityIndicator style={{ marginTop: 15 }} size="large" />
+      loading && <ActivityIndicator style={{ marginTop: 15 }} size="small" />
     );
   };
 
@@ -224,7 +246,6 @@ const ProfileMain = ({ navigation, route }) => {
       />
       <FlatList
         data={activeTab === 0 ? myOrders : likedOrders}
-        horizontal={false}
         numColumns={2}
         keyExtractor={(item) => item._id}
         ListEmptyComponent={
