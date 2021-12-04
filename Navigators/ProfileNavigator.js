@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import ProfileMain from '../components/Profile/ProfileMain';
 import SettingsMain from '../Screens/Profile/Settings/SettingsMain';
-import PersonalInformation from '../Screens/Profile/EditPersonalInformation/PersonalInformation';
 import FeedMain from '../components/Feed/FeedMain';
 
 const Stack = createNativeStackNavigator();
@@ -29,13 +28,6 @@ const ProfileNavigator = () => {
                 <Stack.Screen
                     name="Settings Main"
                     component={SettingsMain}
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen
-                    name="Personal Information"
-                    component={PersonalInformation}
                     options={{
                         headerShown: false,
                     }}
