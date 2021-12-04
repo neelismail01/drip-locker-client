@@ -18,7 +18,7 @@ const CardFooter = ({ order, isLiked, likeCount, handleLikePhoto, imageActive })
                 size={28}
               />
               <Text style={styles.likesCount}>
-                {likeCount} {order.likedBy.length === 1 ? "like" : "likes"}
+                {likeCount} {likeCount === 1 ? "like" : "likes"}
               </Text>
             </TouchableOpacity>
             <View style={styles.dotWrapper}>
