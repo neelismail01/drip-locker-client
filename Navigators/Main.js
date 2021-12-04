@@ -3,6 +3,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet, View } from "react-native";
 import { Icon } from 'react-native-elements'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from "axios";
+
+import { AWS_BASE_URL } from "@env";
 
 import AuthenticationNavigator from './AuthenticationNavigator';
 import FriendsNavigator from './FriendsNavigator';
@@ -12,7 +15,7 @@ import TrendingNavigator from './TrendingNavigator';
 import ProfileNavigator from './ProfileNavigator';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { selectIsLoggedIn, setAccessToken } from '../Redux/userSlice';
+import { selectIsLoggedIn, setAccessToken, setUserInfo } from '../Redux/userSlice';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,7 +29,17 @@ const Main = () => {
             try {
                 const accessToken = await AsyncStorage.getItem('access_token');
                 if (accessToken !== null) {
+
+                    const config = {
+                        headers: {
+                          "Content-Type": "application/json",
+                          Authorization: `Bearer ${accessToken}`,
+                        },
+                      };
+
+                    const response = await axios.get(`${AWS_BASE_URL}users/info`, config)
                     dispatch(setAccessToken(accessToken));
+                    dispatch(setUserInfo(response.data.body));
                 }
             } catch (err) {
                 console.log(err);
