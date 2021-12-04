@@ -83,19 +83,19 @@ const ProfileMain = ({ navigation, route }) => {
     const path = `orders/user/${userId}?limit=${10}&page=${myOrdersPage}`;
     axios.get(`${AWS_BASE_URL}${path}`, config)
     .then(response => {
-      if (response.data.body.length > 0) {
-        if (myOrders.length === 0) {
-          setMyOrders([...response.data.body])
-        } else if (isLoading) {
-          setMyOrders([...myOrders, response.data.body])
-        } else if (myOrders[0]._id !== response.data.body[0]._id) {
-          setMyOrders([...response.data.body])
+        if (response.data.body.length > 0) {
+          if (myOrders.length === 0) {
+            setMyOrders([...response.data.body])
+          } else if (isLoading) {
+            setMyOrders([...myOrders, response.data.body])
+          } else if (!isLoading) {
+            setMyOrders([...response.data.body])
+          }
         }
-      }
 
-      if (response.data.body.length < 10) {
-        setEndMyOrdersReached(true);
-      }
+        if (response.data.body.length < 10) {
+          setEndMyOrdersReached(true);
+        }
     })
     .catch(err => {
       console.log(err);
@@ -115,7 +115,7 @@ const ProfileMain = ({ navigation, route }) => {
           setLikedOrders([...response.data.body])
         } else if (isLoading) {
           setLikedOrders([...likedOrders, ...response.data.body])
-        } else if (likedOrders[0]._id !== response.data.body[0]._id) {
+        } else if (!isLoading) {
           setLikedOrders([...response.data.body])
         }
       }
@@ -125,7 +125,7 @@ const ProfileMain = ({ navigation, route }) => {
       }
     })
     .catch((err) => {
-      console.log(err);
+      console.log("ERROR", err);
       console.log("Api call error - getting orders");
     })
     .finally(() => {
@@ -242,7 +242,7 @@ const ProfileMain = ({ navigation, route }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <ProfileHeader
         handleGoToSettings={handleGoToSettings}
-        showSettingsIcon={userInfo.id === userId}
+        showSettingsIcon={route.params === undefined}
       />
       <FlatList
         data={activeTab === 0 ? myOrders : likedOrders}
