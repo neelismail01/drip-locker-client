@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectUserInfo, clearUser } from "../../../Redux/userSlice";
 import { clearPost } from '../../../Redux/postSlice';
 
-const ProfileMain = ({ navigation }) => {
+const ProfileMain = () => {
     const { name } = useSelector(selectUserInfo);
     const dispatch = useDispatch();
 
@@ -31,18 +31,6 @@ const ProfileMain = ({ navigation }) => {
                     </View>
                 </View>
                 <View style={styles.categoryContainer}>
-                    <TouchableOpacity
-                        style={styles.category}
-                        onPress={() => navigation.navigate('Personal Information')}
-                    >
-                        <View style={styles.iconCategoryContainer}>
-                            <View style={styles.iconContainer}>
-                                <Icon name="user" type="font-awesome-5" color="black" size={22} />
-                            </View>
-                            <Text style={styles.categoryText}>Personal Information</Text>
-                        </View>
-                        <Icon name="angle-right" type="font-awesome-5" color="black" size={22} />
-                    </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.category}
                         onPress={handleLogoutUser}
