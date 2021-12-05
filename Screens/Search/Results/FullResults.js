@@ -42,7 +42,7 @@ const FullResults = ({ navigation, route }) => {
     navigation.push("Feed Main", {
       orders,
       order,
-      page,
+      page: page + 1,
       urlPath
     });
   };
