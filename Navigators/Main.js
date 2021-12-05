@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet, View } from "react-native";
 import { Icon } from 'react-native-elements'
@@ -21,6 +21,7 @@ const Tab = createBottomTabNavigator();
 
 const Main = () => {
 
+    const [isLoading, setIsLoading] = useState(true)
     const isLoggedIn = useSelector(selectIsLoggedIn);
     const dispatch = useDispatch();
 
@@ -41,6 +42,7 @@ const Main = () => {
                     dispatch(setAccessToken(accessToken));
                     dispatch(setUserInfo(response.data.body));
                 }
+                setIsLoading(false);
             } catch (err) {
                 console.log(err);
             }
@@ -48,7 +50,9 @@ const Main = () => {
         checkForUserToken();
     }, [])
 
-    if (isLoggedIn) {
+    if (isLoading) {
+        return null;
+    } else if (isLoggedIn) {
         return (
             <Tab.Navigator
                 initialRouteName="Home"
