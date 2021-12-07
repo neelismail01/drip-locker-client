@@ -63,6 +63,7 @@ const ProductTagging = ({ navigation }) => {
                 value={newTag}
                 onChangeText={text => setNewTag(text)}
                 onSubmitEditing={handleAddTag}
+                returnKeyType="done"
               /> :
               <TouchableOpacity onPress={() => setToggleShowTagInput(true)}>
                 <Text style={styles.addTagButton}>+ ADD</Text>
