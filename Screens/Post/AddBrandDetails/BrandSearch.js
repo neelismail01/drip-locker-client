@@ -74,6 +74,7 @@ const BrandSearch = ({ navigation }) => {
                     value={brandQuery}
                     onChangeText={text => setBrandQuery(text)}
                     onSubmitEditing={searchBrand}
+                    returnKeyType="search"
                 />
                 <View style={styles.brandInfo}>
                   {
