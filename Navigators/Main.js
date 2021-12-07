@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Dimensions, ActivityIndicator, Text } from "react-native";
 import { Icon } from 'react-native-elements'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
@@ -18,6 +18,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectIsLoggedIn, setAccessToken, setUserInfo } from '../Redux/userSlice';
 
 const Tab = createBottomTabNavigator();
+const { height, width } = Dimensions.get('window')
 
 const Main = () => {
 
@@ -51,7 +52,12 @@ const Main = () => {
     }, [])
 
     if (isLoading) {
-        return null;
+        return (
+            <View style={styles.loadingSpinnerContainer}>
+                <ActivityIndicator size="small" />
+                <Text style={styles.spinnerText}>Loading</Text>
+            </View>
+        );
     } else if (isLoggedIn) {
         return (
             <Tab.Navigator
@@ -151,6 +157,15 @@ const Main = () => {
 }
 
 const styles = StyleSheet.create({
+    loadingSpinnerContainer: {
+        justifyContent: "center",
+        alignItems: "center",
+        height: height,
+        width: width
+    },
+    loginSpinnerText: {
+        marginTop: 5
+    },
     postButton: {
         height: 35,
         width: 35,
