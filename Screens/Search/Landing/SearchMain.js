@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { SafeAreaView, KeyboardAvoidingView, ScrollView } from "react-native";
 import axios from "axios";
-import { AWS_BASE_URL } from "@env";
+import { AWS_BASE_URL } from "../../../util/common";
 
 import SearchBar from "./SearchBar";
 import SearchResults from "./SearchResults";

@@ -5,7 +5,7 @@ import { Icon } from 'react-native-elements'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
 
-import { AWS_BASE_URL } from "@env";
+import { AWS_BASE_URL } from "../util/common";
 
 import AuthenticationNavigator from './AuthenticationNavigator';
 import FriendsNavigator from './FriendsNavigator';
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
         width: width
     },
     loginSpinnerText: {
-        marginTop: 5
+        marginTop: 10
     },
     postButton: {
         height: 35,

@@ -8,7 +8,7 @@ import GetEmail from './GetEmail';
 import GetPassword from './GetPassword';
 import ConfirmRegistration from './ConfirmRegistration';
 
-import { AWS_BASE_URL } from "@env";
+import { AWS_BASE_URL } from "../../../util/common";
 
 import { useDispatch } from 'react-redux';
 import { setAccessToken, setUserInfo } from "../../../Redux/userSlice";

@@ -4,7 +4,7 @@ import {
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
-import { AWS_BASE_URL } from "@env";
+import { AWS_BASE_URL } from "../../../util/common";
 import { useSelector } from "react-redux";
 import { selectAccessToken } from "../../../Redux/userSlice";
 

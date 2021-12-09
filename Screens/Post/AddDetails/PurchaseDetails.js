@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Icon } from "react-native-elements";
 import axios from "axios";
-import { AWS_BASE_URL } from "@env";
+import { AWS_BASE_URL } from "../../../util/common";
 
 import { useSelector, useDispatch } from "react-redux";
 import { selectPostInfo, clearPost } from "../../../Redux/postSlice";

@@ -13,7 +13,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-import { AWS_BASE_URL } from "@env";
+import { AWS_BASE_URL } from "../../../util/common";
 import { useDispatch } from "react-redux";
 import { setAccessToken, setUserInfo } from "../../../Redux/userSlice";
 

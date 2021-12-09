@@ -4,7 +4,7 @@ import { SafeAreaView, FlatList, ActivityIndicator } from "react-native";
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { selectUserId, selectAccessToken } from '../../Redux/userSlice';
-import { AWS_BASE_URL } from '@env';
+import { AWS_BASE_URL } from '../../util/common';
 
 import FeedCard from './FeedCard';
 

@@ -12,7 +12,7 @@ import {
 import { Icon } from 'react-native-elements'
 import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
-import { AWS_BASE_URL } from "@env";
+import { AWS_BASE_URL } from "../../../util/common";
 import PostTile from "../../../components/Profile/PostTile";
 
 import { useSelector } from "react-redux";
