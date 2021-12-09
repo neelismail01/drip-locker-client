@@ -10,12 +10,11 @@ I faciliated the sharing of purchases by enabling users to take pictures of a re
 
 I tried to encourage brand discovery and inspire purchases in this app through 4 key features: an infinite-scrolling feed, expansive search capabilities, live data on trending brands with the app's users, and a robust user profile that made all of a user's purchases easily accessible.
 The feed encouraged users to randomly stumble open interesting products and brands while searching offered more precision and intention to their
-discovery by enabling them to view all products purchased by their friends within a product category they are interested in. The profile allowed users browse through purchases made by friends with similar tastes while the trending tab allowed users to discover brands that are popular or emerging in the monet. The 
+discovery by enabling them to view all products purchased by their friends within a product category they are interested in. The profile allowed users browse through purchases made by friends with similar tastes while the trending tab allowed users to discover brands that are popular on the app. 
 
 ## Technologies
-I built the frontend of this application with **React Native** and used **Redux** for global state management. I built a **serverless** API layer using **AWS lambda**
-functions routed through an **AWS API Gateway**. I used **AWS S3** for cloud file storage and integrated **AWS Cloudfront** to serve images to client devices with minimal 
-latency. I achieved persistent storage for this mobile application by using a **MongoDB NoSQL database**. 
+I built the frontend of this application with **React Native** and used **Redux** for global state management. I built a **serverless** API layer using **AWS Lambda**
+functions routed through an **AWS API Gateway**. I used **AWS S3** for highly available cloud file storage and achieved persistent data storage using a **MongoDB NoSQL database**. 
 
 ## Preview
 
