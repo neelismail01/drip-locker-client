@@ -4,7 +4,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "web": "expo start --web",
-    "start": "react-native start"
+    "start": "expo start --dev-client"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.9",
@@ -36,5 +36,7 @@
   "devDependencies": {
     "@babel/core": "^7.9.0"
   },
-  "private": true
+  "private": true,
+  "name": "drip-frontend",
+  "version": "1.0.0"
 }

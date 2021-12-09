@@ -47,6 +47,7 @@ const BrandSearch = ({ navigation }) => {
   }
 
   const handleIncorrectBrandSearch = () => {
+    setBrandName(brandQuery)
     setBrandLogo('');
     setBrandWebsite('');
   }
