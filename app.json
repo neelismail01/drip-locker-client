@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "DripLocker",
+    "name": "Drip Locker",
     "slug": "drip-frontend",
     "version": "1.0.1",
     "icon": "./assets/icon.png",
@@ -11,7 +11,6 @@
     },
     "ios": {
       "icon": "./assets/icon.png",
-      "bundleIdentifier": "com.neelismail.driplocker",
       "buildNumber": "1.0.1"
     },
     "assetBundlePatterns": [
