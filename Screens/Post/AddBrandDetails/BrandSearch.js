@@ -12,8 +12,6 @@ import {
 } from "react-native";
 import axios from 'axios';
 
-import { CLEARBIT_URL } from "@env";
-
 import { useDispatch, useSelector } from "react-redux";
 import { setBrandDetails, selectPostInfo } from '../../../Redux/postSlice';
 
@@ -29,6 +27,7 @@ const BrandSearch = ({ navigation }) => {
 
   const searchBrand = async () => {
     try {
+      const CLEARBIT_URL = "https://autocomplete.clearbit.com/v1/companies/suggest?query=";
       const editedBrand = brandQuery.split(' ').join('');
       const response = await axios.get(`${CLEARBIT_URL}${editedBrand}`);
       if (response.data.length > 0) {
