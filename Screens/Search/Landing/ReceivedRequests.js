@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
-import RecievedRequestResult from './ReceivedRequestResult';
+import RecievedRequestResult from '../../../components/ReceivedRequestsResult';
 
 const ReceivedRequests = ({ receivedRequests, handleAcceptFriendRequest, handleGoToFriendProfile }) => {
     return (
