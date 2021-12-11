@@ -4,6 +4,7 @@ import { SafeAreaView, KeyboardAvoidingView, ScrollView } from "react-native";
 import axios from "axios";
 import { AWS_BASE_URL } from "../../../util/common";
 
+import SearchHeader from "./SearchHeader";
 import SearchBar from "./SearchBar";
 import SearchResults from "./SearchResults";
 import ReceivedRequests from "./ReceivedRequests";
@@ -49,6 +50,7 @@ const SearchMain = ({ navigation }) => {
       const requestData = { recipient };
       await axios.post(`${AWS_BASE_URL}friends`, requestData, config);
     } catch (err) {
+      console.log("Error sending friend request")
       console.log(err);
     }
   };
@@ -158,6 +160,7 @@ const SearchMain = ({ navigation }) => {
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
+        <SearchHeader />
         <SearchBar query={query} handleQueryChange={handleQueryChange} />
         <ScrollView>
           {friends.length > 0 && (
