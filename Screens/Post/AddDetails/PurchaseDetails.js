@@ -74,7 +74,7 @@ const PurchaseDetails = ({ navigation }) => {
       loading ?
       <SafeAreaView style={{ flex: 1, backgroundColor: "white", justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="small" />
-        <Text style={styles.uploadSpinnerText}>Uploading your post</Text>
+        <Text style={styles.uploadSpinnerText}>Uploading Your Post</Text>
       </SafeAreaView> :
       <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
         <Text style={styles.header}>Add details to your post</Text>
@@ -206,7 +206,9 @@ const styles = StyleSheet.create({
     color: "white",
   },
   uploadSpinnerText: {
-    marginTop: 5
+    marginTop: 5,
+    fontSize: 12,
+    color: "grey"
   }
 });
 
