@@ -9,7 +9,7 @@ const SearchBar = ({ query, handleQueryChange }) => {
 
     return (
         <TextInput
-            placeholder="Search Friends, Brands, and Categories"
+            placeholder="Friends, Brands, and Categories"
             style={styles.searchBar}
             value={query}
             onChangeText={text => handleQueryChange(text)}
@@ -19,10 +19,11 @@ const SearchBar = ({ query, handleQueryChange }) => {
 
 const styles = StyleSheet.create({
     searchBar: {
-        borderRadius: 25,
+        borderRadius: 5,
         marginHorizontal: 20,
         backgroundColor: "#efefef",
-        padding: 15
+        paddingHorizontal: 15,
+        paddingVertical: 10
     }
 });
 
