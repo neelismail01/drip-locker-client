@@ -30,8 +30,13 @@ const TrendingBrandRow = ({ rank, brand }) => {
         </View>
         <View style={styles.brandStatsContainer}>
           <Text style={styles.brandStats}>
-            {brand.totalPosts}
+            {brand.totalLikes}
           </Text>
+          <Icon
+              name="favorite"
+              type="material"
+              size={12}
+            />
         </View>
       </View>
       <View style={styles.separator} />
@@ -73,11 +78,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   brandStatsContainer: {
+    flexDirection: "row",
     backgroundColor: "#efefef",
     borderRadius: 5,
     padding: 5,
-    width: 50,
-    alignItems: "center"
+    width: 65,
+    alignItems: "center",
+    justifyContent: "space-evenly"
   },
   brandStats: {
     color: "black",
