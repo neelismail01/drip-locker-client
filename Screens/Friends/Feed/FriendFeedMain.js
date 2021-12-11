@@ -29,6 +29,10 @@ const FeedMain = ({ navigation }) => {
     },
   };
 
+  const handleGoToNotifications = () => {
+    navigation.navigate("Notifications Main")
+  }
+
   const getFriendPosts = async (isLoading) => {
     axios.get(`${AWS_BASE_URL}orders/friends?limit=${10}&page=${page}`, config)
     .then((response) => {
@@ -82,7 +86,9 @@ const FeedMain = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <FeedHeader />
+      <FeedHeader
+        handleGoToNotifications={handleGoToNotifications}
+      />
       <FlatList
         ref={scrollRef}
         contentContainerStyle={!loading && friendOrders.length === 0 && { flexGrow: 1, justifyContent: "center" }}
