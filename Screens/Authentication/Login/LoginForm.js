@@ -64,7 +64,7 @@ const LoginForm = () => {
       }}
     >
       <ActivityIndicator size="small" />
-      <Text style={styles.loginSpinnerText}>Logging you in</Text>
+      <Text style={styles.loginSpinnerText}>Signing in</Text>
     </SafeAreaView>
   ) : (
     <SafeAreaView style={styles.formContainer}>
