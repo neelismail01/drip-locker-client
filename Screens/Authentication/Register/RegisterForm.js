@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, SafeAreaView, StyleSheet } from 'react-native';
+import { ActivityIndicator, SafeAreaView } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -79,7 +79,6 @@ const RegisterForm = () => {
             loading ?
             <SafeAreaView style={{ flex: 1, backgroundColor: "white", justifyContent: "center", alignItems: "center" }}>
                 <ActivityIndicator size="small" />
-                <Text style={styles.registerSpinnerText}>Creating your account</Text>
             </SafeAreaView> :
             <ConfirmRegistration
                 handleRegister={handleRegister}
@@ -88,11 +87,5 @@ const RegisterForm = () => {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    registerSpinnerText: {
-        marginTop: 5
-    }
-})
 
 export default RegisterForm;

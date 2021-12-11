@@ -64,7 +64,6 @@ const LoginForm = () => {
       }}
     >
       <ActivityIndicator size="small" />
-      <Text style={styles.loginSpinnerText}>Signing in</Text>
     </SafeAreaView>
   ) : (
     <SafeAreaView style={styles.formContainer}>
@@ -157,9 +156,6 @@ const styles = StyleSheet.create({
   errorMessage: {
     color: "red",
   },
-  loginSpinnerText: {
-    marginTop: 5
-  }
 });
 
 export default LoginForm;
