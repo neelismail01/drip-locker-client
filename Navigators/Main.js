@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet, View, Dimensions, ActivityIndicator, Text } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
+import AppLoading from 'expo-app-loading';
 import { Icon } from 'react-native-elements'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
@@ -26,38 +27,36 @@ const Main = () => {
     const isLoggedIn = useSelector(selectIsLoggedIn);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        const checkForUserToken = async () => {
-            try {
-                const accessToken = await AsyncStorage.getItem('access_token');
-                if (accessToken !== null) {
 
-                    const config = {
-                        headers: {
-                          "Content-Type": "application/json",
-                          Authorization: `Bearer ${accessToken}`,
-                        },
-                      };
+    const checkForUserToken = async () => {
+        try {
+            const accessToken = await AsyncStorage.getItem('access_token');
+            if (accessToken !== null) {
 
-                    const response = await axios.get(`${AWS_BASE_URL}users/info`, config)
-                    dispatch(setAccessToken(accessToken));
-                    dispatch(setUserInfo(response.data.body));
-                }
-                setIsLoading(false);
-            } catch (err) {
-                console.log(err);
+                const config = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                };
+
+                const response = await axios.get(`${AWS_BASE_URL}users/info`, config)
+                dispatch(setAccessToken(accessToken));
+                dispatch(setUserInfo(response.data.body));
             }
+        } catch (err) {
+            console.log(err);
         }
-        checkForUserToken();
-    }, [])
+    }
 
     if (isLoading) {
         return (
-            <View style={styles.loadingSpinnerContainer}>
-                <ActivityIndicator size="small" />
-                <Text style={styles.spinnerText}>Loading</Text>
-            </View>
-        );
+            <AppLoading
+                startAsync={checkForUserToken}
+                onFinish={() => setIsLoading(false)}
+                onError={console.warn}
+            />
+        )
     } else if (isLoggedIn) {
         return (
             <Tab.Navigator
