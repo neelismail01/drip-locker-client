@@ -1,11 +1,18 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
+import { Icon } from 'react-native-elements'
 
-const FeedHeader = () => {
+const FeedHeader = ({ handleGoToNotifications }) => {
 
     return (
         <View style={styles.headerContainer}>
             <Text style={styles.header}>Friends</Text>
+            <Icon
+                name={'notifications-none'}
+                type={'material'}
+                size={22}
+                onPress={handleGoToNotifications}
+            />
         </View>
     )
 };
