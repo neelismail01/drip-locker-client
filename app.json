@@ -11,6 +11,7 @@
     },
     "ios": {
       "icon": "./assets/icon.png",
+      "bundleIdentifier": "com.neelismail.driplocker",
       "buildNumber": "1.0.1"
     },
     "assetBundlePatterns": [
