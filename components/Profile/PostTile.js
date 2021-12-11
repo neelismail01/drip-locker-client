@@ -13,7 +13,7 @@ const { width } = Dimensions.get("window");
 const PostTile = ({ post, handleGoToOrdersFeed }) => {
     let tags = [];
     let tagsLength = 0;
-    const MAX_TAG_LENGTH = 25;
+    const MAX_TAG_LENGTH = 20;
 
     for (let i = 0; i < post.tags.length; i++) {
         if (tagsLength + post.tags[i].length < MAX_TAG_LENGTH) {
