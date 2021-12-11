@@ -86,14 +86,15 @@ const PurchaseCamera = ({ navigation }) => {
               <View style={styles.takePictureInnerButton} />
             </TouchableOpacity>
           )}
-          <TouchableOpacity
-            style={styles.nextStepButton}
-            onPress={() => navigation.navigate('Picture Carousel')}
-          >
-
-            <Text>Next</Text>
-            <Icon name="navigate-next" type="material" color="black" size={18} />
-          </TouchableOpacity>
+          {postInfo.pictures.length > 0 && (
+            <TouchableOpacity
+              style={styles.nextStepButton}
+              onPress={() => navigation.navigate('Picture Carousel')}
+            >
+              <Text>Next</Text>
+              <Icon name="navigate-next" type="material" color="black" size={18} />
+            </TouchableOpacity>
+          )}
         </Camera>
     </View>
   );
