@@ -16,12 +16,11 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         marginHorizontal: 20,
-        marginBottom: 10
+        marginBottom: 20
     },
     header: {
         fontSize: 24,
         fontWeight: "bold",
-        marginBottom: 20
     },
 });
 
