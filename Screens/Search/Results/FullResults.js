@@ -3,7 +3,6 @@ import {
   SafeAreaView,
   View,
   FlatList,
-  TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
   Dimensions,
@@ -80,9 +79,12 @@ const FullResults = ({ navigation, route }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name={'arrow-back'} type={'material'} size={20} />
-        </TouchableOpacity>
+        <Icon 
+          name={'chevron-left'}
+          type={'material'}
+          size={28}
+          onPress={() => navigation.goBack()}
+        />
         <Text style={styles.headerText}>Search results for "{query}"</Text>
       </View>
       <FlatList
@@ -106,14 +108,15 @@ const FullResults = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   header: {
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
     flexDirection: "row",
     alignItems: "center"
   },
   headerText: {
     fontSize: 16,
     fontWeight: "bold",
-    marginLeft: 20
+    marginLeft: 10
   },
   orderCard: {
     justifyContent: "center",
