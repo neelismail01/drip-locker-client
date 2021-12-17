@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet } from "react-native";
 import { Icon } from "react-native-elements";
 
 const TrendingBrandRow = ({ rank, brand }) => {
