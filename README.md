@@ -18,4 +18,6 @@ functions routed through an **AWS API Gateway**. I used **AWS S3** for highly av
 
 ## Preview
 
-<img width="200" alt="Screen Shot 2021-11-29 at 2 08 43 AM" src="https://user-images.githubusercontent.com/23081661/143829020-0e1097c3-6b79-4e31-a1fe-099304523f85.png">&nbsp;&nbsp;&nbsp;<img width="200" alt="Screen Shot 2021-11-29 at 2 10 23 AM" src="https://user-images.githubusercontent.com/23081661/143829022-cad2e7c2-2d70-44dd-8c6d-1dc4e9ad88f6.png">&nbsp;&nbsp;&nbsp;<img width="200" alt="Screen Shot 2021-11-29 at 2 05 49 AM" src="https://user-images.githubusercontent.com/23081661/143829016-4d56cdf8-c715-4091-b48a-4cd65b093a6c.png">
+<img width="200" alt="drip-locker-feed" src="https://user-images.githubusercontent.com/23081661/146857556-6096a0b4-1e99-4e5b-ae47-7acc938d4329.png">&nbsp;&nbsp;&nbsp;<img width="200" alt="drip-locker-profile" src="https://user-images.githubusercontent.com/23081661/146857563-14e3c64a-31c4-4599-947d-45f1238fbdca.png">&nbsp;&nbsp;&nbsp;<img width="200" alt="drip-locker-search" src="https://user-images.githubusercontent.com/23081661/146857577-a5ebdba3-3e83-4a57-b563-131c3c02ba51.png">&nbsp;&nbsp;&nbsp;<img width="200" alt="drip-locker-trending" src="https://user-images.githubusercontent.com/23081661/146857585-4be8c0b1-2bc8-46d0-9a5d-a2466388c3fb.png">
+
+
