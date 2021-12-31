@@ -14,7 +14,7 @@ discovery by enabling them to view all products purchased by their friends withi
 
 ## Technologies
 I built the frontend of this application with **React Native** and used **Redux** for global state management. I built a **serverless** API layer using **AWS Lambda**
-functions routed through an **AWS API Gateway**. I used **AWS S3** for highly available cloud file storage and achieved persistent data storage using a **MongoDB NoSQL database**. 
+functions and routed requests using an **AWS API Gateway**. I used **AWS S3** for highly available cloud file storage and achieved persistent data storage using a **MongoDB NoSQL database**. 
 
 ## Preview
 
