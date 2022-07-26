@@ -1,5 +1,7 @@
 # Drip
 
+Check it out on the App Store: https://apps.apple.com/us/app/drip-locker/id1599141142
+
 ## Inspiration & Description
 I have always found a friend's purchase to be one of the most valuable sources of inspiration when looking to purchase new products or explore new brands. My familiarity
 with a friend's tastes and quality standards always added an extra layer of credibility to product recommendations, especially when compared to
