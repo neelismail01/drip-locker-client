@@ -2,18 +2,6 @@
 
 Check it out on the [App Store](https://apps.apple.com/us/app/drip-locker/id1599141142)!
 
-## Inspiration & Description
-I have always found a friend's purchase to be one of the most valuable sources of inspiration when looking to purchase new products or explore new brands. My familiarity
-with a friend's tastes and quality standards always added an extra layer of credibility to product recommendations, especially when compared to
-online product reviews and targeted advertisements. This inspired me to build **Drip**, a social media app that enables users to share their 
-purchases with an in-app network of friends. The goal behind this app was to encourage brand discovery and inspire purchases for users by allowing them to view the purchases of a trusted network of people while offering brands a channel of organic marketing. Drip hoped to enable common people to turn into ambassadors for their favourite brands.
-
-I faciliated the sharing of purchases by enabling users to take pictures of a recently purchased product and include brand details, product tags, and a caption before posting. By connecting to a brand autocomplete API, I was able to allow users to easily search for and include the names, logos, and websites of thousands of the most popular brands. The hope was that this would help brands maximize their presence on the app and offer a simple way for users to be directed to their websites.
-
-I tried to encourage brand discovery and inspire purchases in this app through 4 key features: an infinite-scrolling feed, expansive search capabilities, live data on trending brands with the app's users, and a robust user profile that made all of a user's purchases easily accessible.
-The feed encouraged users to randomly stumble open interesting products and brands while searching offered more precision and intention to their
-discovery by enabling them to view all products purchased by their friends within a product category they are interested in. The profile allowed users browse through purchases made by friends with similar tastes while the trending tab allowed users to discover brands that are popular on the app. 
-
 ## Technologies
 I built the frontend of this application with **React Native** and used **Redux** for global state management. I built a **serverless** API layer using **AWS Lambda**
 functions and routed requests using an **AWS API Gateway**. I used **AWS S3** for highly available cloud file storage and achieved persistent data storage using a **MongoDB NoSQL database**. 
