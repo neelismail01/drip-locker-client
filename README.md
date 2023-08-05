@@ -3,8 +3,8 @@
 Check it out on the [App Store](https://apps.apple.com/us/app/drip-locker/id1599141142)!
 
 ## Technologies
-I built the frontend of this application with **React Native** and used **Redux** for global state management. I built a **serverless** API layer using **AWS Lambda**
-functions and routed requests using an **AWS API Gateway**. I used **AWS S3** for highly available cloud file storage and achieved persistent data storage using a **MongoDB NoSQL database**. 
+I built the frontend of this application with **React Native** and **Redux**. I built a serverless API layer using **AWS Lambda**
+functions and routed requests using an **AWS API Gateway**. I used **AWS S3** for file storage and achieved persistent data storage using a **MongoDB NoSQL database**. 
 
 ## Preview
 
